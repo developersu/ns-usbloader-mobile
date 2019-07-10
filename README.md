@@ -4,6 +4,8 @@
 
 NS-USBloader mobile is Android implementation of the [original NS-USBloader](https://github.com/developersu/ns-usbloader). 
 
+Please note: You will need USB-OTG cable. Otherwise, you'll be charging phone.
+
 Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
 
 ![Screenshot](https://live.staticflickr.com/65535/48244373567_d447630001_o.png)
@@ -19,7 +21,7 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 
 * Minimum: Android 4.0 (Ice Cream Sandwich)
 
-* Maximum: Android 9.0 (Q)
+* Maximum: Android 10.0 (Q)
 
 * USB-OTG support 
 
