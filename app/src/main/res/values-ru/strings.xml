@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NS-USBloader</string>
+    <string name="select_file_btn">Выбрать .NSP</string>
+    <string name="popup_wrong_file">Неприавильный тип файла</string>
+    <string name="popup_error">Ошибка</string>
+    <string name="upload_btn">Отправить в NS</string>
+    <string name="install_file_explorer">Не установлено ни одного файлового менеджера.\n Пожалуйста установите один. Например Total Commander.</string>
+    <string name="ns_connected_info">NS подключён</string>
+    <string name="notification_channel_name">Устройство подключено</string>
+    <string name="notification_channel_description">Уведомление повяляется когда пользователь подключает NS к устройству</string>
+    <string name="ns_not_found_in_connected">NS не найден среди подключенных устройств.</string>
+    <string name="transfer_protocol">Протокол</string>
+    <string name="transfer_transport">Транспортный уровень</string>
+    <string name="nothing_selected_message">Ничего не выбрано</string>
+    <string name="transfers_service_stopped">Сервис передачи данных завершился.</string>
+    <string name="interrupt_btn">Прервать</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="about_app">О приложении</string>
+    <string name="other">Другое</string>
+    <string name="one_item_for_gl_notification">Только один файл может быть выделен для GoldLeaf</string>
+    <string name="no_protocol_selected_message">Не выбрано ни одного протокола</string>
+    <string name="title_activity_about">О приложении</string>
+    <string name="about_line_2">Это приложение <a href="https://www.gnu.org/licenses/gpl-3.0.html">распространяется под лицензией GNU GPLv3.</a></string>
+    <string name="about_line_3">Автор: Дмитрий Исаенко.</string>
+    <string name="about_line_4">Домашняя страница: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_5">Переводчики: Если таковые имеются, то все они указаны на домашней странице.</string>
+    <string name="about_line_6">Если вам нравится эта программа, можете поставить звёздочку на GitHub. Если вы хотите поддержать приложение, пожалуйста обратитесь к домашней странице проекта за информацией. Пожалуйста учтите, что это некоммерческое приложение. Ваши вложения рассматриваются как подарок, и, вероятнее всего, они будут потрачены на покупку шоколадок :)</string>
+    <string name="popup_not_supported">Не поддерживается</string>
+    <string name="status_uploaded">(Передан)</string>
+    <string name="status_failed_to_upload">(Передача провалилась)</string>
+    <string name="status_wrong_file">(Плохой NSP файл)</string>
+</resources>

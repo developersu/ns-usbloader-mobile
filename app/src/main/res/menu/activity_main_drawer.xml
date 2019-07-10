@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <item android:title="@string/transfer_protocol">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_tf_usb"
+                    android:icon="@drawable/ic_usb"
+                    android:title="@string/tf_usb"
+                    android:checkable="true"
+                    />
+                <item
+                    android:id="@+id/nav_tf_net"
+                    android:icon="@drawable/ic_net"
+                    android:title="@string/tf_net"
+                    android:checkable="true"
+                    />
+                <item
+                    android:id="@+id/nav_gl"
+                    android:icon="@drawable/ic_usb"
+                    android:title="@string/gl"
+                    android:checkable="true"
+                    />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info"
+                android:title="@string/about_app" />
+        </menu>
+    </item>
+</menu>
