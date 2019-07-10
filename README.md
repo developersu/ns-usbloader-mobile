@@ -64,7 +64,7 @@ If you want to make a donation*, refer to this page:
 
 [Yandex.Money](https://money.yandex.ru/to/410014301951665)
 
-PayPal: To-be-done. One day. Thank you if you reading till this moment.
+[PayPal](https://paypal.me/developersu)
 
 * [EN] Please note! This is non-commercial application. Any received money considered as a gift.
 * [RU] Пожалуйста обратите внимание! Это некоммерческое приложение. Перечисленные средства расцениваются как подарок.
