@@ -26,12 +26,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.blogspot.developersu.ns_usbloader.Model.NsResultReciever;
-import com.blogspot.developersu.ns_usbloader.Service.CommunicationsService;
-import com.blogspot.developersu.ns_usbloader.View.NSPElement;
-import com.blogspot.developersu.ns_usbloader.View.NspItemsAdapter;
+import com.blogspot.developersu.ns_usbloader.model.NsResultReciever;
+import com.blogspot.developersu.ns_usbloader.service.CommunicationsService;
+import com.blogspot.developersu.ns_usbloader.view.NSPElement;
+import com.blogspot.developersu.ns_usbloader.view.NspItemsAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
     private NsResultReciever nsResultReciever;
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("DATASET_LIST", mDataset);
         outState.putParcelable("USB_DEVICE", usbDevice);
@@ -89,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         registerReceiver(innerBroadcastReceiver, intentFilter);
         nsResultReciever.setReceiver(this);
         blockUI(CommunicationsService.isServiceActive());
+
     }
 
     @Override
@@ -140,36 +140,31 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
     // Handle back button push when drawer opened
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START))
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        else
             super.onBackPressed();
-        }
     }
     // Drawer actions
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_tf_usb) {
-            // TODO: make something  useful
-        }
-        else if (id == R.id.nav_tf_net) {
-            // TODO: implement
-        }
-        else if (id == R.id.nav_gl) {                                                                     // TODO: SET LISTENER
-            if (! mDataset.isEmpty()){
-                for (NSPElement element: mDataset){
-                    element.setSelected(false);
+        switch (item.getItemId()){
+            case R.id.nav_gl:
+                if (! mDataset.isEmpty()){
+                    for (NSPElement element: mDataset)
+                        element.setSelected(false);
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-        else if (id == R.id.nav_about) {
-            //Log.i("LPR", "ABOUT");
-            startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.nav_about:
+                startActivity(new Intent(this, AboutActivity.class));
+            //case R.id.nav_tf_usb:
+            //case R.id.nav_tf_net:
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -192,12 +187,10 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         drawerNavView.setNavigationItemSelectedListener(this);
-
         // Initialize Progress Bar
         progressBarMain = findViewById(R.id.mainProgressBar);
         // Configure data set in case it's restored from screen rotation or something
         if (savedInstanceState != null){
-            //Log.i("LPR", "NOT EMPTY INSTANCE-"+getIntent().getAction());
             mDataset = savedInstanceState.getParcelableArrayList("DATASET_LIST");
             // Restore USB device information
             usbDevice = savedInstanceState.getParcelable("USB_DEVICE");
@@ -239,6 +232,29 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new NspItemsAdapter(mDataset);
         recyclerView.setAdapter(mAdapter);
+        this.setSwipeFunctionsToView();
+        // Select files button
+        selectBtn = findViewById(R.id.buttonSelect);
+        selectBtn.setOnClickListener(e->{
+            Intent fileChooser = new Intent(Intent.ACTION_GET_CONTENT);
+            fileChooser.setType("application/octet-stream"); //fileChooser.setType("*/*"); ???
+
+            if (fileChooser.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(Intent.createChooser(fileChooser, getString(R.string.select_file_btn)), ADD_NSP_INTENT_CODE);
+            else
+                NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.install_file_explorer));
+        });
+        // Upload to NS button
+        uploadToNsBtn = findViewById(R.id.buttonUpload);
+    }
+
+    private void updateUploadBtnState(){    // TODO: this function is bad. It multiplies entropy and sorrow.
+            uploadToNsBtn.setEnabled(mAdapter.getItemCount() > 0);
+    }
+    /**
+     * @see MainActivity#onCreate
+     * */
+    private void setSwipeFunctionsToView(){
         ItemTouchHelper.Callback ithCallBack = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -261,136 +277,100 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(ithCallBack);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        // Select files button
-        selectBtn = findViewById(R.id.buttonSelect);
-        selectBtn.setOnClickListener(e->{
-            Intent fileChooser = new Intent(Intent.ACTION_GET_CONTENT);
-            //fileChooser.setType("*/*");
-            fileChooser.setType("application/octet-stream");
-
-            if (fileChooser.resolveActivity(getPackageManager()) != null)
-                startActivityForResult(
-                        Intent.createChooser(fileChooser, getString(R.string.select_file_btn))
-                                            , ADD_NSP_INTENT_CODE);
-            else
-                NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.install_file_explorer));
-        });
-        // Upload to NS button
-        uploadToNsBtn = findViewById(R.id.buttonUpload);
-
-        updateUploadBtnState();
-    }
-
-    private void updateUploadBtnState(){
-        if (mAdapter.getItemCount() > 0)
-            uploadToNsBtn.setEnabled(true);
-        else
-            uploadToNsBtn.setEnabled(false);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //Snackbar.make(findViewById(android.R.id.content), requestCode+" "+resultCode, Snackbar.LENGTH_SHORT).show();
         if (requestCode != ADD_NSP_INTENT_CODE || data == null)
             return;
 
         Uri uri = data.getData();
 
-        if (uri == null)
-            return;
-        if (uri.getScheme() == null || ! uri.getScheme().equals("content"))
+        if (uri == null || uri.getScheme() == null || ! uri.getScheme().equals("content"))
             return;
 
         String fileName = LoperHelpers.getFileNameFromUri(uri, this);
         long fileSize = LoperHelpers.getFileSizeFromUri(uri, this);
 
         if (fileName == null || fileSize < 0) {
-            NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.popup_not_supported));
+            NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.popup_incorrect_file));
             return;
         }
 
-        if (! fileName.endsWith(".nsp")){
-            NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.popup_wrong_file));
-            return;
+        String fileExtension = fileName.replaceAll("^.*\\.", "").toLowerCase();
+        switch (fileExtension){
+            case "nsp":
+            case "nsz":
+            case "xci":
+            case "xcz":
+                break;
+            default:
+                NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), getResources().getString(R.string.popup_non_supported_format));
+                return;
         }
 
-        boolean shouldBeAdded = true;
+        boolean isAlreadyAddedElement = false;
+
         for (NSPElement element: mDataset){
             if (element.getFilename().equals(fileName)) {
-                shouldBeAdded = false;
+                isAlreadyAddedElement = true;
                 break;
             }
         }
 
-        NSPElement element;
-        if (shouldBeAdded){
-            element = new NSPElement(uri, fileName, fileSize);
-            if (drawerNavView.getCheckedItem() != null && drawerNavView.getCheckedItem().getItemId() != R.id.nav_gl)
-                element.setSelected(true);
-            mDataset.add(element);
-        }
-        else
+        if (isAlreadyAddedElement)
             return;
+
+        NSPElement element = new NSPElement(uri, fileName, fileSize);
+        if (drawerNavView.getCheckedItem() != null) // && drawerNavView.getCheckedItem().getItemId() != R.id.nav_gl
+            element.setSelected(true);
+        mDataset.add(element);
         mAdapter.notifyDataSetChanged();
         // Enable upload button
         updateUploadBtnState();
     }
-    /*
-    private void uploadFilesTemp(){
-        ArrayList<NSPElement> toSentArray = new ArrayList<>();
+    private void uploadFiles(){
+        ArrayList<NSPElement> NSPElementsToSend = new ArrayList<>();
         for (NSPElement element: mDataset){
             if (element.isSelected())
-                toSentArray.add(element);
+                NSPElementsToSend.add(element);
         }
-        if (toSentArray.isEmpty()) {
+        // Do we have files to send?
+        if (NSPElementsToSend.isEmpty()){
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.nothing_selected_message), Snackbar.LENGTH_LONG).show();
             return;
         }
-        Intent serviceStartIntent = new Intent(this, CommunicationsService.class);
-        serviceStartIntent.putExtra(NsConstants.NS_RESULT_RECEIVER, nsResultReciever);
-        serviceStartIntent.putParcelableArrayListExtra(NsConstants.SERVICE_CONTENT_NSP_LIST, toSentArray);
+        // Do we have selected protocol?
         if (drawerNavView.getCheckedItem() == null) {
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_protocol_selected_message), Snackbar.LENGTH_LONG).show();
             return;
         }
-        switch (drawerNavView.getCheckedItem().getItemId()){
-            case R.id.nav_tf_usb:
-                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_TF_USB);
-                break;
-            case R.id.nav_tf_net:
-                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_TF_NET);
-                break;
-            case R.id.nav_gl:
-                if (toSentArray.size() > 1){
-                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.one_item_for_gl_notification), Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_GL_USB);
-                break;
-        }
+        Intent serviceStartIntent = new Intent(this, CommunicationsService.class);
+        serviceStartIntent.putExtra(NsConstants.NS_RESULT_RECEIVER, nsResultReciever);
+        serviceStartIntent.putParcelableArrayListExtra(NsConstants.SERVICE_CONTENT_NSP_LIST, NSPElementsToSend);
+        // Is it TF Net transfer?
+        if (drawerNavView.getCheckedItem().getItemId() == R.id.nav_tf_net){
+            serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_TF_NET);
+            SharedPreferences sp = getSharedPreferences("NSUSBloader", MODE_PRIVATE);
 
-        startService(serviceStartIntent);
-        blockUI(true);
-    }
-    */
-    private void uploadFiles(){
-        //**************************************************************************************************************************************
-        try{
-            int id = drawerNavView.getCheckedItem().getItemId();
-            if (id == R.id.nav_tf_net) {
-                Toast.makeText(getApplicationContext(), "Not supported yet", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_NS_DEVICE_IP, sp.getString("SNsIP", "192.168.1.42"));
+            if (sp.getBoolean("SAutoIP", true))
+                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PHONE_IP, "");
+            else
+                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PHONE_IP, sp.getString("SServerIP", "192.168.1.142"));
+            serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PHONE_PORT, sp.getInt("SServerPort", 6042));
+            startService(serviceStartIntent);
+            blockUI(true);
+            return;
         }
-        catch (NullPointerException npe){
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_protocol_selected_message), Snackbar.LENGTH_LONG).show();
-        }
-        //**************************************************************************************************************************************
+        // Ok, so it's something USB related
         UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
-        // If somehow we can't get system service
+        // Do we have manager?
         if (usbManager == null) {
             NsNotificationPopUp.getAlertWindow(this, getResources().getString(R.string.popup_error), "Internal issue: getSystemService(Context.USB_SERVICE) returned null");
-            return; // ??? HOW ???
+            return;
         }
         // If device not connected
         if (usbDevice == null){
@@ -419,70 +399,47 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
             return;
         }
 
-        Intent serviceStartIntent;
-        ArrayList<NSPElement> toSentArray = new ArrayList<>();
-        for (NSPElement element: mDataset){
-            if (element.isSelected())
-                toSentArray.add(element);
-        }
-        if (toSentArray.isEmpty()) {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.nothing_selected_message), Snackbar.LENGTH_LONG).show();
-            return;
-        }
-        serviceStartIntent = new Intent(this, CommunicationsService.class);
-        serviceStartIntent.putExtra(NsConstants.NS_RESULT_RECEIVER, nsResultReciever);
-        serviceStartIntent.putParcelableArrayListExtra(NsConstants.SERVICE_CONTENT_NSP_LIST, toSentArray);
-        if (drawerNavView.getCheckedItem() == null) {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_protocol_selected_message), Snackbar.LENGTH_LONG).show();
-            return;
-        }
         switch (drawerNavView.getCheckedItem().getItemId()){
             case R.id.nav_tf_usb:
                 serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_TF_USB);
                 break;
-            case R.id.nav_tf_net:
-                serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_TF_NET);
-                break;
             case R.id.nav_gl:
-                if (toSentArray.size() > 1){
-                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.one_item_for_gl_notification), Snackbar.LENGTH_LONG).show();
-                    return;
-                }
                 serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_PROTOCOL, NsConstants.PROTO_GL_USB);
                 break;
+            default:
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.unknown_protocol_error), Snackbar.LENGTH_LONG).show(); // ?_?
+                return;
         }
         serviceStartIntent.putExtra(NsConstants.SERVICE_CONTENT_NS_DEVICE, usbDevice);
         startService(serviceStartIntent);
         blockUI(true);
     }
 
-    private void blockUI(boolean shouldBeBlocked){
-        if (shouldBeBlocked){
+    private void blockUI(boolean shouldBlock){
+        if (shouldBlock) {
             selectBtn.setEnabled(false);
-            recyclerView.setLayoutFrozen(true);
+            recyclerView.suppressLayout(true);
             uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_cancel), null, null);
             uploadToNsBtn.setText(R.string.interrupt_btn);
-            uploadToNsBtn.setOnClickListener(e -> {
-                CommunicationsService.cancel();
-            });
+            uploadToNsBtn.setOnClickListener(e -> stopService(new Intent(this, CommunicationsService.class)));
             progressBarMain.setVisibility(ProgressBar.VISIBLE);
             progressBarMain.setIndeterminate(true);//TODO
+            uploadToNsBtn.setEnabled(true);
+            return;
         }
-        else {
-            selectBtn.setEnabled(true);
-            recyclerView.setLayoutFrozen(false);
-            uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_upload_btn), null, null);
-            uploadToNsBtn.setText(R.string.upload_btn);
-            uploadToNsBtn.setOnClickListener(e -> {
-                //this.uploadFiles();
-                this.uploadFiles();
-            });
-            progressBarMain.setVisibility(ProgressBar.INVISIBLE);
-        }
+        selectBtn.setEnabled(true);
+        recyclerView.suppressLayout(false);
+        uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_upload_btn), null, null);
+        uploadToNsBtn.setText(R.string.upload_btn);
+        uploadToNsBtn.setOnClickListener(e -> this.uploadFiles() );
+        progressBarMain.setVisibility(ProgressBar.INVISIBLE);
+        this.updateUploadBtnState();
     }
-    // Handle service updates
+    /**
+     * Handle service updates
+     * */
     @Override
-    public void onRecieveResults(int code, Bundle bundle) {
+    public void onReceiveResults(int code, Bundle bundle) {
         if (code == NsConstants.NS_RESULT_PROGRESS_INDETERMINATE)
             progressBarMain.setIndeterminate(true);
         else{                                                                       // Else NsConstants.NS_RESULT_PROGRESS_VALUE ; ALSO THIS PART IS FULL OF SHIT
@@ -491,7 +448,9 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
             progressBarMain.setProgress(bundle.getInt("POSITION"));
         }
     }
-    // Deal with global broadcast intents
+    /**
+     * Deal with global broadcast intents
+     * */
     private class InnerBroadcastReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -516,20 +475,21 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
                 case UsbManager.ACTION_USB_DEVICE_DETACHED:
                     usbDevice = null;
                     isUsbDeviceAccessible = false;
-                    CommunicationsService.cancel();
+                    stopService(new Intent(context, CommunicationsService.class));
                     break;
                 case NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT:
                     ArrayList<NSPElement> nspElements = intent.getParcelableArrayListExtra(NsConstants.SERVICE_CONTENT_NSP_LIST);
+                    if (nspElements == null)
+                        break;
                     for (int i=0; i < mDataset.size(); i++){
-                        for (NSPElement recievedNSPe : nspElements)
-                            if (recievedNSPe.getFilename().equals(mDataset.get(i).getFilename()))
-                                mDataset.get(i).setStatus(recievedNSPe.getStatus());
+                        for (NSPElement receivedNSPe : nspElements)
+                            if (receivedNSPe.getFilename().equals(mDataset.get(i).getFilename()))
+                                mDataset.get(i).setStatus(receivedNSPe.getStatus());
                     }
                     mAdapter.notifyDataSetChanged();
                     blockUI(false);
                     break;
             }
-            //Log.i("LPR", "INTERNAL BR REC: " + intent.getAction()+" "+isUsbDeviceAccessible);
         }
     }
 }

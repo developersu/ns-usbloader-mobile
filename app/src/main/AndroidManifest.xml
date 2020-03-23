@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.blogspot.developersu.ns_usbloader">
 
     <uses-feature android:name="android.hardware.usb.host" />
 
-    <uses-permission android:name="com.blogspot.developersu.ns_usbloader.ACTION_USB_PERMISSION" /> <!-- TODO: REMOVE -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- For Android 9 -->
 
     <application
         android:allowBackup="true"
@@ -13,11 +17,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">  <!-- <- IDK WTF, RTFM MB -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -39,7 +48,7 @@
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"
                 android:resource="@xml/device_filter" />
-            <!--
+            <!-- TODO: fix, implement, etc.
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -74,7 +83,8 @@
                 android:resource="@xml/device_filter" />
         </receiver>
 
-        <service android:name=".Service.CommunicationsService" />
+        <service android:name=".service.CommunicationsService"
+                 android:exported="false" />
     </application>
 
 </manifest>

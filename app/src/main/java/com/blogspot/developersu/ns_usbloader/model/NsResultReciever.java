@@ -1,4 +1,4 @@
-package com.blogspot.developersu.ns_usbloader.Model;
+package com.blogspot.developersu.ns_usbloader.model;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,7 +7,7 @@ import android.os.ResultReceiver;
 public class NsResultReciever extends ResultReceiver {
 
     public interface Receiver{
-        void onRecieveResults(int code, Bundle bundle);
+        void onReceiveResults(int code, Bundle bundle);
     }
 
     private Receiver mReceiver;
@@ -23,6 +23,6 @@ public class NsResultReciever extends ResultReceiver {
     @Override
     protected void onReceiveResult(int resultCode, Bundle resultData) {
         if (mReceiver != null)
-            mReceiver.onRecieveResults(resultCode, resultData);
+            mReceiver.onReceiveResults(resultCode, resultData);
     }
 }

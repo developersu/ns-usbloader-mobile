@@ -16,9 +16,6 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class NsBroadcastReceiver extends BroadcastReceiver {
 
-    private static final String NOTIFICATION_NS_CONNECTED_CHAN_ID = "com.blogspot.developersu.ns_usbloader.CHAN_ID_NS_CONNECTED";
-    private static final int NOTIFICATION_NS_CONNECTED_ID = 42;
-
     @Override
     public synchronized void onReceive(Context context, Intent intent) {
         if (intent.getAction() == null)
@@ -44,7 +41,7 @@ public class NsBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context context, UsbDevice usbDevice){
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_NS_CONNECTED_CHAN_ID);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NsConstants.NOTIFICATION_NS_CONNECTED_CHAN_ID);
         notification.setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getString(R.string.ns_connected_info))
                 //.setAutoCancel(true)
@@ -52,11 +49,11 @@ public class NsBroadcastReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class).putExtra(UsbManager.EXTRA_DEVICE, usbDevice), 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence notificationChanName = context.getString(R.string.notification_channel_name);
-            String notificationChanDesc = context.getString(R.string.notification_channel_description);
+            CharSequence notificationChanName = context.getString(R.string.notification_chan_name_usb);
+            String notificationChanDesc = context.getString(R.string.notification_chan_desc_usb);
 
             NotificationChannel channel = new NotificationChannel(
-                    NOTIFICATION_NS_CONNECTED_CHAN_ID,
+                    NsConstants.NOTIFICATION_NS_CONNECTED_CHAN_ID,
                     notificationChanName,
                     NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(notificationChanDesc);
@@ -64,14 +61,14 @@ public class NsBroadcastReceiver extends BroadcastReceiver {
             // or other notification behaviors after this
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-            notificationManager.notify(NOTIFICATION_NS_CONNECTED_ID, notification.build());
+            notificationManager.notify(NsConstants.NOTIFICATION_NS_CONNECTED_ID, notification.build());
         }
         else {
-            NotificationManagerCompat.from(context).notify(NOTIFICATION_NS_CONNECTED_ID, notification.build());   // TODO: 42 is shit
+            NotificationManagerCompat.from(context).notify(NsConstants.NOTIFICATION_NS_CONNECTED_ID, notification.build());
         }
     }
 
     private void hideNotification(Context context){
-        NotificationManagerCompat.from(context).cancel(NOTIFICATION_NS_CONNECTED_ID);
+        NotificationManagerCompat.from(context).cancel(NsConstants.NOTIFICATION_NS_CONNECTED_ID);
     }
 }

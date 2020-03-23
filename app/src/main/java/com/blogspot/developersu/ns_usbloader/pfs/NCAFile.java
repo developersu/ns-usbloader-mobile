@@ -1,4 +1,4 @@
-package com.blogspot.developersu.ns_usbloader.PFS;
+package com.blogspot.developersu.ns_usbloader.pfs;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

@@ -12,7 +12,7 @@ Sometimes I add new posts about this project [on my home page](https://developer
 
 #### License
 
-Source code license [GNU General Public License v3](https://github.com/developersu/ns-usbloader-mobile/blob/master/LICENSE)
+Source code license [GNU General Public License v3](https://github.com/developersu/ns-usbloader-mobile/blob/master/LICENSE) or any later version.
 
 Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Open Font License distribution.
 
@@ -23,11 +23,13 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 
 * Maximum: Android 10.0 (Q)
 
-* USB-OTG support 
+* USB-OTG support / WiFi
 
 ### Usage
 
-1. Open TinFoil/GoldLeaf
+#### USB
+
+1. Open Awoo Installer/Tinfoil/GoldLeaf v0.5
 2. Connect NS to Android device using OTG cable.
 3. Allow interaction request. Application opens.
 4. Click 'hamburger' menu-button and select application you'd like to use.
@@ -36,6 +38,14 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 
 Note: use short usb cable.
 
+#### WiFi
+
+For installation over the Net (Tinfoil):
+1. Connect to WiFi
+2. Setup 90DNS or whatever you use
+3. Open Awoo Installer, select installation over the net
+4. Open settings (click 'hamburger' menu-button), enter NS IP you see on the screen
+
 #### Bugs
 
 If you're Samsung owner, it would be better to not rotating your phone during transfer. Or minimizing. Well, on my elder device it causes application failure. But you can try if you're curious, and report/update a bug. Please mention your device model. 
@@ -43,15 +53,15 @@ If you're Samsung owner, it would be better to not rotating your phone during tr
 ### Other notes
 
 'Status' = 'Uploaded' that appears in the table does not mean that file has been installed. It means that it has been sent to NS without any issues! That's what this app about. 
-Handling successful/failed installation is a purpose of the other side application: TinFoil/GoldLeaf. And they don't provide any feedback interfaces so I can't detect success/failure. 
+Handling successful/failed installation is a purpose of the other side application: TinFoil/GoldLeaf v0.5. And they don't provide any feedback interfaces so I can't detect success/failure. 
 
-#### Translators!
+#### Translators
 
-Wait a bit.
+Are welcome.
 
 #### TODO:
 
-- [ ] Tinfoil NET transfer support
+- [x] Tinfoil NET transfer support
 - [ ] Better UI
 - [ ] Multi-select files (if possible)
 

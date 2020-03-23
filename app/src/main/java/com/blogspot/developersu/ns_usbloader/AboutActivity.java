@@ -23,12 +23,13 @@ public class AboutActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        TextView t1 = (TextView) findViewById(R.id.textView1);
+        final TextView t1 = findViewById(R.id.textView1);
         t1.append(" v."+BuildConfig.VERSION_NAME);
-        TextView t2 = (TextView) findViewById(R.id.textView2);
+        final TextView t2 = findViewById(R.id.textView2);
         t2.setMovementMethod(LinkMovementMethod.getInstance());
-        TextView t4 = (TextView) findViewById(R.id.textView4);
+        final TextView t4 = findViewById(R.id.textView4);
         t4.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView t6 = findViewById(R.id.textView6);
+        t6.setMovementMethod(LinkMovementMethod.getInstance());
     }
-
 }

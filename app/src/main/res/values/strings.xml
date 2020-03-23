@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">NS-USBloader</string>
-    <string name="select_file_btn">Select .NSP</string>
-    <string name="popup_wrong_file">Incorrect file type</string>
+    <string name="app_name" translatable="false">NS-USBloader</string>
+    <string name="select_file_btn">Select files</string>
+    <string name="popup_non_supported_format">File type not supported</string>
     <string name="popup_error">Error</string>
     <string name="upload_btn">Upload to NS</string>
     <string name="install_file_explorer">No file explorer installed.\\n Please install one. For example Total Commander.</string>
     <string name="ns_connected_info">NS Connected</string>
-    <string name="notification_channel_name">Device connected</string>
-    <string name="notification_channel_description">Notification appears when user connects NS to device</string>
+    <string name="notification_chan_name_usb">Device connected</string>
+    <string name="notification_chan_desc_usb">Notification appears when user connects NS to device</string>
     <string name="ns_not_found_in_connected">NS not found in connected devices.</string>
     <string name="transfer_protocol">Protocol</string>
     <string name="transfer_transport">Transport level</string>
@@ -17,21 +17,32 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="tf_usb" translatable="false">TinFoil USB</string>
-    <string name="gl" translatable="false">GoldLeaf</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
     <string name="tf_net" translatable="false">TinFoil NET</string>
     <string name="about_app">About this app</string>
     <string name="other">Other</string>
-    <string name="one_item_for_gl_notification">Only one file could be selected for GoldLeaf</string>
+    <string name="one_item_for_gl_notification">Only one file could be selected for GoldLeaf v0.5</string>
     <string name="no_protocol_selected_message">No protocol selected</string>
     <string name="title_activity_about">About application</string>
     <string name="about_line_1" translatable="false">NS-USBloader mobile</string>
-    <string name="about_line_2">This application <a href="https://www.gnu.org/licenses/gpl-3.0.html">licensed under GNU GPLv3</a>.</string>
+    <string name="about_line_2">This application <a href="https://www.gnu.org/licenses/gpl-3.0.html">licensed under GNU GPLv3</a> or any later version.</string>
     <string name="about_line_3">Author: Dmitry Isaenko.</string>
     <string name="about_line_4">Home page: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">Translators: If there are any, they\'re noted  on home page.</string>
-    <string name="about_line_6">If you found this application useful, you\'re more than welcome to give a star on GitHub page. If you want to support application please refer to home page for information. Please notice: it\'s not a commercial product. Any donations are considered as a gift and most likely would be spent for buying chocolates :)</string>
-    <string name="popup_not_supported">Not supported</string>
+    <string name="about_line_6">If you found this application useful, you\'re more than welcome to give a star on GitHub page. Donations (optional) <a href="https://www.paypal.me/developersu">paypal.me/developersu</a>, <a href="https://money.yandex.ru/to/410014301951665">Yandex.Money</a>. More information on home page.</string>
+    <string name="popup_incorrect_file">Incorrect file</string>
     <string name="status_failed_to_upload">(Upload failure)</string>
     <string name="status_wrong_file">(Bad NSP)</string>
     <string name="status_uploaded">(Uploaded)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
+    <string name="settings_phone_ip">Phone IP</string>
+    <string name="settings_phone_port">Phone port</string>
+    <string name="settings_autodtct_phn_ip">Auto-detect phone IP</string>
+    <string name="unknown_protocol_error">Unknown protocol selected (?)</string>
+    <string name="notification_transfer_in_progress">Data transfer in progress</string>
+    <string name="notification_chan_name_progress">Transfer in progress</string>
+    <string name="notification_chan_desc_progress">Notification indicates transfer progress</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.blogspot.developersu.ns_usbloader.View;
+package com.blogspot.developersu.ns_usbloader.view;
 
 import android.net.Uri;
 import android.os.Parcel;
