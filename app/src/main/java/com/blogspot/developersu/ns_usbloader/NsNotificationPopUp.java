@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 public class NsNotificationPopUp {
-    public static void getAlertWindow(Context context, String titile, String message){
+    public static void getAlertWindow(Context context, String title, String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(titile)
+        builder.setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

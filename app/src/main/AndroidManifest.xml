@@ -18,6 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:resizeableActivity="true"
+        android:supportsPictureInPicture="true"
         tools:ignore="GoogleAppIndexingWarning">  <!-- <- IDK WTF, RTFM MB -->
         <activity
             android:name=".SettingsActivity"
@@ -66,21 +68,12 @@
             android:name=".NsBroadcastReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
                 <action android:name="com.blogspot.developersu.ns_usbloader.SERVICE_TRANSFER_TASK_FINISHED" />
                 <!--
                 <action android:name="com.blogspot.developersu.ns_usbloader.ACTION_USB_PERMISSION" />
                 <action android:name="com.blogspot.developersu.ns_usbloader.RISE_NOTIFICATION_OR_ACTIVITY" /> to handle if not handled by internally-registered receiver of MainActivity
                 -->
             </intent-filter>
-
-            <meta-data
-                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter" />
-            <meta-data
-                android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"
-                android:resource="@xml/device_filter" />
         </receiver>
 
         <service android:name=".service.CommunicationsService"

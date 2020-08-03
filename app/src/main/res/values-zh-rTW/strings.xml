@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">NS-USBloader</string>
+    <string name="select_file_btn">選擇檔案</string>
+    <string name="popup_non_supported_format">所選的檔案格式尚未支援</string>
+    <string name="popup_error">錯誤</string>
+    <string name="upload_btn">上傳至NS</string>
+    <string name="install_file_explorer">裝置沒有安裝檔案管理器.\\n 請至PLAY商店內安裝檔案管理器. 例如:Total Commander</string>
+    <string name="ns_connected_info">NS已連接</string>
+    <string name="notification_chan_name_usb">已連線的裝置</string>
+    <string name="notification_chan_desc_usb">當使用者將行動裝置與NS連線時進行系統通知</string>
+    <string name="ns_not_found_in_connected">在已連線的裝置內沒有找到NS.</string>
+    <string name="transfer_protocol">通訊協定</string>
+    <string name="transfer_transport">傳輸層</string>
+    <string name="nothing_selected_message">尚未選取任何項目</string>
+    <string name="transfers_service_stopped">資料傳輸程序已被中斷.</string>
+    <string name="interrupt_btn">中斷</string>
+    <string name="navigation_drawer_open">開啟側邊選單</string>
+    <string name="navigation_drawer_close">關閉側邊選單</string>
+    <string name="tf_usb" translatable="false">TinFoil USB</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="tf_net" translatable="false">TinFoil NET</string>
+    <string name="about_app">關於此程式</string>
+    <string name="other">其他</string>
+    <string name="one_item_for_gl_notification">透過GoldLeaf v0.5連線時僅可單獨選取一個檔案來進行傳輸</string>
+    <string name="no_protocol_selected_message">尚未選擇通訊協定</string>
+    <string name="title_activity_about">程式相關說明</string>
+    <string name="about_line_1" translatable="false">NS-USBloader mobile</string>
+    <string name="about_line_2">本程式<a href="https://www.gnu.org/licenses/gpl-3.0.html">依據GNU公共授權條款GPLv3(或更新版本)</a>開發.</string>
+    <string name="about_line_3">程式開發: Dmitry Isaenko.</string>
+    <string name="about_line_4">程式首頁: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_5">翻譯人員: 會在程式首頁內提供本程式介面在地化翻譯的人員名單.</string>
+    <string name="about_line_6">如果本程式對你有助益,請在程式的GitHub頁面上按星號加分,也歡迎贊助我們(金額隨意) <a href="https://www.paypal.me/developersu">paypal.me/developersu</a>, <a href="https://money.yandex.ru/to/410014301951665">Yandex.Money</a>. More information on home page.</string>
+    <string name="popup_incorrect_file">檔案錯誤</string>
+    <string name="status_failed_to_upload">(上傳失敗)</string>
+    <string name="status_wrong_file">(NSP壞檔)</string>
+    <string name="status_uploaded">(已上傳)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
+    <string name="settings">設定</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
+    <string name="settings_phone_ip">手機 IP</string>
+    <string name="settings_phone_port">手機連接埠</string>
+    <string name="settings_autodtct_phn_ip">自動偵測手機 IP</string>
+    <string name="unknown_protocol_error">已選取未知的通訊協定 (?)</string>
+    <string name="notification_transfer_in_progress">正在進行資料傳輸</string>
+    <string name="notification_chan_name_progress">正在進行傳輸</string>
+    <string name="notification_chan_desc_progress">在通知欄顯示傳輸檔案進度</string>
+</resources>

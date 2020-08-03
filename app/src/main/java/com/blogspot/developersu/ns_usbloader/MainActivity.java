@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -54,13 +56,17 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
     private UsbDevice usbDevice;
     private boolean isUsbDeviceAccessible;
 
-    private Button selectBtn;
-    private Button uploadToNsBtn;
+    private Button selectBtn,
+            uploadToNsBtn;
     private ProgressBar progressBarMain;
 
     private NavigationView drawerNavView;
 
     private NsResultReciever nsResultReciever;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -88,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         registerReceiver(innerBroadcastReceiver, intentFilter);
         nsResultReciever.setReceiver(this);
         blockUI(CommunicationsService.isServiceActive());
-
     }
 
     @Override
@@ -201,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         else {
             mDataset = new ArrayList<>();
             usbDevice = getIntent().getParcelableExtra(UsbManager.EXTRA_DEVICE);    // If it's started initially, then check if it's started from notification.
+            //Log.i("LPR", "DEVICE " +usbDevice);
             if (usbDevice != null){
                 UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
                 // If somehow we can't get system service
@@ -419,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         if (shouldBlock) {
             selectBtn.setEnabled(false);
             recyclerView.suppressLayout(true);
-            uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_cancel), null, null);
+            uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.ic_cancel), null, null);
             uploadToNsBtn.setText(R.string.interrupt_btn);
             uploadToNsBtn.setOnClickListener(e -> stopService(new Intent(this, CommunicationsService.class)));
             progressBarMain.setVisibility(ProgressBar.VISIBLE);
@@ -429,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         }
         selectBtn.setEnabled(true);
         recyclerView.suppressLayout(false);
-        uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_upload_btn), null, null);
+        uploadToNsBtn.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.ic_upload_btn), null, null);
         uploadToNsBtn.setText(R.string.upload_btn);
         uploadToNsBtn.setOnClickListener(e -> this.uploadFiles() );
         progressBarMain.setVisibility(ProgressBar.INVISIBLE);

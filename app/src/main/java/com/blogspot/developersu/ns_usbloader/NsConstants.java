@@ -23,7 +23,4 @@ public class NsConstants {
 
     public static final String NOTIFICATION_FOREGROUND_SERVICE_CHAN_ID = "com.blogspot.developersu.ns_usbloader.CHAN_ID_FOREGROUND_SERVICE";
     public static final int NOTIFICATION_TRANSFER_ID = 1;
-
-    public static final String NOTIFICATION_NS_CONNECTED_CHAN_ID = "com.blogspot.developersu.ns_usbloader.CHAN_ID_NS_CONNECTED";
-    public static final int NOTIFICATION_NS_CONNECTED_ID = 2;
 }

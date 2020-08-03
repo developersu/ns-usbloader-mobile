@@ -4,7 +4,7 @@
     <string name="popup_non_supported_format">File type not supported</string>
     <string name="popup_error">Error</string>
     <string name="upload_btn">Upload to NS</string>
-    <string name="install_file_explorer">No file explorer installed.\\n Please install one. For example Total Commander.</string>
+    <string name="install_file_explorer">No file explorer installed.\nPlease install one. For example Total Commander.</string>
     <string name="ns_connected_info">NS Connected</string>
     <string name="notification_chan_name_usb">Device connected</string>
     <string name="notification_chan_desc_usb">Notification appears when user connects NS to device</string>

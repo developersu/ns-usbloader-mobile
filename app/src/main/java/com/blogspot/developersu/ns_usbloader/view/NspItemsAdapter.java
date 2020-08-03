@@ -13,6 +13,7 @@ import com.blogspot.developersu.ns_usbloader.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 public class NspItemsAdapter extends RecyclerView.Adapter<NspItemsAdapter.NspViewHolder> {
     private ArrayList<NSPElement> mDataset;
@@ -44,11 +45,11 @@ public class NspItemsAdapter extends RecyclerView.Adapter<NspItemsAdapter.NspVie
 
         private String getCuteSize(long byteSize){
             if (byteSize/1024.0/1024.0/1024.0 > 1)
-                return String.format("%.2f", byteSize/1024.0/1024.0/1024.0)+" GB";
+                return String.format(Locale.getDefault(), "%.2f", byteSize/1024.0/1024.0/1024.0)+" GB";
             else if (byteSize/1024.0/1024.0 > 1)
-                return String.format("%.2f", byteSize/1024.0/1024.0)+" MB";
+                return String.format(Locale.getDefault(), "%.2f", byteSize/1024.0/1024.0)+" MB";
             else
-                return String.format("%.2f", byteSize/1024.0)+" kB";
+                return String.format(Locale.getDefault(), "%.2f", byteSize/1024.0)+" kB";
         }
 
         public NSPElement getData(){
