@@ -12,11 +12,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ControlButton" parent="Widget.AppCompat.Button">
-        <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="colorButtonNormal">#65e4fb</item>
-
-    </style>
     <!--######################################### -->
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

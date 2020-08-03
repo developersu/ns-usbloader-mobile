@@ -3,4 +3,6 @@
     <color name="colorPrimary">#ec0000</color>
     <color name="colorPrimaryDark">#ce0000</color>
     <color name="colorAccent">#00c8fc</color>
+    <color name="lightAccent">#52acff</color>
+    <color name="goldReliable">#eea11e</color>
 </resources>

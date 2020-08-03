@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="select_file_btn">Выбрать файлы</string>
+    <string name="select_file_btn">Выбрать</string>
     <string name="popup_non_supported_format">Тип файла не поддерживается</string>
     <string name="popup_error">Ошибка</string>
-    <string name="upload_btn">Отправить в NS</string>
+    <string name="upload_btn">Отправить</string>
     <string name="install_file_explorer">Не установлено ни одного файлового менеджера.\nПожалуйста установите один. Например Total Commander.</string>
     <string name="ns_connected_info">NS подключён</string>
     <string name="notification_chan_name_usb">Устройство подключено</string>

@@ -24,7 +24,7 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final TextView t1 = findViewById(R.id.textView1);
-        t1.append(" v."+BuildConfig.VERSION_NAME);
+        t1.append(" v"+BuildConfig.VERSION_NAME);
         final TextView t2 = findViewById(R.id.textView2);
         t2.setMovementMethod(LinkMovementMethod.getInstance());
         final TextView t4 = findViewById(R.id.textView4);
