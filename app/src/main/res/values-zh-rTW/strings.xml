@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">NS-USBloader</string>
     <string name="select_file_btn">選擇檔案</string>
     <string name="popup_non_supported_format">所選的檔案格式尚未支援</string>
     <string name="popup_error">錯誤</string>
@@ -17,15 +16,11 @@
     <string name="interrupt_btn">中斷</string>
     <string name="navigation_drawer_open">開啟側邊選單</string>
     <string name="navigation_drawer_close">關閉側邊選單</string>
-    <string name="tf_usb" translatable="false">TinFoil USB</string>
-    <string name="gl" translatable="false">GoldLeaf v0.5</string>
-    <string name="tf_net" translatable="false">TinFoil NET</string>
     <string name="about_app">關於此程式</string>
     <string name="other">其他</string>
     <string name="one_item_for_gl_notification">透過GoldLeaf v0.5連線時僅可單獨選取一個檔案來進行傳輸</string>
     <string name="no_protocol_selected_message">尚未選擇通訊協定</string>
     <string name="title_activity_about">程式相關說明</string>
-    <string name="about_line_1" translatable="false">NS-USBloader mobile</string>
     <string name="about_line_2">本程式<a href="https://www.gnu.org/licenses/gpl-3.0.html">依據GNU公共授權條款GPLv3(或更新版本)</a>開發.</string>
     <string name="about_line_3">程式開發: Dmitry Isaenko.</string>
     <string name="about_line_4">程式首頁: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
@@ -35,10 +30,8 @@
     <string name="status_failed_to_upload">(上傳失敗)</string>
     <string name="status_wrong_file">(NSP壞檔)</string>
     <string name="status_uploaded">(已上傳)</string>
-    <string name="status_unkown" translatable="false">(?)</string>
     <string name="settings">設定</string>
     <string name="title_activity_settings">設定</string>
-    <string name="settings_nsIp" translatable="false">NS IP</string>
     <string name="settings_phone_ip">手機 IP</string>
     <string name="settings_phone_port">手機連接埠</string>
     <string name="settings_autodtct_phn_ip">自動偵測手機 IP</string>
