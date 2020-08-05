@@ -1,6 +1,6 @@
 # NS-USBloader mobile
 
-![License](https://img.shields.io/badge/License-GPLv3-blue.svg) [![Releases](https://img.shields.io/github/downloads/developersu/ns-usbloader-mobile/total.svg)]() [![LatestVer](https://img.shields.io/github/release/developersu/ns-usbloader-mobile.svg)]()
+![License](https://img.shields.io/badge/License-GPLv3+-blue.svg) [![Releases](https://img.shields.io/github/downloads/developersu/ns-usbloader-mobile/total.svg)]() [![LatestVer](https://img.shields.io/github/release/developersu/ns-usbloader-mobile.svg)]()
 
 NS-USBloader mobile is Android implementation of the [original NS-USBloader](https://github.com/developersu/ns-usbloader). 
 
@@ -8,7 +8,7 @@ Please note: You will need USB-OTG cable. Otherwise, you'll be charging phone.
 
 Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
 
-![Screenshot](https://live.staticflickr.com/65535/48244373567_d447630001_o.png)
+<img src="metadata/en-US/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="400"/>  <img src="metadata/en-US/phoneScreenshots/Screenshot2.png" alt="screenshot-2" width="400"/>
 
 #### License
 
