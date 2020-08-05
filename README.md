@@ -8,7 +8,7 @@ Please note: You will need USB-OTG cable. Otherwise, you'll be charging phone.
 
 Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
 
-<img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="400"/>  <img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot2.png" alt="screenshot-2" width="400"/>
+<img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="400"/>  <img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot_2.png" alt="screenshot-2" width="400"/>
 
 #### License
 
