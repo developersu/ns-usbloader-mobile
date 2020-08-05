@@ -1,0 +1,1 @@
+NS-USBloader is USB/WiFi data transfer application-helper for N.Switch homebrew apps like Tinfoil and Goldleaf.

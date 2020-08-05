@@ -1,0 +1,6 @@
+This is application-installer for N.Switch. It's used with NS homebrew applications installed on console such as: Adubbz/TinFoil, Huntereb/Awoo-Installer and XorTroll/GoldLeaf.
+
+For Adubbz/TinFoil and Huntereb/Awoo-Installer USB and NET (WiFi) installations supported.
+For XorTroll/GoldLeaf USB installation supported. Please note: only GoldLeaf-v0.5 supported.
+
+In other words, it's replacement for default scripts/applications like usb_install_pc.py, remote_install_pc.py, GoldTree/Quark that works on your phone or tablet.

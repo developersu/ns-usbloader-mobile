@@ -57,14 +57,13 @@ Handling successful/failed installation is a purpose of the other side applicati
 
 #### Translators
 
-Are welcome.
+Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
 
 #### TODO:
 
-- [x] Tinfoil NET transfer support
+- [ ] Add tools to simplify translation process
 - [ ] Better UI
 - [ ] Multi-select files (if possible)
-
 
 #### Support this app
 
@@ -72,9 +71,10 @@ If you like this app, just give a star.
 
 If you want to make a donation*, refer to this page:
 
+<a href="https://liberapay.com/developersu/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
 [Yandex.Money](https://money.yandex.ru/to/410014301951665)
 
 [PayPal](https://paypal.me/developersu)
 
-* [EN] Please note! This is non-commercial application. Any received money considered as a gift.
-* [RU] Пожалуйста обратите внимание! Это некоммерческое приложение. Перечисленные средства расцениваются как подарок.
+* Please note! This is non-commercial application.
