@@ -29,7 +29,7 @@
     <string name="about_line_3">Author: Dmitry Isaenko.</string>
     <string name="about_line_4">Home page: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">Translators: If there are any, they\'re noted  on home page.</string>
-    <string name="about_line_6">If you found this application useful, you\'re more than welcome to give a star on GitHub page. Donations (optional) <a href="https://www.paypal.me/developersu">paypal.me/developersu</a>, <a href="https://money.yandex.ru/to/410014301951665">Yandex.Money</a>. More information on home page.</string>
+    <string name="about_line_6">If you found this application useful, you\'re more than welcome to give a star on GitHub page. More information on home page. Donations (optional):</string>
     <string name="popup_incorrect_file">Incorrect file</string>
     <string name="status_failed_to_upload">(Upload failure)</string>
     <string name="status_wrong_file">(Bad NSP)</string>

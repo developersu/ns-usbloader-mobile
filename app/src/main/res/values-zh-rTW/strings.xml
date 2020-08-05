@@ -25,7 +25,7 @@
     <string name="about_line_3">程式開發: Dmitry Isaenko.</string>
     <string name="about_line_4">程式首頁: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">翻譯人員: 會在程式首頁內提供本程式介面在地化翻譯的人員名單.</string>
-    <string name="about_line_6">如果本程式對你有助益,請在程式的GitHub頁面上按星號加分,也歡迎贊助我們(金額隨意) <a href="https://www.paypal.me/developersu">paypal.me/developersu</a>, <a href="https://money.yandex.ru/to/410014301951665">Yandex.Money</a>. More information on home page.</string>
+    <string name="about_line_6">如果本程式對你有助益,請在程式的GitHub頁面上按星號加分,也歡迎贊助我們(金額隨意)</string>
     <string name="popup_incorrect_file">檔案錯誤</string>
     <string name="status_failed_to_upload">(上傳失敗)</string>
     <string name="status_wrong_file">(NSP壞檔)</string>

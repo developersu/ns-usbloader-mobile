@@ -25,7 +25,7 @@
     <string name="about_line_3">Автор: Дмитрий Исаенко.</string>
     <string name="about_line_4">Домашняя страница: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">Переводчики: Если таковые имеются, то все они указаны на домашней странице.</string>
-    <string name="about_line_6">Если вам нравится эта программа, можете поставить звёздочку на GitHub. Донаты по желанию <a href="https://www.paypal.me/developersu">paypal.me/developersu</a>, <a href="https://money.yandex.ru/to/410014301951665">Яндекс.Деньги</a>. Больше информации на домашней странице.</string>
+    <string name="about_line_6">Если вам нравится эта программа, можете поставить звёздочку на GitHub. Больше информации на домашней странице. Донаты по желанию.</string>
     <string name="popup_incorrect_file">Неправильный файл</string>
     <string name="status_uploaded">(Передан)</string>
     <string name="status_failed_to_upload">(Передача провалилась)</string>
