@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_file_btn">选择文件</string>
+    <string name="popup_non_supported_format">所选的文件格式不支持</string>
+    <string name="popup_error">错误</string>
+    <string name="upload_btn">上传到NS</string>
+    <string name="install_file_explorer">没有安装文件管理器。\\n请到应用商店下载，例如：Total Commander</string>
+    <string name="ns_connected_info">NS已连接</string>
+    <string name="notification_chan_name_usb">已连接设备</string>
+    <string name="transfer_protocol">通讯协议</string>
+    <string name="ns_not_found_in_connected">在已连接的设备中没有找到NS</string>
+    <string name="notification_chan_desc_usb">当用户将NS连接到设备时出现通知</string>
+    <string name="transfer_transport">传输级</string>
+    <string name="nothing_selected_message">" Nothing selected 未选择任何内容"</string>
+    <string name="transfers_service_stopped">数据传输服务已完成</string>
+    <string name="interrupt_btn">中断</string>
+    <string name="navigation_drawer_open">开启侧边栏</string>
+    <string name="navigation_drawer_close">关闭侧边栏</string>
+    <string name="about_app">关于</string>
+    <string name="other">其他</string>
+    <string name="one_item_for_gl_notification">通过  GoldLeaf v0.5 只能选择一个文件</string>
+    <string name="no_protocol_selected_message">尚未选择通讯协议</string>
+    <string name="title_activity_about">应用相关说明</string>
+    <string name="about_line_2">本应用<a href="https://www.gnu.org/licenses/gpl-3.0.html">根据GNU公共授权条款GPLv3(或更新版本)</a>开发</string>
+    <string name="about_line_3">开发： Dmitry Isaenko.</string>
+    <string name="popup_incorrect_file">文件错误</string>
+    <string name="status_failed_to_upload">(上传失败)</string>
+    <string name="status_wrong_file">(NSP坏档)</string>
+    <string name="status_uploaded">(已上传)</string>
+    <string name="settings">设置</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="settings_phone_ip">手机 IP</string>
+    <string name="settings_phone_port">手机连接端口</string>
+    <string name="settings_autodtct_phn_ip">自动检测手机 IP</string>
+    <string name="unknown_protocol_error">已选择未知的通讯协议 (?)</string>
+    <string name="notification_transfer_in_progress">正在进行数据传输</string>
+    <string name="notification_chan_name_progress">正在进行传输</string>
+    <string name="notification_chan_desc_progress">在通知栏显示传输文件的进度</string>
+    <string name="about_line_4">首页: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a>  翻译：FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a></string>
+    <string name="about_line_6">如果本应用对你有帮助，请在程序的GitHub页面上按星号加分，也欢迎赞助</string>
+    <string name="about_line_5">" "</string>
+</resources>
