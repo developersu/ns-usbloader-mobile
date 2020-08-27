@@ -16,7 +16,7 @@
     <string name="interrupt_btn">中断</string>
     <string name="navigation_drawer_open">开启侧边栏</string>
     <string name="navigation_drawer_close">关闭侧边栏</string>
-    <string name="about_app">关于此应用</string>
+    <string name="about_app">关于</string>
     <string name="other">其他</string>
     <string name="one_item_for_gl_notification">通过  GoldLeaf v0.5 只能选择一个文件</string>
     <string name="no_protocol_selected_message">尚未选择通讯协议</string>
