@@ -58,7 +58,7 @@ Handling successful/failed installation is a purpose of the other side applicati
 #### Translators
 
 Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
-
+Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
 #### TODO:
 
 - [ ] Add tools to simplify translation process
