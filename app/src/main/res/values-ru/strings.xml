@@ -24,7 +24,7 @@
     <string name="about_line_2">Это приложение <a href="https://www.gnu.org/licenses/gpl-3.0.html">распространяется под лицензией GNU GPLv3</a> или любой более поздней версии.</string>
     <string name="about_line_3">Автор: Дмитрий Исаенко.</string>
     <string name="about_line_4">Домашняя страница: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
-    <string name="about_line_5">Переводчики: Если таковые имеются, то все они указаны на домашней странице.</string>
+    <string name="about_line_5">"Переводчики: "</string>
     <string name="about_line_6">Если вам нравится эта программа, можете поставить звёздочку на GitHub. Больше информации на домашней странице. Донаты по желанию.</string>
     <string name="popup_incorrect_file">Неправильный файл</string>
     <string name="status_uploaded">(Передан)</string>

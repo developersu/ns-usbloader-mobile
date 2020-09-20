@@ -4,7 +4,7 @@
     <string name="popup_non_supported_format">所選的檔案格式尚未支援</string>
     <string name="popup_error">錯誤</string>
     <string name="upload_btn">上傳至NS</string>
-    <string name="install_file_explorer">裝置沒有安裝檔案管理器.\\n 請至PLAY商店內安裝檔案管理器. 例如:Total Commander</string>
+    <string name="install_file_explorer">裝置沒有安裝檔案管理器.\n 請至PLAY商店內安裝檔案管理器. 例如:Total Commander</string>
     <string name="ns_connected_info">NS已連接</string>
     <string name="notification_chan_name_usb">已連線的裝置</string>
     <string name="notification_chan_desc_usb">當使用者將行動裝置與NS連線時進行系統通知</string>
@@ -24,7 +24,7 @@
     <string name="about_line_2">本程式<a href="https://www.gnu.org/licenses/gpl-3.0.html">依據GNU公共授權條款GPLv3(或更新版本)</a>開發.</string>
     <string name="about_line_3">程式開發: Dmitry Isaenko.</string>
     <string name="about_line_4">程式首頁: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
-    <string name="about_line_5">翻譯人員: 會在程式首頁內提供本程式介面在地化翻譯的人員名單.</string>
+    <string name="about_line_5">翻譯人員: </string>
     <string name="about_line_6">如果本程式對你有助益,請在程式的GitHub頁面上按星號加分,也歡迎贊助我們(金額隨意)</string>
     <string name="popup_incorrect_file">檔案錯誤</string>
     <string name="status_failed_to_upload">(上傳失敗)</string>

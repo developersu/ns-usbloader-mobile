@@ -28,7 +28,7 @@
     <string name="about_line_2">This application <a href="https://www.gnu.org/licenses/gpl-3.0.html">licensed under GNU GPLv3</a> or any later version.</string>
     <string name="about_line_3">Author: Dmitry Isaenko.</string>
     <string name="about_line_4">Home page: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
-    <string name="about_line_5">Translators: If there are any, they\'re noted  on home page.</string>
+    <string name="about_line_5">"Translators: "</string>
     <string name="about_line_6">If you found this application useful, you\'re more than welcome to give a star on GitHub page. More information on home page. Donations (optional):</string>
     <string name="popup_incorrect_file">Incorrect file</string>
     <string name="status_failed_to_upload">(Upload failure)</string>
@@ -45,4 +45,5 @@
     <string name="notification_transfer_in_progress">Data transfer in progress</string>
     <string name="notification_chan_name_progress">Transfer in progress</string>
     <string name="notification_chan_desc_progress">Notification indicates transfer progress</string>
+    <string name="about_translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a></string>
 </resources>

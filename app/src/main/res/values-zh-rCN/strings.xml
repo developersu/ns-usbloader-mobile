@@ -4,7 +4,7 @@
     <string name="popup_non_supported_format">所选的文件格式不支持</string>
     <string name="popup_error">错误</string>
     <string name="upload_btn">上传到NS</string>
-    <string name="install_file_explorer">没有安装文件管理器。\\n请到应用商店下载，例如：Total Commander</string>
+    <string name="install_file_explorer">没有安装文件管理器。\n请到应用商店下载，例如：Total Commander</string>
     <string name="ns_connected_info">NS已连接</string>
     <string name="notification_chan_name_usb">已连接设备</string>
     <string name="transfer_protocol">通讯协议</string>
@@ -36,7 +36,7 @@
     <string name="notification_transfer_in_progress">正在进行数据传输</string>
     <string name="notification_chan_name_progress">正在进行传输</string>
     <string name="notification_chan_desc_progress">在通知栏显示传输文件的进度</string>
-    <string name="about_line_4">首页: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a>  翻译：FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a></string>
+    <string name="about_line_4">首页: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_6">如果本应用对你有帮助，请在程序的GitHub页面上按星号加分，也欢迎赞助</string>
-    <string name="about_line_5">" "</string>
+    <string name="about_line_5">口譯員：: </string>
 </resources>
