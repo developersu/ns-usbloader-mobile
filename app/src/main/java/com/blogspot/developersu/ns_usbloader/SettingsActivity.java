@@ -9,16 +9,16 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity {
     private EditText nsIp;
     private EditText servAddr;
     private EditText servPort;
-    private Switch autoDetectIp;
+    private SwitchCompat autoDetectIp;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -68,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (! editable.toString().matches("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"))
                     nsIp.setTextColor(Color.RED);
                 else
-                    nsIp.setTextColor(Color.BLACK);
+                    nsIp.setTextColor(getResources().getColor(R.color.defaultTextColor));
             }
         });
         servAddr.addTextChangedListener(new TextWatcher() {
@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (! editable.toString().matches("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"))
                     nsIp.setTextColor(Color.RED);
                 else
-                    nsIp.setTextColor(Color.BLACK);
+                    nsIp.setTextColor(getResources().getColor(R.color.defaultTextColor));
             }
         });
 
@@ -99,10 +99,10 @@ public class SettingsActivity extends AppCompatActivity {
                 String contentString = editable.toString();
                 //Log.i("LPR", contentString);
                 if (contentString.matches("^\\d{1,5}")){
-                    if (Integer.valueOf(contentString) < 1024)
+                    if (Integer.parseInt(contentString) < 1024)
                         servPort.setTextColor(Color.RED);
                     else
-                        servPort.setTextColor(Color.BLACK);
+                        servPort.setTextColor(getResources().getColor(R.color.defaultTextColor));
                 }
             }
         });
@@ -123,33 +123,30 @@ public class SettingsActivity extends AppCompatActivity {
             spEditor.putString("SServerIP", servAddr.getText().toString());
 
         final String contentString = servPort.getText().toString();
-        if (contentString.matches("^\\d{1,5}") && (Integer.valueOf(contentString) >= 1024)){
-            spEditor.putInt("SServerPort", Integer.valueOf(servPort.getText().toString()));
+        if (contentString.matches("^\\d{1,5}") && (Integer.parseInt(contentString) >= 1024)){
+            spEditor.putInt("SServerPort", Integer.parseInt(servPort.getText().toString()));
         }
 
         spEditor.apply();
     }
 
-    private static InputFilter inputFilterForIP = new InputFilter() {
-        @Override
-        public CharSequence filter(CharSequence charSequence, int start, int end, Spanned destination, int dStart, int dEnd) {
-            if (end > start) {
-                String destTxt = destination.toString();
-                String resultingTxt = destTxt.substring(0, dStart) +
-                        charSequence.subSequence(start, end) +
-                        destTxt.substring(dEnd);
-                if (! resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?"))
-                    return "";
-                else {
-                    String[] splits = resultingTxt.split("\\.");
-                    for (String split : splits) {
-                        if (Integer.valueOf(split) > 255)
-                            return "";
-                    }
+    private static InputFilter inputFilterForIP = (charSequence, start, end, destination, dStart, dEnd) -> {
+        if (end > start) {
+            String destTxt = destination.toString();
+            String resultingTxt = destTxt.substring(0, dStart) +
+                    charSequence.subSequence(start, end) +
+                    destTxt.substring(dEnd);
+            if (! resultingTxt.matches ("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?"))
+                return "";
+            else {
+                String[] splits = resultingTxt.split("\\.");
+                for (String split : splits) {
+                    if (Integer.parseInt(split) > 255)
+                        return "";
                 }
             }
-            return null;
         }
+        return null;
     };
 
     private static InputFilter inputFilterForPort = new InputFilter() {
@@ -162,7 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
                         destTxt.substring(dEnd);
                 if (!resultingTxt.matches ("^[0-9]+"))
                     return "";
-                if (Integer.valueOf(resultingTxt) > 65535)
+                if (Integer.parseInt(resultingTxt) > 65535)
                     return "";
             }
             return null;

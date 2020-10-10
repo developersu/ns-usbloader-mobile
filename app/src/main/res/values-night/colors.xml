@@ -5,7 +5,7 @@
     <color name="colorAccent">#00c8fc</color>
     <color name="lightAccent">#52acff</color>
     <color name="goldReliable">#eea11e</color>
-    <color name="highlightSelected">#ce0000</color>
-    <color name="defaultTextColor">#000000</color>
+    <color name="highlightSelected">#00c8fc</color>
+    <color name="defaultTextColor">#ffffff</color>
     <color name="defaultTextShadow">#1c1c1c</color>
 </resources>

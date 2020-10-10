@@ -48,7 +48,7 @@
             android:inputType="number" />
     </LinearLayout>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/autoDetectIpSW"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
