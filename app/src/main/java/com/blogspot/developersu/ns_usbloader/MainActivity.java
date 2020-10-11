@@ -207,7 +207,10 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
             mDataset = new ArrayList<>();
             usbDevice = getIntent().getParcelableExtra(UsbManager.EXTRA_DEVICE);    // If it's started initially, then check if it's started from notification.
             //Log.i("LPR", "DEVICE " +usbDevice);
-            if (usbDevice != null){
+            if (usbDevice == null) {
+                isUsbDeviceAccessible = false;
+            }
+            else {
                 UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
                 // If somehow we can't get system service
                 if (usbManager == null) {
@@ -216,9 +219,10 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
                 }
                 isUsbDeviceAccessible = usbManager.hasPermission(usbDevice);
             }
-            else
-                isUsbDeviceAccessible = false;
-            switch (getSharedPreferences("NSUSBloader", MODE_PRIVATE).getInt("PROTOCOL", NsConstants.PROTO_TF_USB)){
+            SharedPreferences preferences = getSharedPreferences("NSUSBloader", MODE_PRIVATE);
+            ApplicationTheme.setApplicationTheme(preferences.getInt("ApplicationTheme", 0));
+
+            switch (preferences.getInt("PROTOCOL", NsConstants.PROTO_TF_USB)){
                 case NsConstants.PROTO_TF_USB:
                     drawerNavView.setCheckedItem(R.id.nav_tf_usb);
                     break;

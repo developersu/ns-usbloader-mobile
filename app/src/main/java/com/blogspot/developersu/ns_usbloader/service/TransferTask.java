@@ -105,7 +105,7 @@ abstract class TransferTask {
             NotificationChannel notificationChannel = new NotificationChannel(
                     NsConstants.NOTIFICATION_FOREGROUND_SERVICE_CHAN_ID,
                     notificationChanName,
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_LOW);
             notificationChannel.setDescription(notificationChanDesc);
             notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);

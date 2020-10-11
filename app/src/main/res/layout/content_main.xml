@@ -38,7 +38,6 @@
 
     <LinearLayout
         android:id="@+id/buttonsBoxLayout"
-        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/lightAccent"
@@ -55,7 +54,8 @@
             android:layout_weight="1"
             android:text="@string/select_file_btn"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
+            android:textColor="@color/main_button"
+            app:drawableTint="@color/main_button"
             app:drawableTopCompat="@drawable/ic_select_file" />
 
         <Button
@@ -66,9 +66,9 @@
             android:layout_weight="1"
             android:text="@string/upload_btn"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
+            android:textColor="@color/main_button"
+            app:drawableTint="@color/main_button"
             app:drawableTopCompat="@drawable/ic_upload_btn" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

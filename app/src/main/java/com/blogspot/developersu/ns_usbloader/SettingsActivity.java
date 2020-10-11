@@ -14,19 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
-
 public class SettingsActivity extends AppCompatActivity {
-    private static final int SYSTEM_DEFAULT = 0;
-    private static final int DAY_THEME = 1;
-    private static final int NIGHT_THEME = 2;
-
     private Spinner themeSpinner;
     private EditText nsIp;
     private EditText servAddr;
@@ -52,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItemPosition, long selectedItemId) {
-                setApplicationTheme(selectedItemPosition);
+                ApplicationTheme.setApplicationTheme(selectedItemPosition);
             }
 
             @Override
@@ -137,18 +128,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         // Shitcode practices end
-    }
-    private void setApplicationTheme(int itemId){
-        switch (itemId){
-            case SYSTEM_DEFAULT:
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            case DAY_THEME:
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-                break;
-            case NIGHT_THEME:
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-        }
     }
 
     @Override
