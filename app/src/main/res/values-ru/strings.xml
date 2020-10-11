@@ -39,4 +39,11 @@
     <string name="notification_transfer_in_progress">Идет передача данных</string>
     <string name="notification_chan_desc_progress">Уведомление демонстрирует прогресс передачи данных</string>
     <string name="notification_chan_name_progress">Передача данных</string>
+    <string-array name="dayNightSelector">
+        <item>Системная</item>
+        <item>Светлая тема</item>
+        <item>Ночная тема</item>
+    </string-array>
+    <string name="settings_application_settings">Настройки приложения</string>
+    <string name="settings_app_theme">Тема:</string>
 </resources>

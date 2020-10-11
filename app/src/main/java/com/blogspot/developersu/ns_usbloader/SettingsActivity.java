@@ -5,16 +5,29 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 public class SettingsActivity extends AppCompatActivity {
+    private static final int SYSTEM_DEFAULT = 0;
+    private static final int DAY_THEME = 1;
+    private static final int NIGHT_THEME = 2;
+
+    private Spinner themeSpinner;
     private EditText nsIp;
     private EditText servAddr;
     private EditText servPort;
@@ -34,6 +47,22 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        themeSpinner = findViewById(R.id.applicationThemeSpinner);
+        themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItemPosition, long selectedItemId) {
+                setApplicationTheme(selectedItemPosition);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
+        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.dayNightSelector, android.R.layout.simple_spinner_item);
+        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(themeAdapter);
         // Set NS IP field
         nsIp = findViewById(R.id.nsIpEditText);
         servAddr = findViewById(R.id.servAddrTextEdit);
@@ -47,11 +76,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         // TODO: Disable controls
         if (savedInstanceState == null){
-            SharedPreferences sp = getSharedPreferences("NSUSBloader", MODE_PRIVATE); //.getInt("PROTOCOL", NsConstants.PROTO_TF_USB);
-            nsIp.setText(sp.getString("SNsIP", "192.168.1.42"));
-            autoDetectIp.setChecked(sp.getBoolean("SAutoIP", true));
-            servAddr.setText(sp.getString("SServerIP", "192.168.1.142"));
-            servPort.setText(String.valueOf(sp.getInt("SServerPort", 6042)));
+            SharedPreferences preferences = getSharedPreferences("NSUSBloader", MODE_PRIVATE); //.getInt("PROTOCOL", NsConstants.PROTO_TF_USB);
+            themeSpinner.setSelection(preferences.getInt("ApplicationTheme", 0));
+            nsIp.setText(preferences.getString("SNsIP", "192.168.1.42"));
+            autoDetectIp.setChecked(preferences.getBoolean("SAutoIP", true));
+            servAddr.setText(preferences.getString("SServerIP", "192.168.1.142"));
+            servPort.setText(String.valueOf(preferences.getInt("SServerPort", 6042)));
         }
         // else { } // not needed
 
@@ -108,11 +138,25 @@ public class SettingsActivity extends AppCompatActivity {
         });
         // Shitcode practices end
     }
+    private void setApplicationTheme(int itemId){
+        switch (itemId){
+            case SYSTEM_DEFAULT:
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case DAY_THEME:
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+                break;
+            case NIGHT_THEME:
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         SharedPreferences.Editor spEditor = getSharedPreferences("NSUSBloader", MODE_PRIVATE).edit();
+
+        spEditor.putInt("ApplicationTheme", themeSpinner.getSelectedItemPosition());
 
         if (nsIp.getText().toString().matches("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"))
             spEditor.putString("SNsIP", nsIp.getText().toString());
@@ -149,21 +193,17 @@ public class SettingsActivity extends AppCompatActivity {
         return null;
     };
 
-    private static InputFilter inputFilterForPort = new InputFilter() {
-        @Override
-        public CharSequence filter(CharSequence charSequence, int start, int end, Spanned destination, int dStart, int dEnd) {
-            if (end > start) {
-                String destTxt = destination.toString();
-                String resultingTxt = destTxt.substring(0, dStart) +
-                        charSequence.subSequence(start, end) +
-                        destTxt.substring(dEnd);
-                if (!resultingTxt.matches ("^[0-9]+"))
-                    return "";
-                if (Integer.parseInt(resultingTxt) > 65535)
-                    return "";
-            }
-            return null;
+    private static InputFilter inputFilterForPort = (charSequence, start, end, destination, dStart, dEnd) -> {
+        if (end > start) {
+            String destTxt = destination.toString();
+            String resultingTxt = destTxt.substring(0, dStart) +
+                    charSequence.subSequence(start, end) +
+                    destTxt.substring(dEnd);
+            if (!resultingTxt.matches ("^[0-9]+"))
+                return "";
+            if (Integer.parseInt(resultingTxt) > 65535)
+                return "";
         }
+        return null;
     };
-
 }

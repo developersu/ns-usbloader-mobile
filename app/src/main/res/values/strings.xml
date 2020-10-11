@@ -16,9 +16,9 @@
     <string name="interrupt_btn">Interrupt</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="tf_usb" translatable="false">TinFoil USB</string>
+    <string name="tf_usb" translatable="false">Tinfoil USB</string>
     <string name="gl" translatable="false">GoldLeaf v0.5</string>
-    <string name="tf_net" translatable="false">TinFoil NET</string>
+    <string name="tf_net" translatable="false">Tinfoil NET</string>
     <string name="about_app">About this app</string>
     <string name="other">Other</string>
     <string name="one_item_for_gl_notification">Only one file could be selected for GoldLeaf v0.5</string>
@@ -46,4 +46,11 @@
     <string name="notification_chan_name_progress">Transfer in progress</string>
     <string name="notification_chan_desc_progress">Notification indicates transfer progress</string>
     <string name="about_translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a></string>
+    <string-array name="dayNightSelector">
+        <item>System default</item>
+        <item>Day theme</item>
+        <item>Night theme</item>
+    </string-array>
+    <string name="settings_application_settings">Application settings</string>
+    <string name="settings_app_theme">Application theme:</string>
 </resources>
