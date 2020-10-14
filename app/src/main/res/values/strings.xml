@@ -45,7 +45,7 @@
     <string name="notification_transfer_in_progress">Data transfer in progress</string>
     <string name="notification_chan_name_progress">Transfer in progress</string>
     <string name="notification_chan_desc_progress">Notification indicates transfer progress</string>
-    <string name="about_translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a></string>
+    <string name="about_translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n* Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a></string>
     <string-array name="dayNightSelector">
         <item>System default</item>
         <item>Day theme</item>

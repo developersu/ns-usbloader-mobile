@@ -63,6 +63,8 @@ Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
 
 Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
 
+Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
+
 #### TODO:
 
 - [ ] Add tools to simplify translation process
