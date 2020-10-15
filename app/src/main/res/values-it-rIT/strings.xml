@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_file_btn">Seleziona file</string>
+    <string name="popup_non_supported_format">Tipo di file non supportato</string>
+    <string name="popup_error">Errore</string>
+    <string name="upload_btn">Invia a NS</string>
+    <string name="install_file_explorer">Nessun file explorer installato. Per favore installane uno. Per esempio Total Commander</string>
+    <string name="ns_connected_info">NS Connesso</string>
+    <string name="notification_chan_name_usb">Dispositivo connesso</string>
+    <string name="settings_application_settings">Impostazioni app</string>
+    <string name="settings_app_theme">Tema app:</string>
+    <string name="settings">Impostazioni</string>
+    <string name="title_activity_settings">Impostazioni</string>
+    <string name="settings_phone_ip">Indirizzo IP telefono</string>
+    <string name="settings_phone_port">Porta telefono</string>
+    <string name="unknown_protocol_error">Connessione scelta non riconosciuta (?)</string>
+    <string name="status_uploaded">(Inviato)</string>
+    <string name="status_wrong_file">(NSP invalido)</string>
+    <string name="status_failed_to_upload">(Invio fallito)</string>
+    <string name="popup_incorrect_file">FIle non corretto</string>
+    <string name="about_line_6">Se trovi questa applicazione utile puoi venire a darci una stella sulla pagina del progetto su GitHub. Maggiori informazioni in homepage: Donazioni (opzionali):</string>
+    <string name="about_line_5">Traduttori:</string>
+    <string name="about_line_4">Homepage: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_3">Autore: Dmitry Isaenko.</string>
+    <string name="about_line_2">Questa applicazione è rilasciata con <a href="https://www.gnu.org/licenses/gpl-3.0.html">licenza GNU GPLv3</a> o successive.</string>
+    <string name="transfer_protocol">Connessione</string>
+    <string name="ns_not_found_in_connected">NS non trovato nei dispositivi connessi:</string>
+    <string name="nothing_selected_message">Nessuna selezione</string>
+    <string name="interrupt_btn">Interrompi</string>
+    <string name="other">Altro</string>
+    <string name="about_app">Info sull\'app</string>
+    <string name="one_item_for_gl_notification">Solo un file può essere selezionato per GoldLeaf v0.5</string>
+    <string name="settings_autodtct_phn_ip">Trova indirizzo IP telefono in automatico</string>
+    <string name="navigation_drawer_open">Apri menu di navigazione</string>
+    <string name="navigation_drawer_close">Chiudi menu di navigazione</string>
+    <string name="transfers_service_stopped">Il trasferimento dati è stato completato.</string>
+    <string name="no_protocol_selected_message">Nessuna connessione selezionata</string>
+    <string name="title_activity_about">Info sull\'app</string>
+    <string name="notification_transfer_in_progress">Trasferimento dati in corso</string>
+    <string name="notification_chan_name_progress">Trasferimento in corso</string>
+    <string name="notification_chan_desc_usb">La notifica appare quando l\'utente connette NS ad un dispositivo</string>
+    <string name="transfer_transport">Livello trasporto</string>
+    <string name="notification_chan_desc_progress">La notifica indica un trasferimento in corso</string>
+    <string-array name="dayNightSelector">
+        <item>Default di sistema</item>
+        <item>Tema chiaro</item>
+        <item>Tema scuro</item>
+    </string-array>
+</resources>
