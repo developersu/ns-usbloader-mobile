@@ -39,4 +39,6 @@
     <string name="notification_transfer_in_progress">正在進行資料傳輸</string>
     <string name="notification_chan_name_progress">正在進行傳輸</string>
     <string name="notification_chan_desc_progress">在通知欄顯示傳輸檔案進度</string>
+    <string name="settings_application_settings">程式設置</string>
+    <string name="settings_app_theme">程式主題:</string>
 </resources>

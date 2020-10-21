@@ -39,4 +39,6 @@
     <string name="about_line_4">首页: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_6">如果本应用对你有帮助，请在程序的GitHub页面上按星号加分，也欢迎赞助</string>
     <string name="about_line_5">口譯員：: </string>
+    <string name="settings_application_settings">应用设置</string>
+    <string name="settings_app_theme">应用主题:</string>
 </resources>
