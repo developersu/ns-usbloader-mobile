@@ -256,6 +256,14 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         });
         // Upload to NS button
         uploadToNsBtn = findViewById(R.id.buttonUpload);
+
+        //check if it's from file selected
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+
+        if (savedInstanceState == null && uri != null) {
+            readFile(intent);
+        }
     }
 
     private void updateUploadBtnState(){    // TODO: this function is bad. It multiplies entropy and sorrow.
@@ -296,6 +304,10 @@ public class MainActivity extends AppCompatActivity implements NsResultReciever.
         if (requestCode != ADD_NSP_INTENT_CODE || data == null)
             return;
 
+        readFile(data);
+    }
+
+    private void readFile(Intent data) {
         Uri uri = data.getData();
 
         if (uri == null || uri.getScheme() == null || ! uri.getScheme().equals("content"))

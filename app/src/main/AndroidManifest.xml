@@ -50,18 +50,18 @@
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"
                 android:resource="@xml/device_filter" />
-            <!-- TODO: fix, implement, etc.
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:mimeType="application/octet-stream"
-                    android:host="*"
-                    android:pathPattern=".*\\.nsp"
-                    />
+                <data android:host="*"/>
+                <data android:mimeType="*/*"/>
+                <data android:pathPattern=".*\\.nsp"/>
+                <data android:pathPattern=".*\\.nsz"/>
+                <data android:pathPattern=".*\\.xci"/>
+                <data android:pathPattern=".*\\.xcz"/>
+                <data android:scheme="content"/>
             </intent-filter>
-            -->
         </activity>
 
         <receiver
