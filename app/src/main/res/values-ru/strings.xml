@@ -46,4 +46,5 @@
     </string-array>
     <string name="settings_application_settings">Настройки приложения</string>
     <string name="settings_app_theme">Тема:</string>
+    <string name="about_line_contributors">При участии:</string>
 </resources>

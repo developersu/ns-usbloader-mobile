@@ -1,0 +1,4 @@
+* Remove notification that appears once user connects NS
+* Add Traditional Chinese by @qazrfv1234. Thank you!
+* Fix startup failures on old android versions related to vector assets
+* Add split-screen and window-in-window support for 'modern' android versions

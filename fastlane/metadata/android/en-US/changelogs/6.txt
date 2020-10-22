@@ -1,0 +1,7 @@
+* Italian translation added by @IvanMazzoli. Thank you!
+
+@htynkn added many interesting things:
+* Corrected Chinese translations
+* File associations for nsp, nsz, xci, xcz files. Now you can open these file directly.
+* CI (GitHub actions)
+Many thanks!

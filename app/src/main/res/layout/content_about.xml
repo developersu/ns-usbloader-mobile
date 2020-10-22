@@ -79,9 +79,22 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            android:text="@string/about_translators"
+            android:text="@string/translators"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
+        <TextView
+            android:id="@+id/textViewContributorsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="@string/about_line_contributors"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        <TextView
+            android:id="@+id/textViewContributorsNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="@string/contributors"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"

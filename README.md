@@ -22,9 +22,7 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 ### System requirements
 
 * Minimum: Android 4.0 (Ice Cream Sandwich)
-
 * Maximum: Android 10.0 (Q)
-
 * USB-OTG support / WiFi
 
 ### Usage
@@ -55,15 +53,15 @@ If you're Samsung owner, it would be better to not rotating your phone during tr
 ### Other notes
 
 'Status' = 'Uploaded' that appears in the table does not mean that file has been installed. It means that it has been sent to NS without any issues! That's what this app about. 
-Handling successful/failed installation is a purpose of the other side application: TinFoil/GoldLeaf v0.5. And they don't provide any feedback interfaces so I can't detect success/failure. 
+Handling successful/failed installation is a purpose of the other side application: TinFoil/GoldLeaf v0.5. And they don't provide any feedback interfaces so I can't detect success/failure.
 
-#### Translators
+#### Contributors and Translators
 
-Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
+* Thanks [Huang YunKun](https://github.com/htynkn) for various contributions!
 
-Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
-
-Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
+* Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
+* Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
+* Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
 
 #### TODO:
 

@@ -46,4 +46,5 @@
         <item>Tema chiaro</item>
         <item>Tema scuro</item>
     </string-array>
+    <string name="about_line_contributors">Contributori:</string>
 </resources>

@@ -1,0 +1,7 @@
+* Add dark theme
+* Created and added navigation panel pattern
+* Updated margins for better view on phones with curved screens (e.g. 1+ 8pro)
+* Add ability for users to select application theme: day/night/system
+* Update notification priority: there should be no sound on modern devices when notification icon appears (reinstall app if you still hear it or disable somewhere in system settings if don't want to reinstall)
+* Made disable button(s) on a main application screen looks 'disable' (darker colour).
+* Rewrite a bit net-related code to make it readable.

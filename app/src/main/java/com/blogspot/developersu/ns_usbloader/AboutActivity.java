@@ -37,6 +37,8 @@ public class AboutActivity extends AppCompatActivity {
         t6.setMovementMethod(LinkMovementMethod.getInstance());
         final TextView tTranslators = findViewById(R.id.textViewTranslators);
         tTranslators.setMovementMethod(LinkMovementMethod.getInstance());
+        final TextView tContributors = findViewById(R.id.textViewContributorsNames);
+        tContributors.setMovementMethod(LinkMovementMethod.getInstance());
 
         ImageView donateLibera = findViewById(R.id.donateLiberaImageView);
         donateLibera.setOnClickListener(this::donateLiberaOnClickAction);
