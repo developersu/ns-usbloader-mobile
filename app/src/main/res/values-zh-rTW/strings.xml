@@ -42,4 +42,5 @@
     <string name="settings_application_settings">程式設置</string>
     <string name="settings_app_theme">程式主題:</string>
     <string name="about_line_contributors">參與者:</string>
+    <string name="about_line_1">NS-USBloader mobile</string>
 </resources>

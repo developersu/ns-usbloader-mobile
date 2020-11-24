@@ -24,7 +24,7 @@
     <string name="one_item_for_gl_notification">Only one file could be selected for GoldLeaf v0.5</string>
     <string name="no_protocol_selected_message">No protocol selected</string>
     <string name="title_activity_about">About application</string>
-    <string name="about_line_1" translatable="false">NS-USBloader mobile</string>
+    <string name="about_line_1">NS-USBloader mobile</string>
     <string name="about_line_2">This application <a href="https://www.gnu.org/licenses/gpl-3.0.html">licensed under GNU GPLv3</a> or any later version.</string>
     <string name="about_line_3">Author: Dmitry Isaenko.</string>
     <string name="about_line_4">Home page: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
@@ -45,7 +45,7 @@
     <string name="notification_transfer_in_progress">Data transfer in progress</string>
     <string name="notification_chan_name_progress">Transfer in progress</string>
     <string name="notification_chan_desc_progress">Notification indicates transfer progress</string>
-    <string name="translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n* Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a></string>
+    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
     <string-array name="dayNightSelector">
         <item>System default</item>
         <item>Day theme</item>

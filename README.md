@@ -62,6 +62,7 @@ Handling successful/failed installation is a purpose of the other side applicati
 * Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
 * Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
 * Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
+* Korean by [DDinghoya](]https://github.com/DDinghoya")
 
 #### TODO:
 
