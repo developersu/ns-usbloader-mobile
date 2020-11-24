@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name" translatable="false">NS-USBloader</string>
+    <string name="select_file_btn">파일 선택</string>
+    <string name="popup_non_supported_format">지원되지 않는 파일 형식</string>
+    <string name="popup_error">오류</string>
+    <string name="upload_btn">NS에 업로드</string>
+    <string name="install_file_explorer">설치된 파일 탐색기가 없습니다.\n설치하십시오. 예를 들어 토탈 코맨더.</string>
+    <string name="ns_connected_info">NS 연결</string>
+    <string name="notification_chan_name_usb">연결된 장치</string>
+    <string name="notification_chan_desc_usb">사용자가 NS를 기기에 연결할 때 알림 표시</string>
+    <string name="ns_not_found_in_connected">연결된 장치에서 NS를 찾을 수 없습니다.</string>
+    <string name="transfer_protocol">프로토콜</string>
+    <string name="transfer_transport">전송 수준</string>
+    <string name="nothing_selected_message">선택한 항목 없음</string>
+    <string name="transfers_service_stopped">데이터 전송 서비스가 종료되었습니다.</string>
+    <string name="interrupt_btn">중단</string>
+    <string name="navigation_drawer_open">탐색 창 열기</string>
+    <string name="navigation_drawer_close">탐색 창 닫기</string>
+    <string name="tf_usb" translatable="false">Tinfoil USB</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="tf_net" translatable="false">Tinfoil NET</string>
+    <string name="about_app">이 앱 정보</string>
+    <string name="other">기타</string>
+    <string name="one_item_for_gl_notification">GoldLeaf v0.5에 대해 하나의 파일 만 선택할 수 있습니다.</string>
+    <string name="no_protocol_selected_message">선택된 프로토콜 없음</string>
+    <string name="title_activity_about">응용 프로그램 정보</string>
+    <string name="about_line_1" translatable="false">NS-USBloader 모바일</string>
+    <string name="about_line_2">이 응용 프로그램은 <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</a> 또는 이후 버전에 따라 사용이 허가되었습니다.</string>
+    <string name="about_line_3">제작자: Dmitry Isaenko.</string>
+    <string name="about_line_4">홈 페이지: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_5">"번역가: "</string>
+    <string name="about_line_6">이 응용 프로그램이 유용하다고 생각되면, 여러분이\GitHub 페이지에서 별을 주는 것을 환영합니다. 홈 페이지에 대한 자세한 정보. 기부 (선택 사항):</string>
+    <string name="popup_incorrect_file">잘못된 파일</string>
+    <string name="status_failed_to_upload">(업로드 실패)</string>
+    <string name="status_wrong_file">(잘못된 NSP)</string>
+    <string name="status_uploaded">(업로드 됨)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
+    <string name="settings">설정</string>
+    <string name="title_activity_settings">설정</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
+    <string name="settings_phone_ip">휴대폰 IP</string>
+    <string name="settings_phone_port">휴대폰 포트</string>
+    <string name="settings_autodtct_phn_ip">휴대폰 IP 자동 감지</string>
+    <string name="unknown_protocol_error">미확인 프로토콜 선택되었습니다 (?)</string>
+    <string name="notification_transfer_in_progress">데이터 전송 중</string>
+    <string name="notification_chan_name_progress">전송 진행 중</string>
+    <string name="notification_chan_desc_progress">알림은 전송 진행률을 나타냅니다.</string>
+    <string name="translators" translatable="false">* 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n* 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n* Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n* 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
+    <string-array name="dayNightSelector">
+        <item>시스템 기본값</item>
+        <item>주간 테마</item>
+        <item>야간 테마</item>
+    </string-array>
+    <string name="settings_application_settings">응용 프로그램 설정</string>
+    <string name="settings_app_theme">응용 프로그램 테마:</string>
+    <string name="about_line_contributors">참여자:</string>
+    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
+</resources>
