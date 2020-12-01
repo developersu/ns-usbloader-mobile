@@ -22,7 +22,7 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 ### System requirements
 
 * Minimum: Android 4.0 (Ice Cream Sandwich)
-* Maximum: Android 10.0 (Q)
+* Maximum: Android 11
 * USB-OTG support / WiFi
 
 ### Usage
