@@ -10,7 +10,7 @@ Sometimes I add new posts about this project [on my home page](https://developer
 
 <img src="fastlane/metadata/android/en-US/images/featureGraphic.png" alt="Application logo" width="500"/>
 
-<img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="250"/>  <img src="fastlane/metadata/android/en-US/phoneScreenshots/Screenshot_2.png" alt="screenshot-2" width="250"/>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="250"/>  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_2.png" alt="screenshot-2" width="250"/>
 
 #### License
 
@@ -62,12 +62,11 @@ Handling successful/failed installation is a purpose of the other side applicati
 * Traditional Chinese by [qazrfv1234](https://github.com/qazrfv1234)
 * Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
 * Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
-* Korean by [DDinghoya](]https://github.com/DDinghoya")
+* Korean by [DDinghoya](https://github.com/DDinghoya")
 
 #### TODO:
 
 - [ ] Add tools to simplify translation process
-- [ ] Better UI
 - [ ] Multi-select files (if possible)
 
 #### Support this app
@@ -78,8 +77,9 @@ If you want to make a donation*, refer to this page:
 
 <a href="https://liberapay.com/developersu/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
 
+<a href="https://paypal.me/developersu" title="PayPal"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" border="0" alt="PayPal Logo" /></a>
+
 [Yandex.Money](https://money.yandex.ru/to/410014301951665)
 
-[PayPal](https://paypal.me/developersu)
 
-* Please note! This is non-commercial application.
+*Please note! This is non-commercial application.
