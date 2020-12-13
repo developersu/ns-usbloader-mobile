@@ -1,4 +1,5 @@
 <resources>
+																	  
     <string name="select_file_btn">파일 선택</string>
     <string name="popup_non_supported_format">지원되지 않는 파일 형식</string>
     <string name="popup_error">오류</string>
@@ -15,6 +16,9 @@
     <string name="interrupt_btn">중단</string>
     <string name="navigation_drawer_open">탐색 창 열기</string>
     <string name="navigation_drawer_close">탐색 창 닫기</string>
+    <string name="tf_usb" translatable="false">Tinfoil USB</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="tf_net" translatable="false">Tinfoil NET</string>															 											   
     <string name="about_app">이 앱 정보</string>
     <string name="other">기타</string>
     <string name="one_item_for_gl_notification">GoldLeaf v0.5에 대해 하나의 파일 만 선택할 수 있습니다.</string>
@@ -30,8 +34,10 @@
     <string name="status_failed_to_upload">(업로드 실패)</string>
     <string name="status_wrong_file">(잘못된 NSP)</string>
     <string name="status_uploaded">(업로드 됨)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
     <string name="settings">설정</string>
     <string name="title_activity_settings">설정</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
     <string name="settings_phone_ip">휴대폰 IP</string>
     <string name="settings_phone_port">휴대폰 포트</string>
     <string name="settings_autodtct_phn_ip">휴대폰 IP 자동 감지</string>
@@ -39,6 +45,7 @@
     <string name="notification_transfer_in_progress">데이터 전송 중</string>
     <string name="notification_chan_name_progress">전송 진행 중</string>
     <string name="notification_chan_desc_progress">알림은 전송 진행률을 나타냅니다.</string>
+    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
     <string-array name="dayNightSelector">
         <item>시스템 기본값</item>
         <item>주간 테마</item>
@@ -47,4 +54,5 @@
     <string name="settings_application_settings">응용 프로그램 설정</string>
     <string name="settings_app_theme">응용 프로그램 테마:</string>
     <string name="about_line_contributors">참여자:</string>
+    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
 </resources>
