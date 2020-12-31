@@ -6,11 +6,13 @@ NS-USBloader mobile is Android implementation of the [original NS-USBloader](htt
 
 Please note: You will need USB-OTG cable. Otherwise, you'll be charging phone.
 
-Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.blogspot.developersu.ns_usbloader)
 
 <img src="fastlane/metadata/android/en-US/images/featureGraphic.png" alt="Application logo" width="500"/>
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="250"/>  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_2.png" alt="screenshot-2" width="250"/>
+
+Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
 
 #### License
 
