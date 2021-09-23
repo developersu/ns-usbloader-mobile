@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">NS-USBloader</string>
     <string name="select_file_btn">选择文件</string>
     <string name="popup_non_supported_format">所选的文件格式不支持</string>
     <string name="popup_error">错误</string>
