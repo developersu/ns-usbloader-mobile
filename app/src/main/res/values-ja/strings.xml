@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name" translatable="false">NS-USBloader</string>
+    <string name="select_file_btn">ファイルを選択</string>
+    <string name="popup_non_supported_format">ファイル形式がサポートされていません</string>
+    <string name="popup_error">エラー</string>
+    <string name="upload_btn">NSにアップロード</string>
+    <string name="install_file_explorer">ファイル エクスプローラがインストールされていません。\nインストールしてください。 たとえばTotal Commander。</string>
+    <string name="ns_connected_info">NSコネクテッド</string>
+    <string name="notification_chan_name_usb">デバイスが接続されました</string>
+    <string name="notification_chan_desc_usb">ユーザーがNSをデバイスに接続すると通知が表示される</string>
+    <string name="ns_not_found_in_connected">接続されたデバイスに NS が見つかりません。</string>
+    <string name="transfer_protocol">プロトコル</string>
+    <string name="transfer_transport">輸送レベル</string>
+    <string name="nothing_selected_message">何も選択されていません</string>
+    <string name="transfers_service_stopped">データ引き継ぎサービスは終了しました。</string>
+    <string name="interrupt_btn">割り込み</string>
+    <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
+    <string name="tf_usb" translatable="false">Tinfoil USB</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="tf_net" translatable="false">Tinfoil NET</string>
+    <string name="about_app">このアプリについて</string>
+    <string name="other">その他</string>
+    <string name="one_item_for_gl_notification">GoldLeaf v0.5 で選択できるファイルは 1 つだけです</string>
+    <string name="no_protocol_selected_message">プロトコルが選択されていません</string>
+    <string name="title_activity_about">アプリケーションについて</string>
+    <string name="about_line_1">NS-USBローダーモバイル</string>
+    <string name="about_line_2">このアプリケーションは <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3 の下でライセンス</a> またはそれ以降のバージョンでライセンスされています。</string>
+    <string name="about_line_3">作者: Dmitry Isaenko.</string>
+    <string name="about_line_4">ホームページ: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_5">"翻訳者:"</string>
+    <string name="about_line_6">このアプリケーションが役に立った場合は、GitHub ページでスターを付けてください。 詳しくはホームページで。 寄付 (オプション):</string>
+    <string name="popup_incorrect_file">不正なファイル</string>
+    <string name="status_failed_to_upload">(アップロード失敗)</string>
+    <string name="status_wrong_file">(悪い NSP)</string>
+    <string name="status_uploaded">(アップロード済み)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
+    <string name="settings">設定</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
+    <string name="settings_phone_ip">電話のIP</string>
+    <string name="settings_phone_port">電話のポート</string>
+    <string name="settings_autodtct_phn_ip">電話のIPの自動検出</string>
+    <string name="unknown_protocol_error">不明なプロトコルが選択されました (?)</string>
+    <string name="notification_transfer_in_progress">データ転送中</string>
+    <string name="notification_chan_name_progress">転送中</string>
+    <string name="notification_chan_desc_progress">通知は転送の進行状況を示します</string>
+    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
+    <string-array name="dayNightSelector">
+        <item>システムのデフォルト</item>
+        <item>日のテーマ</item>
+        <item>ナイトテーマ</item>
+    </string-array>
+    <string name="settings_application_settings">アプリケーションの設定</string>
+    <string name="settings_app_theme">アプリケーションのテーマ：</string>
+    <string name="about_line_contributors">寄稿者とともに:</string>
+    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
+</resources>

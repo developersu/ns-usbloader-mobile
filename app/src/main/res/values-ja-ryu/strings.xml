@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name" translatable="false">NS-USBloader</string>
+    <string name="select_file_btn">ファイル選択</string>
+    <string name="popup_non_supported_format">ファイル形式ぬサポートさりやびらん</string>
+    <string name="popup_error">エラー</string>
+    <string name="upload_btn">NSんかいアップロード</string>
+    <string name="install_file_explorer">ファイル エクスプローラぬインストールさりやびらん。\nインストールしくぃみそーれー。 たとぅいねーTotal Commander。</string>
+    <string name="ns_connected_info">NSコネクテッド</string>
+    <string name="notification_chan_name_usb">デバイスぬ接続さりやびたん</string>
+    <string name="notification_chan_desc_usb">ユーザーぬNSデバイスんかい接続すんでぃ通知ぬ表示さりーん</string>
+    <string name="ns_not_found_in_connected">接続さったるデバイスんかい NS が見ちかやびらん。</string>
+    <string name="transfer_protocol">プロトコル</string>
+    <string name="transfer_transport">輸送レベル</string>
+    <string name="nothing_selected_message">ぬーん選択さりやびらん</string>
+    <string name="transfers_service_stopped">データ引き継ぎサービソー終了さびたん。</string>
+    <string name="interrupt_btn">割り込み</string>
+    <string name="navigation_drawer_open">ナビゲーションドロワーふぃらちゅん</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーくーいん</string>
+    <string name="tf_usb" translatable="false">Tinfoil USB</string>
+    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="tf_net" translatable="false">Tinfoil NET</string>
+    <string name="about_app">くぬアプリにちいてぃ</string>
+    <string name="other">すぬ他</string>
+    <string name="one_item_for_gl_notification">GoldLeaf v0.5 でぃ選択ないるファイルー 1 ちだきやいびーん</string>
+    <string name="no_protocol_selected_message">プロトコルぬ選択さりやびらん</string>
+    <string name="title_activity_about">アプリケーションにちいてぃ</string>
+    <string name="about_line_1">NS-USBローダーモバイル</string>
+    <string name="about_line_2">くぬアプリケーショノー <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3 ぬしちゃうぅてぃライセンス</a> あらんでぃうり以降ぬバージョンっしライセンスさりとーいびーん。</string>
+    <string name="about_line_3">ちゅくやー: Dmitry Isaenko.</string>
+    <string name="about_line_4">ホームページ: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_5">"翻訳者:"</string>
+    <string name="about_line_6">くぬアプリケーションぬ役に立ちゃるばーや、GitHub ページっしスターちきてぃくぃみそーれー。 詳しこーホームページっし。 寄付 (オプション):</string>
+    <string name="popup_incorrect_file">不正なファイル</string>
+    <string name="status_failed_to_upload">(アップロード失敗)</string>
+    <string name="status_wrong_file">(わっさん NSP)</string>
+    <string name="status_uploaded">(アップロード済み)</string>
+    <string name="status_unkown" translatable="false">(?)</string>
+    <string name="settings">設定</string>
+    <string name="title_activity_settings">設定</string>
+    <string name="settings_nsIp" translatable="false">NS IP</string>
+    <string name="settings_phone_ip">電話ぬIP</string>
+    <string name="settings_phone_port">電話ぬポート</string>
+    <string name="settings_autodtct_phn_ip">電話ぬIPぬ自動検出</string>
+    <string name="unknown_protocol_error">不明なプロトコルぬ選択さりやびたん (?)</string>
+    <string name="notification_transfer_in_progress">データ転送中</string>
+    <string name="notification_chan_name_progress">転送中</string>
+    <string name="notification_chan_desc_progress">通知ー転送ぬ進行状況示さびーん</string>
+    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
+    <string-array name="dayNightSelector">
+        <item>システムぬデフォルト</item>
+        <item>日ぬテーマ</item>
+        <item>ナイトテーマ</item>
+    </string-array>
+    <string name="settings_application_settings">アプリケーションぬ設定</string>
+    <string name="settings_app_theme">アプリケーションぬテーマ：</string>
+    <string name="about_line_contributors">寄稿者とぅまじゅん:</string>
+    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
+</resources>
