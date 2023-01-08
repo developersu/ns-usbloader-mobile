@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:text="@string/select_file_btn"
             android:textAllCaps="false"
-            android:textColor="@color/main_button"
+            android:textColor="#3C3C3C"
             app:drawableTint="@color/main_button"
             app:drawableTopCompat="@drawable/ic_select_file" />
 
