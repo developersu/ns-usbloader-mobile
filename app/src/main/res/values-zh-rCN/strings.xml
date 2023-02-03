@@ -11,7 +11,7 @@
     <string name="ns_not_found_in_connected">在已连接的设备中没有找到NS</string>
     <string name="notification_chan_desc_usb">当用户将NS连接到设备时出现通知</string>
     <string name="transfer_transport">传输级</string>
-    <string name="nothing_selected_message">" Nothing selected 未选择任何内容"</string>
+    <string name="nothing_selected_message">未选择任何内容</string>
     <string name="transfers_service_stopped">数据传输服务已完成</string>
     <string name="interrupt_btn">中断</string>
     <string name="navigation_drawer_open">开启侧边栏</string>
@@ -38,9 +38,9 @@
     <string name="notification_chan_desc_progress">在通知栏显示传输文件的进度</string>
     <string name="about_line_4">首页: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_6">如果本应用对你有帮助，请在程序的GitHub页面上按星号加分，也欢迎赞助</string>
-    <string name="about_line_5">口譯員：: </string>
+    <string name="about_line_5">翻译者: </string>
     <string name="settings_application_settings">应用设置</string>
-    <string name="settings_app_theme">应用主题:</string>
-    <string name="about_line_contributors">参与者:</string>
+    <string name="settings_app_theme">应用主题：</string>
+    <string name="about_line_contributors">贡献者：</string>
     <string name="about_line_1">NS-USBloader mobile</string>
 </resources>
