@@ -1,13 +1,24 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
+import static java.util.TimeZone.getTimeZone;
+
 import com.blogspot.developersu.ns_usbloader.BuildConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
-public class NETPacket {
+public class HttpReply {
+
+    private static HttpReply instance;
+
+    public static HttpReply getInstance() {
+        if (instance == null) {
+            instance = new HttpReply();
+        }
+        return instance;
+    }
+
     private static final String CODE_200 =
                                             "HTTP/1.0 200 OK\r\n" +
                                             "Server: NS-USBloader-M-v."+ BuildConfig.VERSION_NAME+"\r\n" +
@@ -47,24 +58,31 @@ public class NETPacket {
                                             "Connection: close\r\n"+
                                             "Content-Type: text/html;charset=utf-8\r\n"+
                                             "Content-Length: 0\r\n\r\n";
-    public static String getCode200(long nspFileSize){
+
+    private final SimpleDateFormat dateFormat;
+
+    private HttpReply() {
+        dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
+        dateFormat.setTimeZone(getTimeZone("UTC"));
+    }
+
+    public String get200(long nspFileSize){
         return String.format(Locale.US, CODE_200, getTime(), nspFileSize-1, nspFileSize, nspFileSize);
     }
-    public static String getCode206(long nspFileSize, long startPos, long endPos){
+    public String get206(long nspFileSize, long startPos, long endPos){
         return String.format(Locale.US, CODE_206, getTime(), startPos, endPos, nspFileSize, endPos-startPos+1);
     }
-    public static String getCode404(){
+    public String get404(){
         return String.format(Locale.US, CODE_404, getTime());
     }
-    public static String getCode416(){
+    public String get416(){
         return String.format(Locale.US, CODE_416, getTime());
     }
-    public static String getCode400(){
+    public String get400(){
         return String.format(Locale.US, CODE_400, getTime());
     }
-    private static String getTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return sdf.format(Calendar.getInstance().getTime());
+
+    private String getTime(){
+        return dateFormat.format(Calendar.getInstance().getTime());
     }
 }

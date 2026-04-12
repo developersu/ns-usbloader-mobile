@@ -5,11 +5,14 @@
 
     <uses-feature android:name="android.hardware.usb.host" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- For Android 9 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!--for Android 13+; API >= 33-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" /> -->
+    <!-- <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>  for Android 8+ -->
 
     <application
         android:allowBackup="true"
@@ -20,7 +23,7 @@
         android:theme="@style/AppTheme"
         android:resizeableActivity="true"
         android:supportsPictureInPicture="true"
-        tools:ignore="GoogleAppIndexingWarning">  <!-- <- IDK WTF, RTFM MB -->
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -32,7 +35,8 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!-- TODO: ADD CUSTOM INTENTS WE USE -->
@@ -42,8 +46,8 @@
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
                 <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
+                <action android:name="com.blogspot.developersu.ns_usbloader.SERVICE_TRANSFER_TASK_FINISHED" />
             </intent-filter>
-
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
@@ -64,20 +68,9 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".NsBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.blogspot.developersu.ns_usbloader.SERVICE_TRANSFER_TASK_FINISHED" />
-                <!--
-                <action android:name="com.blogspot.developersu.ns_usbloader.ACTION_USB_PERMISSION" />
-                <action android:name="com.blogspot.developersu.ns_usbloader.RISE_NOTIFICATION_OR_ACTIVITY" /> to handle if not handled by internally-registered receiver of MainActivity
-                -->
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".service.CommunicationsService"
-                 android:exported="false" />
+        <service android:name=".service.TransferService"
+                 android:exported="false"
+                 android:foregroundServiceType="dataSync"/>
     </application>
 
 </manifest>

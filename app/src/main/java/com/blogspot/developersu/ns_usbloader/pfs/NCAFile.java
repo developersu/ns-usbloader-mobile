@@ -1,11 +1,10 @@
 package com.blogspot.developersu.ns_usbloader.pfs;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import static com.blogspot.developersu.ns_usbloader.DataConvertUtils.intToArrLE;
 
 /**
- * Data class to hold NCA, tik, xml etc. meta-information
- * */
+ * Data class to hold NCA, tik, XML etc. meta-information
+ */
 public class NCAFile {
     //private int ncaNumber;
     private byte[] ncaFileName;
@@ -13,13 +12,34 @@ public class NCAFile {
     private long ncaSize;
 
     //public void setNcaNumber(int ncaNumber){ this.ncaNumber = ncaNumber; }
-    public void setNcaFileName(byte[] ncaFileName) { this.ncaFileName = ncaFileName; }
-    public void setNcaOffset(long ncaOffset) { this.ncaOffset = ncaOffset; }
-    public void setNcaSize(long ncaSize) { this.ncaSize = ncaSize; }
+
+    public void setNcaFileName(byte[] ncaFileName) {
+        this.ncaFileName = ncaFileName;
+    }
+
+    public void setNcaOffset(long ncaOffset) {
+        this.ncaOffset = ncaOffset;
+    }
+
+    public void setNcaSize(long ncaSize) {
+        this.ncaSize = ncaSize;
+    }
 
     //public int getNcaNumber() {return this.ncaNumber; }
-    public byte[] getNcaFileName() { return ncaFileName; }
-    public byte[] getNcaFileNameLength() { return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ncaFileName.length).array(); }
-    public long getNcaOffset() { return ncaOffset; }
-    public long getNcaSize() { return ncaSize; }
+
+    public byte[] getNcaFileName() {
+        return ncaFileName;
+    }
+
+    public byte[] getNcaFileNameLength() {
+        return intToArrLE(ncaFileName.length);
+    }
+
+    public long getNcaOffset() {
+        return ncaOffset;
+    }
+
+    public long getNcaSize() {
+        return ncaSize;
+    }
 }

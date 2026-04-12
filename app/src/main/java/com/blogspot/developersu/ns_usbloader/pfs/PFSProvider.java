@@ -1,15 +1,23 @@
 package com.blogspot.developersu.ns_usbloader.pfs;
 
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.*;
+import static com.blogspot.developersu.ns_usbloader.DataConvertUtils.arrToIntLE;
+import static com.blogspot.developersu.ns_usbloader.DataConvertUtils.arrToLongLE;
+import static com.blogspot.developersu.ns_usbloader.DataConvertUtils.intToArrLE;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Used in GoldLeaf USB protocol
  * */
 public class PFSProvider {
-    private static final byte[] PFS0 = new byte[]{(byte)0x50, (byte)0x46, (byte)0x53, (byte)0x30};  // PFS0, and what did you think?
+    private static final byte[] PFS0 = new byte[]{0x50, 0x46, 0x53, 0x30};
 
     private BufferedInputStream bufferedInStream;
     private String nspFileName;
@@ -20,16 +28,13 @@ public class PFSProvider {
     public PFSProvider(InputStream inputStream, String nspFileName){
         if (inputStream == null || nspFileName == null)
             return;
-        this.bufferedInStream = new BufferedInputStream(inputStream);      // TODO: refactor?
+        this.bufferedInStream = new BufferedInputStream(inputStream); // TODO: consider refactoring
         this.nspFileName = nspFileName;
     }
     
     public boolean init() {
         if (nspFileName == null || bufferedInStream == null)
             return false;
-
-        int filesCount;
-        int stringTableSize;
 
         try {
             byte[] fileStartingBytes = new byte[12];
@@ -43,15 +48,15 @@ public class PFSProvider {
                 bufferedInStream.close();
                 return false;
             }
-            // Get files count
-            filesCount = ByteBuffer.wrap(Arrays.copyOfRange(fileStartingBytes, 4, 8)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+
+            int filesCount = arrToIntLE(fileStartingBytes, 4);
             if (filesCount <= 0 ) {
                 bufferedInStream.close();
                 return false;
             }
-            // Get stringTableSize
-            stringTableSize = ByteBuffer.wrap(Arrays.copyOfRange(fileStartingBytes, 8, 12)).order(ByteOrder.LITTLE_ENDIAN).getInt();
-            if (stringTableSize <= 0 ){
+
+            int stringTableSize = arrToIntLE(fileStartingBytes, 8);
+            if (stringTableSize <= 0 ) {
                 bufferedInStream.close();
                 return false;
             }
@@ -59,23 +64,19 @@ public class PFSProvider {
             // Create NCA set
             this.ncaFiles = new NCAFile[filesCount];
             // Collect files from NSP
-            byte[] ncaInfoArr = new byte[24];   // should be unsigned long, but.. java.. u know my pain man
+            byte[] ncaInfoArr = new byte[24];   // should be unsigned long
 
             HashMap<Integer, Long> ncaNameOffsets = new LinkedHashMap<>();
 
-            long nca_offset;
-            long nca_size;
-            long nca_name_offset;
-
-            for (int i=0; i < filesCount; i++){
+            for (int i=0; i < filesCount; i++) {
                 if (bufferedInStream.read(ncaInfoArr) != 24) {
                     bufferedInStream.close();
                     return false;
                 }
 
-                nca_offset = ByteBuffer.wrap(Arrays.copyOfRange(ncaInfoArr, 4, 12)).order(ByteOrder.LITTLE_ENDIAN).getLong();
-                nca_size = ByteBuffer.wrap(Arrays.copyOfRange(ncaInfoArr, 12, 20)).order(ByteOrder.LITTLE_ENDIAN).getLong();
-                nca_name_offset = ByteBuffer.wrap(Arrays.copyOfRange(ncaInfoArr, 20, 24)).order(ByteOrder.LITTLE_ENDIAN).getInt(); // yes, cast from int to long.
+                long nca_offset = arrToLongLE(ncaInfoArr, 4);
+                long nca_size = arrToLongLE(ncaInfoArr, 12);
+                long nca_name_offset = arrToIntLE(ncaInfoArr, 20); // cast int → long.
 
                 NCAFile ncaFile = new NCAFile();
                 ncaFile.setNcaOffset(nca_offset);
@@ -91,14 +92,14 @@ public class PFSProvider {
 
             // Calculate position including stringTableSize for body size offset
             //bodySize = bufferedInStream.getFilePointer()+stringTableSize;
-            bodySize = filesCount*24+16+stringTableSize;
+            bodySize = filesCount*24L+16+stringTableSize;
             //*********************************************************************************************
             bufferedInStream.mark(stringTableSize);
             // Collect file names from NCAs
-            List<Byte> ncaFN;                 // Temporary
+
             byte[] b = new byte[1];                 // Temporary
-            for (int i=0; i < filesCount; i++){
-                ncaFN = new ArrayList<>();
+            for (int i=0; i < filesCount; i++) {
+                List<Byte> ncaFN = new ArrayList<>();
                 if (bufferedInStream.skip(ncaNameOffsets.get(i)) != ncaNameOffsets.get(i)) // Files cont * 24(bit for each meta-data) + 4 bytes goes after all of them  + 12 bit what were in the beginning
                     return false;
                 while ((bufferedInStream.read(b)) != -1){
@@ -114,7 +115,7 @@ public class PFSProvider {
                     exchangeTempArray[j] = ncaFN.get(j);
                 // Find and store ticket (.tik)
                 if (new String(exchangeTempArray, "UTF-8").toLowerCase().endsWith(".tik"))
-                    this.ticketID = i;
+                    ticketID = i;
                 this.ncaFiles[i].setNcaFileName(Arrays.copyOf(exchangeTempArray, exchangeTempArray.length));
 
                 bufferedInStream.reset();
@@ -127,52 +128,41 @@ public class PFSProvider {
         return true;
     }
     /**
-     * Return file name as byte array
+     * File name as byte array
      * */
     public byte[] getBytesNspFileName(){
         return nspFileName.getBytes();
     }
     /**
-     * Return file name as String
-     * */
-    /*  Legacy code; leave for now
-    public String getStringNspFileName(){
-        return nspFileName;
-    }
-    */
-    /**
-     * Return file name length as byte array
+     * File name length as byte array
      * */
     public byte[] getBytesNspFileNameLength(){
-        return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(getBytesNspFileName().length).array();
+        return intToArrLE(getBytesNspFileName().length);
     }
     /**
-     * Return NCA count inside of file as byte array
+     * NCA count inside of file as byte array
      * */
     public byte[] getBytesCountOfNca(){
-        return ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ncaFiles.length).array();
+        return intToArrLE(ncaFiles.length);
     }
     /**
-     * Return NCA count inside of file as int
+     * NCA count inside of file as int
      * */
     public int getIntCountOfNca(){
         return ncaFiles.length;
     }
     /**
-     * Return requested-by-number NCA file inside of file
+     * Requested-by-number NCA file inside of file
      * */
     public NCAFile getNca(int ncaNumber){
         return ncaFiles[ncaNumber];
     }
-    /**
-     * Return bodySize
-     * */
+
     public long getBodySize(){
         return bodySize;
     }
     /**
-     * Return special NCA file: ticket
-     * (sugar)
+     * Special NCA file: ticket
      * */
     public int getNcaTicketID(){
         return ticketID;

@@ -1,114 +1,109 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.ResultReceiver;
+import static com.blogspot.developersu.ns_usbloader.service.TransferService.CHANNEL_ID;
+import static java.util.Objects.requireNonNull;
 
+import android.app.Notification;
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.blogspot.developersu.ns_usbloader.MainActivity;
-import com.blogspot.developersu.ns_usbloader.NsConstants;
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
-abstract class TransferTask {
+import java.util.ArrayList;
 
-    private final static boolean isModernAndroidOs = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
-    private NotificationManager notificationManager;
+public abstract class TransferTask implements Runnable {
 
-    private NotificationCompat.Builder notificationBuilder;
+    private static final String TAG = TransferTask.class.getSimpleName();
 
-    private ResultReceiver resultReceiver;
-    Context context;
+    public static final int FOREGROUND_NOTIFICATION_ID = 1;
 
-    String issueDescription;
-    String status = "";
+    protected ArrayList<NSPElement> nspElements;
+    protected String status;
 
-    volatile boolean interrupt;
+    protected final Context context;
 
-    TransferTask(ResultReceiver resultReceiver, Context context){
-        this.interrupt = false;
-        this.resultReceiver = resultReceiver;
+    private final Consumer<ArrayList<NSPElement>> serviceCallback;
+
+    public TransferTask(Context context,
+                        ArrayList<NSPElement> nspElements,
+                        Consumer<ArrayList<NSPElement>> serviceCallback) {
         this.context = context;
+        this.nspElements = nspElements;
+        this.serviceCallback = serviceCallback;
+        this.status = context.getResources().getString(R.string.status_unkown);;
+    }
 
-        this.createNotificationChannel();
-        this.notificationBuilder = new NotificationCompat.Builder(context, NsConstants.NOTIFICATION_FOREGROUND_SERVICE_CHAN_ID)
+    @NonNull
+    public Notification buildInitialNotification() {
+        return new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
-                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0));
+                .setProgress(100, 0, true)
+                .build();
     }
 
-    String getIssueDescription() {
-        return issueDescription;
-    }
-
-    String getStatus() {
-        return status;
-    }
-
-    void resetProgressBar(){
-        resultReceiver.send(NsConstants.NS_RESULT_PROGRESS_INDETERMINATE, Bundle.EMPTY);
-        resetNotificationProgressBar();
-    }
-
-    void updateProgressBar(int currentPosition){
-        Bundle bundle = new Bundle();
-        bundle.putInt("POSITION", currentPosition);
-        resultReceiver.send(NsConstants.NS_RESULT_PROGRESS_VALUE, bundle);
-        updateNotificationProgressBar(currentPosition);
-    }
-    /**
-     * Main work routine here
-     * @return true if issue, false if not
-     * */
-    abstract boolean run();
-    /**
-     * What shall we do in case of user interruption
-     * */
-    void cancel(){
-        interrupt = true;
-    }
-
-    private void updateNotificationProgressBar(int value){
-        final Notification notify = notificationBuilder.setProgress(100, value, false).setContentText(value+"%").build();
-        if (isModernAndroidOs) {
-            notificationManager.notify(NsConstants.NOTIFICATION_TRANSFER_ID, notify);
-            return;
+    @Override
+    public void run() {
+        try {
+            doTransfer();
+            Toast.makeText(context, context.getString(R.string.transfers_service_stopped), Toast.LENGTH_SHORT)
+                    .show();
         }
-        NotificationManagerCompat.from(context).notify(NsConstants.NOTIFICATION_TRANSFER_ID, notify);
-    }
-
-    private void resetNotificationProgressBar(){
-        final Notification notify = notificationBuilder.setProgress(0, 0, true).setContentText("").build();
-
-        if (isModernAndroidOs) {
-            notificationManager.notify(NsConstants.NOTIFICATION_TRANSFER_ID, notify);
-            return;
+        catch (Exception e) {
+            Log.e(TAG, requireNonNull(e.getMessage()));
+            Toast.makeText(context, context.getString(R.string.transfers_service_stopped) + " " + e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
         }
-        NotificationManagerCompat.from(context).notify(NsConstants.NOTIFICATION_TRANSFER_ID, notify);
-    }
-
-    private void createNotificationChannel(){
-        if (isModernAndroidOs) {
-            CharSequence notificationChanName = context.getString(R.string.notification_chan_name_progress);
-            String notificationChanDesc = context.getString(R.string.notification_chan_desc_progress);
-
-            NotificationChannel notificationChannel = new NotificationChannel(
-                    NsConstants.NOTIFICATION_FOREGROUND_SERVICE_CHAN_ID,
-                    notificationChanName,
-                    NotificationManager.IMPORTANCE_LOW);
-            notificationChannel.setDescription(notificationChanDesc);
-            notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
+        finally {
+            close();
+            serviceCallback.accept(nspElements);
+            //removeNotification();
         }
     }
+
+    protected abstract void doTransfer() throws Exception;
+    protected abstract void close();
+
+    protected void updateProgressBar(long currentOffset, long count) {
+        updateProgressBar((int) (currentOffset/(count/100.0)));
+    }
+
+    protected void updateProgressBar(int progress) {
+        updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentText(progress+"%")
+                //.setContentTitle(context.getString(R.string.notification_transfer_in_progress))
+                //.setSmallIcon(R.drawable.ic_notification)
+                //.setOngoing(true)
+                .setProgress(100, progress, false) //indeterminate=false → прогресс-бар
+                .build());
+    }
+    protected void resetProgressBar() {
+        updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentText("")
+                .setProgress(100, 0, true)
+                .build());
+    }
+
+    private void updateNotification(Notification notification) {
+        try {
+            NotificationManagerCompat.from(context).notify(FOREGROUND_NOTIFICATION_ID, notification);
+        }
+        catch (SecurityException se) {
+            Log.e(TAG, requireNonNull(se.getMessage()));
+        }
+    }
+/*
+    private void removeNotification() {
+        NotificationManagerCompat.from(context).cancel(FOREGROUND_NOTIFICATION_ID);
+    }
+ */
 }

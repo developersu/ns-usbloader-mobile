@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 
-public class NsResultReciever extends ResultReceiver {
+public class NsResultReceiver extends ResultReceiver {
 
     public interface Receiver{
         void onReceiveResults(int code, Bundle bundle);
@@ -12,7 +12,7 @@ public class NsResultReciever extends ResultReceiver {
 
     private Receiver mReceiver;
 
-    public NsResultReciever(Handler handler) {
+    public NsResultReceiver(Handler handler) {
         super(handler);
     }
 

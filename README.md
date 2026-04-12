@@ -31,7 +31,7 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 
 #### USB
 
-1. Open Awoo Installer/Tinfoil/GoldLeaf v0.5
+1. Open Awoo Installer/GoldLeaf v0.5
 2. Connect NS to Android device using OTG cable.
 3. Allow interaction request. Application opens.
 4. Click 'hamburger' menu-button and select application you'd like to use.
@@ -42,7 +42,7 @@ Note: use short usb cable.
 
 #### WiFi
 
-For installation over the Net (Tinfoil):
+For installation over the Net (Awoo and similar):
 1. Connect to WiFi
 2. Setup 90DNS or whatever you use
 3. Open Awoo Installer, select installation over the net
@@ -55,7 +55,7 @@ If you're Samsung owner, it would be better to not rotating your phone during tr
 ### Other notes
 
 'Status' = 'Uploaded' that appears in the table does not mean that file has been installed. It means that it has been sent to NS without any issues! That's what this app about. 
-Handling successful/failed installation is a purpose of the other side application: TinFoil/GoldLeaf v0.5. And they don't provide any feedback interfaces so I can't detect success/failure.
+Handling successful/failed installation is a purpose of the other side application: Awoo Installer/GoldLeaf v0.5. And they don't provide any feedback interfaces so I can't detect success/failure.
 
 #### Contributors and Translators
 
@@ -77,11 +77,7 @@ If you like this app, just give a star.
 
 If you want to make a donation*, refer to this page:
 
-<a href="https://liberapay.com/developersu/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
-
-<a href="https://paypal.me/developersu" title="PayPal"><img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" border="0" alt="PayPal Logo" /></a>
-
-[Yandex.Money](https://money.yandex.ru/to/410014301951665)
+[Boosty](https://boosty.to/developersu)
 
 
-*Please note! This is non-commercial application.
+*Note: this is non-commercial application

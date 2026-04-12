@@ -23,7 +23,7 @@
     <string name="title_activity_about">程式相關說明</string>
     <string name="about_line_2">本程式<a href="https://www.gnu.org/licenses/gpl-3.0.html">依據GNU公共授權條款GPLv3(或更新版本)</a>開發.</string>
     <string name="about_line_3">程式開發: Dmitry Isaenko.</string>
-    <string name="about_line_4">程式首頁: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_4">程式首頁: <a href="https://redrise.ru">https://redrise.ru</a>, <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">翻譯人員: </string>
     <string name="about_line_6">如果本程式對你有助益,請在程式的GitHub頁面上按星號加分,也歡迎贊助我們(金額隨意)</string>
     <string name="popup_incorrect_file">檔案錯誤</string>

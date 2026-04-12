@@ -14,12 +14,14 @@ import androidx.appcompat.widget.Toolbar;
 
 
 public class AboutActivity extends AppCompatActivity {
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if (item.getItemId() == android.R.id.home)
             finish();
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,26 +42,12 @@ public class AboutActivity extends AppCompatActivity {
         final TextView tContributors = findViewById(R.id.textViewContributorsNames);
         tContributors.setMovementMethod(LinkMovementMethod.getInstance());
 
-        ImageView donateLibera = findViewById(R.id.donateLiberaImageView);
-        donateLibera.setOnClickListener(this::donateLiberaOnClickAction);
-
-        ImageView donatePaypal = findViewById(R.id.donatePaypalImageView);
-        donatePaypal.setOnClickListener(this::donatePaypalOnClickAction);
-
-        ImageView donateYandex = findViewById(R.id.donateYandexImageView);
-        donateYandex.setOnClickListener(this::donateYandexOnClickAction);
+        ImageView donateLibera = findViewById(R.id.donateBoostyImageView);
+        donateLibera.setOnClickListener(this::donateBoostyLink);
     }
 
-    private void donateLiberaOnClickAction(View view){
-        String url = "https://liberapay.com/developersu/donate";
-        createOpenBrowserIntent(url);
-    }
-    private void donatePaypalOnClickAction(View view){
-        String url = "https://www.paypal.me/developersu";
-        createOpenBrowserIntent(url);
-    }
-    private void donateYandexOnClickAction(View view){
-        String url = "https://money.yandex.ru/to/410014301951665";
+    private void donateBoostyLink(View view){
+        String url = "https://boosty.to/developersu";
         createOpenBrowserIntent(url);
     }
     private void createOpenBrowserIntent(String url){

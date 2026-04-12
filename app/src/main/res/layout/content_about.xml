@@ -104,30 +104,13 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <ImageView
-            android:id="@+id/donateLiberaImageView"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/donateBoostyImageView"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
             android:layout_gravity="center"
-            android:contentDescription="Donate Liberapay"
             android:padding="10dp"
-            app:srcCompat="@drawable/ic_donate_libera" />
+            android:contentDescription="Donate Boosty"
+            app:srcCompat="@drawable/ic_donate_boosty" />
 
-        <ImageView
-            android:id="@+id/donatePaypalImageView"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="Donate Paypal"
-            android:padding="10dp"
-            app:srcCompat="@drawable/ic_donate_paypal" />
-
-        <ImageView
-            android:id="@+id/donateYandexImageView"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="Donate Yandex Money"
-            android:padding="10dp"
-            app:srcCompat="@drawable/ic_donate_yandex" />
     </LinearLayout>
 </ScrollView>

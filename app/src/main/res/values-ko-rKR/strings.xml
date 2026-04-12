@@ -23,7 +23,7 @@
     <string name="about_line_1" translatable="false">NS-USBloader 모바일</string>
     <string name="about_line_2">이 응용 프로그램은 <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</a> 또는 이후 버전에 따라 사용이 허가되었습니다.</string>
     <string name="about_line_3">제작자: Dmitry Isaenko.</string>
-    <string name="about_line_4">홈 페이지: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_4">홈 페이지: <a href="https://redrise.ru">https://redrise.ru</a>, <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">"번역가: "</string>
     <string name="about_line_6">이 응용 프로그램이 유용하다고 생각되면, 여러분이\GitHub 페이지에서 별을 주는 것을 환영합니다. 홈 페이지에 대한 자세한 정보. 기부 (선택 사항):</string>
     <string name="popup_incorrect_file">잘못된 파일</string>

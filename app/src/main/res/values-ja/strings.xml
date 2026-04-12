@@ -27,7 +27,7 @@
     <string name="about_line_1">NS-USBローダーモバイル</string>
     <string name="about_line_2">このアプリケーションは <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3 の下でライセンス</a> またはそれ以降のバージョンでライセンスされています。</string>
     <string name="about_line_3">作者: Dmitry Isaenko.</string>
-    <string name="about_line_4">ホームページ: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_4">ホームページ: <a href="https://redrise.ru">https://redrise.ru</a>, <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_5">"翻訳者:"</string>
     <string name="about_line_6">このアプリケーションが役に立った場合は、GitHub ページでスターを付けてください。 詳しくはホームページで。 寄付 (オプション):</string>
     <string name="popup_incorrect_file">不正なファイル</string>

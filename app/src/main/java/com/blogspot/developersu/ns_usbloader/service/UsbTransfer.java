@@ -1,13 +1,17 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
+import static java.lang.Thread.currentThread;
+
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
-import android.os.ResultReceiver;
 
+import com.blogspot.developersu.ns_usbloader.view.NSPElement;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 abstract class UsbTransfer extends TransferTask {
@@ -17,57 +21,54 @@ abstract class UsbTransfer extends TransferTask {
     private UsbEndpoint epIn;
     private UsbEndpoint epOut;
 
-    UsbTransfer(ResultReceiver resultReceiver, Context context, UsbDevice usbDevice, UsbManager usbManager) throws Exception{
-        super(resultReceiver, context);
+    protected UsbTransfer(Context context,
+                          ArrayList<NSPElement> nspElements,
+                          Consumer<ArrayList<NSPElement>> serviceCallback,
+                          UsbDevice usbDevice,
+                          UsbManager usbManager) throws Exception{
+        super(context, nspElements, serviceCallback);
 
         if (usbManager == null) {
-            finish();
+            close();
             return;
         }
 
         usbInterface = usbDevice.getInterface(0);
         epIn = usbInterface.getEndpoint(0); // For bulk read
         epOut = usbInterface.getEndpoint(1); // For bulk write
-
         deviceConnection = usbManager.openDevice(usbDevice);
 
         if ( ! deviceConnection.claimInterface(usbInterface, false)) {
-            issueDescription = "USB: failed to claim interface";
             throw new Exception("USB: failed to claim interface");
         }
     }
 
     /**
-     * Sending any byte array to USB device
-     * @return 'false' if no issues
-     *          'true' if errors happened
+     * Send byte array to USB-device
      * */
-    boolean writeUsb(byte[] message){
-        int bytesWritten;
-        while (! interrupt){
-            bytesWritten = deviceConnection.bulkTransfer(epOut, message, message.length, 5050); // timeout 0 - unlimited
-            if (bytesWritten != 0)
-                return (bytesWritten != message.length);
+    protected void writeUsb(byte[] message, String errorMessage) throws Exception {
+        while (! currentThread().isInterrupted()) {                        // timeout 0 → unlimited
+            int bytesSent = deviceConnection.bulkTransfer(epOut, message, message.length, 5050);
+            if (bytesSent != message.length)
+                throw new Exception(errorMessage);
         }
-        return false;
     }
+
     /**
-     * Reading what USB device responded.
-     * @return byte array if data read successful
-     *         'null' if read failed
+     * Read USB-device response
      * */
-    byte[] readUsb(){
+    protected byte[] readUsb(String errorMessage) throws Exception {
         byte[] readBuffer = new byte[512];
-        int readResult;
-        while (! interrupt) {
-            readResult = deviceConnection.bulkTransfer(epIn, readBuffer, 512, 1000); // timeout 0 - unlimited
+        while (! currentThread().isInterrupted()) {
+            int readResult = deviceConnection.bulkTransfer(epIn, readBuffer, 512, 1000);
             if (readResult > 0)
                 return Arrays.copyOf(readBuffer, readResult);
         }
-        return null;
+        throw new Exception(errorMessage);
     }
 
-    void finish(){
+    @Override
+    protected void close() {
         deviceConnection.releaseInterface(usbInterface);
         deviceConnection.close();
     }

@@ -20,7 +20,7 @@
     <string name="popup_incorrect_file">FIle non corretto</string>
     <string name="about_line_6">Se trovi questa applicazione utile puoi venire a darci una stella sulla pagina del progetto su GitHub. Maggiori informazioni in homepage: Donazioni (opzionali):</string>
     <string name="about_line_5">Traduttori:</string>
-    <string name="about_line_4">Homepage: <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_4">Homepage: <a href="https://redrise.ru">https://redrise.ru</a>, <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_3">Autore: Dmitry Isaenko.</string>
     <string name="about_line_2">Questa applicazione è rilasciata con <a href="https://www.gnu.org/licenses/gpl-3.0.html">licenza GNU GPLv3</a> o successive.</string>
     <string name="transfer_protocol">Connessione</string>
