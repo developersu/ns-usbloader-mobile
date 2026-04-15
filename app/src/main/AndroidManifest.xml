@@ -34,7 +34,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
             <intent-filter>
