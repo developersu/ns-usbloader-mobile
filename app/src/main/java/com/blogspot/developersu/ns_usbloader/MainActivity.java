@@ -24,7 +24,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -106,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements
         intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         intentFilter.addAction(REQUEST_NS_ACCESS_INTENT);
         intentFilter.addAction(SERVICE_TRANSFER_TASK_FINISHED_INTENT);
-        ContextCompat.registerReceiver(getApplicationContext(),
-                innerBroadcastReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
+        ContextCompat.registerReceiver(this, innerBroadcastReceiver, intentFilter,
+                ContextCompat.RECEIVER_EXPORTED);
         nsResultReceiver.setReceiver(this);
         blockUI(TransferService.isActive());
     }
@@ -274,10 +273,8 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Log.e("DMITRY", "VERSION MATCH!");
             if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
-                Log.e("DMITRY", "ERROR!");
                 finish();
                 return;
             }
