@@ -6,8 +6,8 @@ android {
     defaultConfig {
         applicationId "com.blogspot.developersu.ns_usbloader"
         minSdkVersion 15
-        versionCode 7
-        versionName "5.0"
+        versionCode 8
+        versionName "6.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
     }
