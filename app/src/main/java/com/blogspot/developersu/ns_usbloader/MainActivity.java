@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements
         else if (R.id.nav_settings == item.getItemId()) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
-        else {//if (R.id.nav_about == item.getItemId())
+        else if (R.id.nav_about == item.getItemId()) {
             startActivity(new Intent(this, AboutActivity.class));
         }
 
@@ -286,8 +286,9 @@ public class MainActivity extends AppCompatActivity implements
     }
     /**
      * @see MainActivity#onCreate
+     * TODO: move to separate class
      * */
-    private void setSwipeFunctionsToView(){
+    private void setSwipeFunctionsToView() {
         ItemTouchHelper.Callback ithCallBack = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView,
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements
 
         updateUploadBtnState();  // Enable upload button
     }
-    private void uploadFiles(){
+    private void uploadFiles() {
         ArrayList<NSPElement> NSPElementsToSend = new ArrayList<>();
         for (NSPElement element: nspElements){
             if (element.isSelected())
