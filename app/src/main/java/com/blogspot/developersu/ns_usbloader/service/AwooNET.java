@@ -1,7 +1,6 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
 import static android.content.Context.WIFI_SERVICE;
-
 import static java.lang.Thread.currentThread;
 
 import android.content.Context;
@@ -31,6 +30,7 @@ import java.util.Locale;
 
 class AwooNET extends TransferTask {
 
+    private final static int NS_PORT = 2000;
     private Socket handShakeSocket;
     private OutputStream currentSocketOutStream;
     private PrintWriter currentSocketWriter;
@@ -64,7 +64,7 @@ class AwooNET extends TransferTask {
         serverSocket = createServerSocket();
     }
     private String encodeNspName(NSPElement element) throws UnsupportedEncodingException {
-        return URLEncoder.encode(element.getFilename(), "UTF-8").replaceAll("\\+", "%20"); // replaces '+' to '%20'
+        return URLEncoder.encode(element.getFilename(), "UTF-8").replaceAll("\\+", "%20");
     }
     private String resolvePhoneIp() throws Exception {
         WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
@@ -98,7 +98,6 @@ class AwooNET extends TransferTask {
             byte[] handshakeCommandSize = ByteBuffer
                     .allocate(4)
                     .putInt(handshakeCommand.length).array(); // defining order; Integer size = 4 bytes
-
             sendHandshake(handshakeCommandSize, handshakeCommand);
             serveRequestsLoop();
             status = context.getResources().getString(R.string.status_uploaded);
@@ -131,8 +130,7 @@ class AwooNET extends TransferTask {
         try {
             handShakeSocket = new Socket();
             handShakeSocket.connect(
-                    new InetSocketAddress(InetAddress.getByName(nsIp), 2000),
-                    1000); // e.g. 1sec
+                    new InetSocketAddress(InetAddress.getByName(nsIp), NS_PORT), 1000); // e.g. 1sec
             OutputStream outStream = handShakeSocket.getOutputStream();
             outStream.write(commandSize);
             outStream.write(command);
@@ -162,9 +160,9 @@ class AwooNET extends TransferTask {
                 if (line.trim().isEmpty()) {          // If TCP packet is ended
                     handleRequest(tcpPacket);         // Proceed required things
                     tcpPacket.clear();                // Clear data and wait for next TCP packet
+                    continue;
                 }
-                else
-                    tcpPacket.add(line);              // Otherwise collect data
+                tcpPacket.add(line);              // Otherwise collect data
             }
             clientSocket.close();
         }
@@ -174,15 +172,15 @@ class AwooNET extends TransferTask {
      * Handle requests
      * 200, 206, 400 (invalid range), 404, 416 (Range Not Satisfiable)
      * */
-    private void handleRequest(LinkedList<String> packet) throws Exception{
-        if (packet.get(0).startsWith("DROP")){
+    private void handleRequest(LinkedList<String> packet) throws Exception {
+        if (packet.get(0).startsWith("DROP")) {
             currentThread().interrupt();
             return;
         }
 
         String reqFileName = packet.get(0).replaceAll("(^[A-z\\s]+/)|(\\s+?.*$)", "");
 
-        if (! files.containsKey(reqFileName)){
+        if (! files.containsKey(reqFileName)) {
             writeToSocket(reply.get404());
             return;
         }
@@ -190,7 +188,7 @@ class AwooNET extends TransferTask {
 
         long reqFileSize = requestedElement.getSize();
 
-        if (reqFileSize == 0){   //  404 reply for existing file with 0 length saves time
+        if (reqFileSize == 0) {   //  404 reply for existing file with 0 length saves time
             writeToSocket(reply.get404());
             requestedElement.setStatus(context.getResources().getString(R.string.status_failed_to_upload));
             return;
@@ -201,7 +199,7 @@ class AwooNET extends TransferTask {
         }
         if (packet.get(0).startsWith("GET")) {
             for (String line: packet) {
-                if (line.toLowerCase().startsWith("range")){
+                if (line.toLowerCase().startsWith("range")) {
                     parseGetRange(requestedElement, reqFileSize, line);
                     return;
                 }
@@ -218,7 +216,7 @@ class AwooNET extends TransferTask {
                     .replaceAll("^range:\\s+?bytes=", "")
                     .split("-", 2);
 
-            if (! rangeStr[0].isEmpty()){
+            if (! rangeStr[0].isEmpty()) {
                 if (rangeStr[1].isEmpty()) {
                     writeToSocket(requestedElement, Long.parseLong(rangeStr[0]), fileSize);
                     return;
@@ -226,7 +224,7 @@ class AwooNET extends TransferTask {
 
                 long fromRange = Long.parseLong(rangeStr[0]);
                 long toRange = Long.parseLong(rangeStr[1]);
-                if (fromRange > toRange){ // If start bytes greater than end bytes
+                if (fromRange > toRange) { // If start bytes greater than end bytes
                     writeToSocket(reply.get400());
                     requestedElement.setStatus(context.getResources().getString(R.string.status_failed_to_upload));
                     return;

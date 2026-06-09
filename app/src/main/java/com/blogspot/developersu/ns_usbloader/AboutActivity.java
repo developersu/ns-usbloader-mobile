@@ -1,5 +1,7 @@
 package com.blogspot.developersu.ns_usbloader;
 
+import static java.util.Objects.requireNonNull;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,7 +30,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         final TextView t1 = findViewById(R.id.textView1);
         t1.append(" v"+BuildConfig.VERSION_NAME);
         final TextView t2 = findViewById(R.id.textView2);

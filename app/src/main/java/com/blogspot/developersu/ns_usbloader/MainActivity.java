@@ -1,20 +1,26 @@
 package com.blogspot.developersu.ns_usbloader;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_NSP_LIST;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_NS_DEVICE;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_PROTOCOL;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_GL_USB;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_NET;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_NS_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_PORT;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_PROGRESS_INDETERMINATE;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_RECEIVER;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_CONTENT_LIST;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_DEVICE;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_PORT;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PROTOCOL;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.REQUEST_NS_ACCESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsUtils.nsSnack;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -24,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -49,8 +56,10 @@ import com.blogspot.developersu.ns_usbloader.model.NsResultReceiver;
 import com.blogspot.developersu.ns_usbloader.service.TransferService;
 import com.blogspot.developersu.ns_usbloader.view.ApplicationTheme;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
+import com.blogspot.developersu.ns_usbloader.view.NsMainIntentFilter;
 import com.blogspot.developersu.ns_usbloader.view.NspItemsAdapter;
 import com.blogspot.developersu.ns_usbloader.view.NspViewHolder;
+import com.blogspot.developersu.ns_usbloader.model.ProtocolSelector;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -60,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements
         NsResultReceiver.Receiver,
         NavigationView.OnNavigationItemSelectedListener  {
 
-    private static final int ADD_NSP_INTENT_CODE = 1;
+    private static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    private static final boolean IS_AFTER_TIRAMISU = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
 
     private RecyclerView recyclerView;
     private NspItemsAdapter nspItemsAdapter;
@@ -70,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements
             uploadToNsBtn;
     private ProgressBar progressBarMain;
     private NavigationView drawerNavView;
+    private ProtocolSelector selector;
     private NsResultReceiver nsResultReceiver;
     private UsbHelper usbHelper;
 
@@ -100,12 +111,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onResume();
         // Configure intent to receive attached NS (moved from 'onReceive()')
         innerBroadcastReceiver = new InnerBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
-        intentFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        intentFilter.addAction(REQUEST_NS_ACCESS_INTENT);
-        intentFilter.addAction(SERVICE_TRANSFER_TASK_FINISHED_INTENT);
-        ContextCompat.registerReceiver(this, innerBroadcastReceiver, intentFilter,
+        ContextCompat.registerReceiver(this, innerBroadcastReceiver, new NsMainIntentFilter(),
                 ContextCompat.RECEIVER_EXPORTED);
         nsResultReceiver.setReceiver(this);
         blockUI(TransferService.isActive());
@@ -117,22 +123,7 @@ public class MainActivity extends AppCompatActivity implements
         unregisterReceiver(innerBroadcastReceiver);
         SharedPreferences.Editor preferencesEditor =
                 getSharedPreferences("NSUSBloader", MODE_PRIVATE).edit();
-
-        MenuItem checkedItem = drawerNavView.getCheckedItem();
-
-        if (checkedItem != null) {
-            if (R.id.nav_tf_net == checkedItem.getItemId()) {
-                preferencesEditor.putInt("PROTOCOL", PROTO_TF_NET);
-            }
-            else if (R.id.nav_gl == checkedItem.getItemId()) {
-                preferencesEditor.putInt("PROTOCOL", PROTO_GL_USB);
-            }
-            else if (R.id.nav_tf_usb == checkedItem.getItemId()) {
-                preferencesEditor.putInt("PROTOCOL", PROTO_TF_USB);
-            }
-        }
-        else
-            preferencesEditor.putInt("PROTOCOL", PROTO_TF_USB);
+        preferencesEditor.putInt("PROTOCOL", selector.getSelected());
         preferencesEditor.apply();
         nsResultReceiver.setReceiver(null);
     }
@@ -184,25 +175,24 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        // Initialize ToolBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawerNavView = findViewById(R.id.nav_view);
+        selector = new ProtocolSelector(drawerNavView);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         drawerNavView.setNavigationItemSelectedListener(this);
-        // Initialize Progress Bar
         progressBarMain = findViewById(R.id.mainProgressBar);
 
         if (savedInstanceState != null) {
             nspElements = savedInstanceState.getParcelableArrayList("DATASET_LIST");
             usbHelper = savedInstanceState.getParcelable("USB_HELPER");
             usbHelper.restoreState(getApplicationContext());
-            drawerNavView.setCheckedItem(savedInstanceState.getInt("PROTOCOL", R.id.nav_tf_usb));
+            selector.select(savedInstanceState.getInt("PROTOCOL", R.id.nav_tf_usb));
             nsResultReceiver = savedInstanceState.getParcelable("RECEIVER");
         }
         else { //savedInstanceState == null
@@ -218,17 +208,7 @@ public class MainActivity extends AppCompatActivity implements
             SharedPreferences preferences = getSharedPreferences("NSUSBloader", MODE_PRIVATE);
             ApplicationTheme.setApplicationTheme(preferences.getInt("ApplicationTheme", 0));
 
-            switch (preferences.getInt("PROTOCOL", PROTO_TF_USB)) {
-                case PROTO_TF_NET:
-                    drawerNavView.setCheckedItem(R.id.nav_tf_net);
-                    break;
-                case PROTO_GL_USB:
-                    drawerNavView.setCheckedItem(R.id.nav_gl);
-                    break;
-                case PROTO_TF_USB:
-                default:
-                    drawerNavView.setCheckedItem(R.id.nav_tf_usb);
-            }
+            selector.select(preferences.getInt("PROTOCOL", PROTO_TF_USB));
             nsResultReceiver = new NsResultReceiver(new Handler()); // We will set callback in onResume and unset onPause
 
             getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -247,36 +227,40 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         nspItemsAdapter = new NspItemsAdapter(nspElements);
         recyclerView.setAdapter(nspItemsAdapter);
-        this.setSwipeFunctionsToView();
+        setSwipeFunctionsToView();
         // Select files button
         selectBtn = findViewById(R.id.buttonSelect);
 
-        ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+        ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
                 activityResult -> {
                     int requestCode = activityResult.getResultCode();
                     Intent data = activityResult.getData();
-                    if (requestCode != ADD_NSP_INTENT_CODE || data == null)
+                    if (requestCode != Activity.RESULT_OK || data == null)
                         return;
                     readFile(data);
                 });
 
         selectBtn.setOnClickListener(e -> {
-            Intent fileChooser = new Intent(Intent.ACTION_GET_CONTENT);
+            Intent fileChooser;
+            if (IS_AFTER_KIT_KAT)
+                fileChooser = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            else // older versions doesn't support ACTION_OPEN_DOCUMENT
+                fileChooser = new Intent(Intent.ACTION_GET_CONTENT);
             fileChooser.setType("application/octet-stream"); //fileChooser.setType("*/*"); ???
             resultLauncher.launch(Intent.createChooser(fileChooser, getString(R.string.select_file_btn)));
         });
         uploadToNsBtn = findViewById(R.id.buttonUpload);
 
-        Intent intent = getIntent();   //check if it's from file selected
-        if (savedInstanceState == null && intent.getData() != null) {
-            readFile(intent);
-        }
+        //check if it's from file selected
+        if (savedInstanceState == null)
+            readFile(getIntent());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (IS_AFTER_TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
                 finish();
-                return;
+                //return;
             }
         }
     }
@@ -326,28 +310,21 @@ public class MainActivity extends AppCompatActivity implements
         String fileName = NsUtils.getFileNameFromUri(uri, this);
         long fileSize = NsUtils.getFileSizeFromUri(uri, this);
 
-        if (fileName == null || fileSize < 0) {
+        if (fileName == null || fileSize < 0) { //TODO: if (fileName == null || fileSize <= 0) {
             NsUtils.getAlertWindow(this,
                     getResources().getString(R.string.popup_error),
                     getResources().getString(R.string.popup_incorrect_file));
             return;
         }
 
-        String fileExtension = fileName.replaceAll("^.*\\.", "").toLowerCase();
-        switch (fileExtension) {
-            case "nsp":
-            case "nsz":
-            case "xci":
-            case "xcz":
-                break;
-            default:
-                NsUtils.getAlertWindow(this,
-                        getResources().getString(R.string.popup_error),
-                        getResources().getString(R.string.popup_non_supported_format));
-                return;
+        if (NsUtils.isNotSupportedFileExtension(fileName)) {
+            NsUtils.getAlertWindow(this,
+                    getResources().getString(R.string.popup_error),
+                    getResources().getString(R.string.popup_non_supported_format));
+            return;
         }
 
-        for (NSPElement element: nspElements){
+        for (NSPElement element: nspElements) {
             if (element.getFilename().equals(fileName)) {
                 return;
             }
@@ -362,67 +339,49 @@ public class MainActivity extends AppCompatActivity implements
         updateUploadBtnState();  // Enable upload button
     }
     private void uploadFiles() {
-        ArrayList<NSPElement> NSPElementsToSend = new ArrayList<>();
-        for (NSPElement element: nspElements){
+        ArrayList<NSPElement> nspElementsToSend = new ArrayList<>();
+        for (NSPElement element: nspElements) {
             if (element.isSelected())
-                NSPElementsToSend.add(element);
+                nspElementsToSend.add(element);
         }
         // Do we have files to send?
-        if (NSPElementsToSend.isEmpty()){
+        if (nspElementsToSend.isEmpty()) {
             nsSnack(findViewById(android.R.id.content), getString(R.string.nothing_selected_message));
             return;
         }
-        // Do we have selected protocol?
-        if (drawerNavView.getCheckedItem() == null) {
-            nsSnack(findViewById(android.R.id.content), getString(R.string.no_protocol_selected_message));
-            return;
-        }
         Intent serviceStartIntent = new Intent(this, TransferService.class);
-        serviceStartIntent.putExtra(NsConstants.NS_RESULT_RECEIVER, nsResultReceiver);
-        serviceStartIntent.putParcelableArrayListExtra(NS_SERVICE_CONTENT_NSP_LIST, NSPElementsToSend);
-        // Is it TF Net transfer?
-        if (drawerNavView.getCheckedItem().getItemId() == R.id.nav_tf_net) {
-            serviceStartIntent.putExtra(NS_SERVICE_CONTENT_PROTOCOL, PROTO_TF_NET);
+        serviceStartIntent.putExtra(NS_RESULT_RECEIVER, nsResultReceiver);
+        serviceStartIntent.putParcelableArrayListExtra(NSS_CONTENT_LIST, nspElementsToSend);
+        serviceStartIntent.putExtra(NSS_PROTOCOL, selector.getSelected());
+
+        if (selector.isNet()) {
             SharedPreferences sp = getSharedPreferences("NSUSBloader", MODE_PRIVATE);
 
-            serviceStartIntent.putExtra(NsConstants.NS_SERVICE_CONTENT_NS_DEVICE_IP, sp.getString("SNsIP", "192.168.1.42"));
-            if (sp.getBoolean("SAutoIP", true))
-                serviceStartIntent.putExtra(NsConstants.NS_SERVICE_CONTENT_PHONE_IP, "");
-            else
-                serviceStartIntent.putExtra(NsConstants.NS_SERVICE_CONTENT_PHONE_IP, sp.getString("SServerIP", "192.168.1.142"));
-            serviceStartIntent.putExtra(NsConstants.NS_SERVICE_CONTENT_PHONE_PORT, sp.getInt("SServerPort", 6042));
-            startService(serviceStartIntent);
-            blockUI(true);
-            return;
+            serviceStartIntent.putExtra(NSS_NS_IP, sp.getString("SNsIP", DEFAULT_NS_IP));
+            serviceStartIntent.putExtra(NSS_PHONE_IP, sp.getBoolean("SAutoIP", true)?
+                    "":
+                    sp.getString("SServerIP", DEFAULT_PHONE_IP));
+            serviceStartIntent.putExtra(NSS_PHONE_PORT, sp.getInt("SServerPort", DEFAULT_PHONE_PORT));
         }
-        // Ok, so it's something USB related. If device not connected:
-        UsbDevice usbDevice = usbHelper.get();
-        if (usbDevice == null) {
-            // If it's still not connected then it's really not connected.
-            NsUtils.getAlertWindow(this,
-                    getResources().getString(R.string.popup_error),
-                    getResources().getString(R.string.ns_not_found_in_connected));
-            return;
-        }
-        // If NS connected ask permissions (if not already)
-        if (usbHelper.isNotHavePermission(getApplicationContext()))
-            return;
-
-        int itemId = drawerNavView.getCheckedItem().getItemId();
-        if (itemId == R.id.nav_tf_usb)
-            serviceStartIntent.putExtra(NS_SERVICE_CONTENT_PROTOCOL, PROTO_TF_USB);
-        else if (itemId == R.id.nav_gl)
-            serviceStartIntent.putExtra(NS_SERVICE_CONTENT_PROTOCOL, PROTO_GL_USB);
         else {
-            nsSnack(findViewById(android.R.id.content), getString(R.string.unknown_protocol_error)); // ?_?
-            return;
+            UsbDevice usbDevice = usbHelper.get();
+            if (usbDevice == null) {
+                // If it's still not connected then it's really not connected.
+                NsUtils.getAlertWindow(this,
+                        getResources().getString(R.string.popup_error),
+                        getResources().getString(R.string.ns_not_found_in_connected));
+                return;
+            }
+            // If NS connected ask permissions (if not already) TODO: add toast
+            if (usbHelper.isNotHavePermission(getApplicationContext()))
+                return;
+            serviceStartIntent.putExtra(NSS_NS_DEVICE, usbDevice);
         }
-        serviceStartIntent.putExtra(NS_SERVICE_CONTENT_NS_DEVICE, usbDevice);
         startService(serviceStartIntent);
         blockUI(true);
     }
 
-    private void blockUI(boolean shouldBlock){
+    private void blockUI(boolean shouldBlock) {
         selectBtn.setEnabled(!shouldBlock);
         recyclerView.suppressLayout(shouldBlock);
         Drawable uploadBtnDrawable = ContextCompat.getDrawable(this, shouldBlock?
@@ -450,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements
      * */
     @Override
     public void onReceiveResults(int code, Bundle bundle) {
-        if (code == NsConstants.NS_RESULT_PROGRESS_INDETERMINATE)
+        if (code == NS_RESULT_PROGRESS_INDETERMINATE)
             progressBarMain.setIndeterminate(true);
         else {  // else NsConstants.NS_RESULT_PROGRESS_VALUE
             //if (progressBarMain.isIndeterminate())
@@ -486,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements
                     break;
                 case SERVICE_TRANSFER_TASK_FINISHED_INTENT:
                     ArrayList<NSPElement> nspElementsFromIntent =
-                            intent.getParcelableArrayListExtra(NS_SERVICE_CONTENT_NSP_LIST);
+                            intent.getParcelableArrayListExtra(NSS_CONTENT_LIST);
                     if (nspElementsFromIntent == null)
                         break;
                     for (int i = 0; i < nspElements.size(); i++) {

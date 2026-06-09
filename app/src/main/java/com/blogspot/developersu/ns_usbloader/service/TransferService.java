@@ -1,11 +1,11 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_NSP_LIST;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_NS_DEVICE;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_NS_DEVICE_IP;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_PHONE_IP;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_PHONE_PORT;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_SERVICE_CONTENT_PROTOCOL;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_CONTENT_LIST;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_DEVICE;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_PORT;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PROTOCOL;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_GL_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_NET;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
@@ -47,9 +47,9 @@ public class TransferService extends Service {
             return START_NOT_STICKY;
         }
 
-        int protocol = intent.getIntExtra(NS_SERVICE_CONTENT_PROTOCOL, PROTO_UNKNOWN);
+        int protocol = intent.getIntExtra(NSS_PROTOCOL, PROTO_UNKNOWN);
         ArrayList<NSPElement> nspElements = requireNonNull(
-                intent.getParcelableArrayListExtra(NS_SERVICE_CONTENT_NSP_LIST));
+                intent.getParcelableArrayListExtra(NSS_CONTENT_LIST));
         for (NSPElement nsp: nspElements)
             nsp.setStatus("");
 
@@ -74,14 +74,14 @@ public class TransferService extends Service {
         UsbDevice usbDevice;
         switch (protocol) {
             case PROTO_TF_USB:
-                usbDevice = intent.getParcelableExtra(NS_SERVICE_CONTENT_NS_DEVICE);
+                usbDevice = intent.getParcelableExtra(NSS_NS_DEVICE);
                 return new AwooUSB(getApplicationContext(),
                         nspElements,
                         this::finish,
                         usbDevice,
                         (UsbManager) getSystemService(Context.USB_SERVICE));
             case PROTO_GL_USB:
-                usbDevice = intent.getParcelableExtra(NS_SERVICE_CONTENT_NS_DEVICE);
+                usbDevice = intent.getParcelableExtra(NSS_NS_DEVICE);
                 return new GoldLeaf(getApplicationContext(),
                         nspElements,
                         this::finish,
@@ -91,9 +91,9 @@ public class TransferService extends Service {
                 return new AwooNET(getApplicationContext(),
                         nspElements,
                         this::finish,
-                        intent.getStringExtra(NS_SERVICE_CONTENT_NS_DEVICE_IP),
-                        intent.getStringExtra(NS_SERVICE_CONTENT_PHONE_IP),
-                        intent.getIntExtra(NS_SERVICE_CONTENT_PHONE_PORT, 6042));
+                        intent.getStringExtra(NSS_NS_IP),
+                        intent.getStringExtra(NSS_PHONE_IP),
+                        intent.getIntExtra(NSS_PHONE_PORT, 6042));
             default:
                 throw new Exception("Incorrectly defined protocol "+protocol);
         }
@@ -102,7 +102,7 @@ public class TransferService extends Service {
     // Updates main activity; stops foreground service
     public void finish(ArrayList<NSPElement> nspElements) {
         Intent execFinishIntent = new Intent(SERVICE_TRANSFER_TASK_FINISHED_INTENT);
-        execFinishIntent.putExtra(NS_SERVICE_CONTENT_NSP_LIST, nspElements);
+        execFinishIntent.putExtra(NSS_CONTENT_LIST, nspElements);
         sendBroadcast(execFinishIntent);
 
         stopForeground(true);

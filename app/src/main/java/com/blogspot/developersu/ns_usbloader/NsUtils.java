@@ -52,4 +52,17 @@ public class NsUtils {
                 .create()
                 .show();
     }
+
+    public static boolean isNotSupportedFileExtension(String fileName) {
+        String fileExtension = fileName.replaceAll("^.*\\.", "").toLowerCase();
+        switch (fileExtension) {
+            case "nsp":
+            case "nsz":
+            case "xci":
+            case "xcz":
+                return false;
+            default:
+                return true;
+        }
+    }
 }
