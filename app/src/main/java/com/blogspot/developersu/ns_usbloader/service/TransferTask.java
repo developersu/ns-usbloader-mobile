@@ -4,13 +4,16 @@ import static com.blogspot.developersu.ns_usbloader.service.TransferService.CHAN
 import static java.util.Objects.requireNonNull;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.blogspot.developersu.ns_usbloader.MainActivity;
 import com.blogspot.developersu.ns_usbloader.R;
 import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
 import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
@@ -37,7 +40,7 @@ public abstract class TransferTask implements Runnable {
         this.context = context;
         this.nspElements = nspElements;
         this.serviceCallback = serviceCallback;
-        this.status = context.getResources().getString(R.string.status_unkown);;
+        this.status = context.getResources().getString(R.string.status_unkown);
     }
 
     @NonNull
@@ -49,7 +52,19 @@ public abstract class TransferTask implements Runnable {
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setProgress(100, 0, true)
+                .setContentIntent(getPendingIntent()) // invoke activity appearance on click
                 .build();
+    }
+    /**
+     * Get MainActivity when user clicks on notification
+     * */
+    private PendingIntent getPendingIntent() {
+        Intent innerIntent = new Intent(context, MainActivity.class);
+        innerIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        innerIntent.setAction(Intent.ACTION_MAIN);
+        innerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        return PendingIntent.getActivity(context, 0, innerIntent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Override
@@ -81,15 +96,18 @@ public abstract class TransferTask implements Runnable {
     protected void updateProgressBar(int progress) {
         updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentText(progress+"%")
-                //.setContentTitle(context.getString(R.string.notification_transfer_in_progress))
-                //.setSmallIcon(R.drawable.ic_notification)
-                //.setOngoing(true)
+                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setOngoing(true)
                 .setProgress(100, progress, false) //indeterminate=false → прогресс-бар
                 .build());
     }
     protected void resetProgressBar() {
         updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentText("")
+                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setOngoing(true)
                 .setProgress(100, 0, true)
                 .build());
     }
