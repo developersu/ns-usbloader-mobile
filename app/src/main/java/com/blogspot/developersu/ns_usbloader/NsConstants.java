@@ -13,6 +13,9 @@ public class NsConstants {
     public static final String NSS_NS_IP = "DEVICE_IP";
     public static final String NSS_PHONE_IP = "PHONE_IP";
     public static final String NSS_PHONE_PORT = "PHONE_PORT";
+
+    public static final String NSS_FINAL_TOAST_TEXT = "FINAL_TOAST";
+    public static final String NSS_FINAL_TOAST_DURATION = "FINAL_TOAST_LENGTH";
     // Result Receiver possible codes
     public static final int NS_RESULT_PROGRESS_INDETERMINATE = -1;  // upper limit would be 0; value would be 0
     public static final int NS_RESULT_PROGRESS_VALUE = 0;

@@ -9,6 +9,8 @@ import android.hardware.usb.UsbManager;
 import android.net.Uri;
 
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
+import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
 import java.io.BufferedInputStream;
@@ -24,7 +26,7 @@ class AwooUSB extends UsbTransfer {
 
     AwooUSB(Context context,
             ArrayList<NSPElement> nspElements,
-            Consumer<ArrayList<NSPElement>> serviceCallback,
+            Consumer<ServiceResultingDataSet> serviceCallback,
             UsbDevice usbDevice,
             UsbManager usbManager) throws Exception {
         super(context, nspElements, serviceCallback, usbDevice, usbManager);

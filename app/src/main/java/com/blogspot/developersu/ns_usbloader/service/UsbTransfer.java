@@ -9,6 +9,8 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 
+import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
+import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ abstract class UsbTransfer extends TransferTask {
 
     protected UsbTransfer(Context context,
                           ArrayList<NSPElement> nspElements,
-                          Consumer<ArrayList<NSPElement>> serviceCallback,
+                          Consumer<ServiceResultingDataSet> serviceCallback,
                           UsbDevice usbDevice,
                           UsbManager usbManager) throws Exception{
         super(context, nspElements, serviceCallback);

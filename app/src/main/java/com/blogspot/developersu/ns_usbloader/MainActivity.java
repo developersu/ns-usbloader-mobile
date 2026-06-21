@@ -4,18 +4,21 @@ import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_PORT;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_PROGRESS_INDETERMINATE;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_RECEIVER;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_CONTENT_LIST;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_DURATION;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_TEXT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_DEVICE;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_PORT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PROTOCOL;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_PROGRESS_INDETERMINATE;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_RECEIVER;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.REQUEST_NS_ACCESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsUtils.nsSnack;
+import static com.blogspot.developersu.ns_usbloader.service.TransferService.ACTION_START_TRANSFER;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -30,11 +33,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -53,13 +56,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blogspot.developersu.ns_usbloader.model.NsResultReceiver;
+import com.blogspot.developersu.ns_usbloader.model.ProtocolSelector;
 import com.blogspot.developersu.ns_usbloader.service.TransferService;
 import com.blogspot.developersu.ns_usbloader.view.ApplicationTheme;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 import com.blogspot.developersu.ns_usbloader.view.NsMainIntentFilter;
 import com.blogspot.developersu.ns_usbloader.view.NspItemsAdapter;
 import com.blogspot.developersu.ns_usbloader.view.NspViewHolder;
-import com.blogspot.developersu.ns_usbloader.model.ProtocolSelector;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -331,27 +334,26 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         NSPElement element = new NSPElement(uri, fileName, fileSize);
-        if (drawerNavView.getCheckedItem() != null) // && drawerNavView.getCheckedItem().getItemId() != R.id.nav_gl
-            element.setSelected(true);
+        element.setSelected(true);
         nspElements.add(element);
         nspItemsAdapter.notifyDataSetChanged();
-
         updateUploadBtnState();  // Enable upload button
     }
     private void uploadFiles() {
-        ArrayList<NSPElement> nspElementsToSend = new ArrayList<>();
+        ArrayList<NSPElement> nspToSend = new ArrayList<>();
         for (NSPElement element: nspElements) {
             if (element.isSelected())
-                nspElementsToSend.add(element);
+                nspToSend.add(element);
         }
-        // Do we have files to send?
-        if (nspElementsToSend.isEmpty()) {
+
+        if (nspToSend.isEmpty()) {
             nsSnack(findViewById(android.R.id.content), getString(R.string.nothing_selected_message));
             return;
         }
         Intent serviceStartIntent = new Intent(this, TransferService.class);
+        serviceStartIntent.setAction(ACTION_START_TRANSFER);
         serviceStartIntent.putExtra(NS_RESULT_RECEIVER, nsResultReceiver);
-        serviceStartIntent.putParcelableArrayListExtra(NSS_CONTENT_LIST, nspElementsToSend);
+        serviceStartIntent.putParcelableArrayListExtra(NSS_CONTENT_LIST, nspToSend);
         serviceStartIntent.putExtra(NSS_PROTOCOL, selector.getSelected());
 
         if (selector.isNet()) {
@@ -400,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
         uploadToNsBtn.setText(R.string.upload_btn);
-        uploadToNsBtn.setOnClickListener(view -> uploadFiles() );
+        uploadToNsBtn.setOnClickListener(view -> uploadFiles());
         progressBarMain.setVisibility(ProgressBar.INVISIBLE);
         updateUploadBtnState();
     }
@@ -456,6 +458,11 @@ public class MainActivity extends AppCompatActivity implements
                     }
                     nspItemsAdapter.notifyDataSetChanged();
                     blockUI(false);
+
+                    String finalToastMessage = intent.getStringExtra(NSS_FINAL_TOAST_TEXT);
+                    int finalToastDuration = intent.getIntExtra(NSS_FINAL_TOAST_DURATION, Toast.LENGTH_SHORT);
+                    if (finalToastMessage != null)
+                        Toast.makeText(getApplicationContext(), finalToastMessage, finalToastDuration).show();
                     break;
             }
         }

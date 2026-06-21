@@ -6,13 +6,14 @@ import static java.util.Objects.requireNonNull;
 import android.app.Notification;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
+import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
 import java.util.ArrayList;
@@ -28,11 +29,11 @@ public abstract class TransferTask implements Runnable {
 
     protected final Context context;
 
-    private final Consumer<ArrayList<NSPElement>> serviceCallback;
+    private final Consumer<ServiceResultingDataSet> serviceCallback;
 
     public TransferTask(Context context,
                         ArrayList<NSPElement> nspElements,
-                        Consumer<ArrayList<NSPElement>> serviceCallback) {
+                        Consumer<ServiceResultingDataSet> serviceCallback) {
         this.context = context;
         this.nspElements = nspElements;
         this.serviceCallback = serviceCallback;
@@ -53,19 +54,19 @@ public abstract class TransferTask implements Runnable {
 
     @Override
     public void run() {
+        String finalToastMessage = context.getString(R.string.transfers_service_stopped);
+        boolean toastLengthShort = true;
         try {
             doTransfer();
-            Toast.makeText(context, context.getString(R.string.transfers_service_stopped), Toast.LENGTH_SHORT)
-                    .show();
         }
         catch (Exception e) {
             Log.e(TAG, requireNonNull(e.getMessage()));
-            Toast.makeText(context, context.getString(R.string.transfers_service_stopped) + " " + e.getMessage(), Toast.LENGTH_LONG)
-                    .show();
+            finalToastMessage = context.getString(R.string.transfers_service_stopped) + " " + e.getMessage();
+            toastLengthShort = false;
         }
         finally {
             close();
-            serviceCallback.accept(nspElements);
+            serviceCallback.accept(new ServiceResultingDataSet(nspElements, finalToastMessage, toastLengthShort));
             //removeNotification();
         }
     }

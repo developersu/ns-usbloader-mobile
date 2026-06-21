@@ -1,6 +1,8 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_CONTENT_LIST;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_DURATION;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_TEXT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_DEVICE;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
@@ -27,6 +29,7 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class TransferService extends Service {
             taskThread.start();
         }
         catch (Exception e) {
-            finish(nspElements);
+            finish(new ServiceResultingDataSet(nspElements, e.getMessage(), false));
         }
 
         return START_NOT_STICKY;
@@ -100,9 +103,11 @@ public class TransferService extends Service {
     }
 
     // Updates main activity; stops foreground service
-    public void finish(ArrayList<NSPElement> nspElements) {
+    public void finish(ServiceResultingDataSet set) {
         Intent execFinishIntent = new Intent(SERVICE_TRANSFER_TASK_FINISHED_INTENT);
-        execFinishIntent.putExtra(NSS_CONTENT_LIST, nspElements);
+        execFinishIntent.putExtra(NSS_CONTENT_LIST, set.getNspElements());
+        execFinishIntent.putExtra(NSS_FINAL_TOAST_TEXT, set.getFinalToastMessage());
+        execFinishIntent.putExtra(NSS_FINAL_TOAST_DURATION, set.getToastDuration());
         sendBroadcast(execFinishIntent);
 
         stopForeground(true);

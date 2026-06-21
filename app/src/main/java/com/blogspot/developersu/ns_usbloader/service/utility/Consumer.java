@@ -1,4 +1,4 @@
-package com.blogspot.developersu.ns_usbloader.service;
+package com.blogspot.developersu.ns_usbloader.service.utility;
 
 /**
  * Since Android added java.util.function.Consumer in API level 24 and I want API 15

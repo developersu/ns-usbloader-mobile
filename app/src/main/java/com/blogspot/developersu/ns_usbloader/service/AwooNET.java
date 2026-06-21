@@ -7,6 +7,8 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
+import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
 import java.io.BufferedInputStream;
@@ -46,7 +48,7 @@ class AwooNET extends TransferTask {
 
     AwooNET(Context context,
             ArrayList<NSPElement> nspElements,
-            Consumer<ArrayList<NSPElement>> serviceCallback,
+            Consumer<ServiceResultingDataSet> serviceCallback,
             String nsIp,
             String phoneIp,
             int phonePort) throws Exception {
@@ -144,7 +146,7 @@ class AwooNET extends TransferTask {
     }
 
     private void serveRequestsLoop() throws Exception {
-        while (currentThread().isInterrupted()) {
+        while (!currentThread().isInterrupted()) {
             Socket clientSocket = serverSocket.accept();
 
             BufferedReader reader = new BufferedReader(
