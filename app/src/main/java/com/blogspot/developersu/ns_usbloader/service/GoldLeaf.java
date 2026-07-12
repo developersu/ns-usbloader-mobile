@@ -40,10 +40,11 @@ class GoldLeaf extends UsbTransfer {
 
     GoldLeaf(Context context,
              ArrayList<NSPElement> nspElements,
+             Consumer<Integer> progressCallback,
              Consumer<ServiceResultingDataSet> serviceCallback,
              UsbDevice usbDevice,
              UsbManager usbManager) throws Exception {
-        super(context, nspElements, serviceCallback, usbDevice, usbManager);
+        super(context, nspElements, progressCallback, serviceCallback, usbDevice, usbManager);
         this.nspUri = nspElements.get(0).getUri();
         this.pfsElement = new PFSProvider(context.getContentResolver().openInputStream(nspUri),
                 nspElements.get(0).getFilename());

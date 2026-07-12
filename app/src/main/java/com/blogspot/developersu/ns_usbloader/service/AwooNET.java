@@ -48,11 +48,12 @@ class AwooNET extends TransferTask {
 
     AwooNET(Context context,
             ArrayList<NSPElement> nspElements,
+            Consumer<Integer> progressCallback,
             Consumer<ServiceResultingDataSet> serviceCallback,
             String nsIp,
             String phoneIp,
             int phonePort) throws Exception {
-        super(context, nspElements, serviceCallback);
+        super(context, nspElements, progressCallback, serviceCallback);
         this.reply = HttpReply.getInstance();
         this.nsIp = nsIp;
         this.phonePort = phonePort;

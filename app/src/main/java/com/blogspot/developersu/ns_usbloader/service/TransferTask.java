@@ -1,5 +1,6 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_PROGRESS_INDETERMINATE;
 import static com.blogspot.developersu.ns_usbloader.service.TransferService.CHANNEL_ID;
 import static java.util.Objects.requireNonNull;
 
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 public abstract class TransferTask implements Runnable {
 
     private static final String TAG = TransferTask.class.getSimpleName();
-
     public static final int FOREGROUND_NOTIFICATION_ID = 1;
 
     protected ArrayList<NSPElement> nspElements;
@@ -32,19 +32,23 @@ public abstract class TransferTask implements Runnable {
 
     protected final Context context;
 
-    private final Consumer<ServiceResultingDataSet> serviceCallback;
+    private final Consumer<Integer> progressCallback;
+    private final Consumer<ServiceResultingDataSet> finishCallback;
 
     public TransferTask(Context context,
                         ArrayList<NSPElement> nspElements,
-                        Consumer<ServiceResultingDataSet> serviceCallback) {
+                        Consumer<Integer> progressCallback,
+                        Consumer<ServiceResultingDataSet> finishCallback) {
         this.context = context;
         this.nspElements = nspElements;
-        this.serviceCallback = serviceCallback;
+        this.progressCallback = progressCallback;
+        this.finishCallback = finishCallback;
         this.status = context.getResources().getString(R.string.status_unkown);
+
     }
 
     @NonNull
-    public Notification buildInitialNotification() {
+    public Notification getNotification() {
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
                 .setSmallIcon(R.drawable.ic_notification)
@@ -59,10 +63,10 @@ public abstract class TransferTask implements Runnable {
      * Get MainActivity when user clicks on notification
      * */
     private PendingIntent getPendingIntent() {
-        Intent innerIntent = new Intent(context, MainActivity.class);
-        innerIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        innerIntent.setAction(Intent.ACTION_MAIN);
-        innerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Intent innerIntent = new Intent(context, MainActivity.class)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .setAction(Intent.ACTION_MAIN)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         return PendingIntent.getActivity(context, 0, innerIntent, PendingIntent.FLAG_IMMUTABLE);
     }
@@ -81,7 +85,7 @@ public abstract class TransferTask implements Runnable {
         }
         finally {
             close();
-            serviceCallback.accept(new ServiceResultingDataSet(nspElements, finalToastMessage, toastLengthShort));
+            finishCallback.accept(new ServiceResultingDataSet(nspElements, finalToastMessage, toastLengthShort));
             //removeNotification();
         }
     }
@@ -94,31 +98,10 @@ public abstract class TransferTask implements Runnable {
     }
 
     protected void updateProgressBar(int progress) {
-        updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentText(progress+"%")
-                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
-                .setSmallIcon(R.drawable.ic_notification)
-                .setOngoing(true)
-                .setProgress(100, progress, false) //indeterminate=false → прогресс-бар
-                .build());
+        progressCallback.accept(progress);
     }
     protected void resetProgressBar() {
-        updateNotification(new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentText("")
-                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
-                .setSmallIcon(R.drawable.ic_notification)
-                .setOngoing(true)
-                .setProgress(100, 0, true)
-                .build());
-    }
-
-    private void updateNotification(Notification notification) {
-        try {
-            NotificationManagerCompat.from(context).notify(FOREGROUND_NOTIFICATION_ID, notification);
-        }
-        catch (SecurityException se) {
-            Log.e(TAG, requireNonNull(se.getMessage()));
-        }
+        progressCallback.accept(NS_RESULT_PROGRESS_INDETERMINATE);
     }
 /*
     private void removeNotification() {

@@ -12,11 +12,11 @@ import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_PORT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PROTOCOL;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_PROGRESS_INDETERMINATE;
-import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_RESULT_RECEIVER;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_PROGRESS;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.REQUEST_NS_ACCESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_PROGRESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsUtils.nsSnack;
 import static com.blogspot.developersu.ns_usbloader.service.TransferService.ACTION_START_TRANSFER;
 
@@ -32,7 +32,7 @@ import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -55,7 +55,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blogspot.developersu.ns_usbloader.model.NsResultReceiver;
 import com.blogspot.developersu.ns_usbloader.model.ProtocolSelector;
 import com.blogspot.developersu.ns_usbloader.service.TransferService;
 import com.blogspot.developersu.ns_usbloader.view.ApplicationTheme;
@@ -69,7 +68,6 @@ import java.util.ArrayList;
 
 // TODO: add ImageAsset for notification icon in addition to of SVG-like
 public class MainActivity extends AppCompatActivity implements
-        NsResultReceiver.Receiver,
         NavigationView.OnNavigationItemSelectedListener  {
 
     private static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements
     private ProgressBar progressBarMain;
     private NavigationView drawerNavView;
     private ProtocolSelector selector;
-    private NsResultReceiver nsResultReceiver;
     private UsbHelper usbHelper;
 
     static {
@@ -99,9 +96,8 @@ public class MainActivity extends AppCompatActivity implements
         outState.putParcelable("USB_HELPER", usbHelper);
         MenuItem checkedItem = drawerNavView.getCheckedItem();
         outState.putInt("PROTOCOL", checkedItem != null ?
-                checkedItem.getItemId() :
+                checkedItem.getItemId():
                 R.id.nav_tf_usb);
-        outState.putParcelable("RECEIVER", nsResultReceiver);
     }
 
     @Override
@@ -116,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements
         innerBroadcastReceiver = new InnerBroadcastReceiver();
         ContextCompat.registerReceiver(this, innerBroadcastReceiver, new NsMainIntentFilter(),
                 ContextCompat.RECEIVER_EXPORTED);
-        nsResultReceiver.setReceiver(this);
         blockUI(TransferService.isActive());
     }
 
@@ -128,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements
                 getSharedPreferences("NSUSBloader", MODE_PRIVATE).edit();
         preferencesEditor.putInt("PROTOCOL", selector.getSelected());
         preferencesEditor.apply();
-        nsResultReceiver.setReceiver(null);
     }
 
     @Override
@@ -196,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements
             usbHelper = savedInstanceState.getParcelable("USB_HELPER");
             usbHelper.restoreState(getApplicationContext());
             selector.select(savedInstanceState.getInt("PROTOCOL", R.id.nav_tf_usb));
-            nsResultReceiver = savedInstanceState.getParcelable("RECEIVER");
         }
         else { //savedInstanceState == null
             UsbDevice ns = getIntent().getParcelableExtra(UsbManager.EXTRA_DEVICE);    // If it's started initially, then check if it's started from notification.
@@ -212,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements
             ApplicationTheme.setApplicationTheme(preferences.getInt("ApplicationTheme", 0));
 
             selector.select(preferences.getInt("PROTOCOL", PROTO_TF_USB));
-            nsResultReceiver = new NsResultReceiver(new Handler()); // We will set callback in onResume and unset onPause
 
             getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
                 @Override
@@ -352,7 +344,6 @@ public class MainActivity extends AppCompatActivity implements
         }
         Intent serviceStartIntent = new Intent(this, TransferService.class);
         serviceStartIntent.setAction(ACTION_START_TRANSFER);
-        serviceStartIntent.putExtra(NS_RESULT_RECEIVER, nsResultReceiver);
         serviceStartIntent.putParcelableArrayListExtra(NSS_CONTENT_LIST, nspToSend);
         serviceStartIntent.putExtra(NSS_PROTOCOL, selector.getSelected());
 
@@ -406,19 +397,6 @@ public class MainActivity extends AppCompatActivity implements
         progressBarMain.setVisibility(ProgressBar.INVISIBLE);
         updateUploadBtnState();
     }
-    /**
-     * Handle service updates
-     * */
-    @Override
-    public void onReceiveResults(int code, Bundle bundle) {
-        if (code == NS_RESULT_PROGRESS_INDETERMINATE)
-            progressBarMain.setIndeterminate(true);
-        else {  // else NsConstants.NS_RESULT_PROGRESS_VALUE
-            //if (progressBarMain.isIndeterminate())
-            //    progressBarMain.setIndeterminate(false);
-            progressBarMain.setProgress(bundle.getInt("POSITION"));
-        }
-    }
 
     /**
      * Handle broadcast intents
@@ -445,13 +423,23 @@ public class MainActivity extends AppCompatActivity implements
                     usbHelper.setNsDetached();
                     stopService(new Intent(context, TransferService.class));
                     break;
+                case SERVICE_TRANSFER_TASK_PROGRESS_INTENT:
+                    int value = intent.getIntExtra(NS_PROGRESS, -1);
+                    Log.i("DMI 111 ", ""+value);
+                    if (value < 0)
+                        progressBarMain.setIndeterminate(true);
+                    else {
+                        progressBarMain.setIndeterminate(false);
+                        progressBarMain.setProgress(value);
+                    }
+                    break;
                 case SERVICE_TRANSFER_TASK_FINISHED_INTENT:
                     ArrayList<NSPElement> nspElementsFromIntent =
                             intent.getParcelableArrayListExtra(NSS_CONTENT_LIST);
                     if (nspElementsFromIntent == null)
                         break;
                     for (int i = 0; i < nspElements.size(); i++) {
-                        for (NSPElement receivedNSPe : nspElementsFromIntent) {
+                        for (NSPElement receivedNSPe: nspElementsFromIntent) {
                             if (receivedNSPe.getFilename().equals(nspElements.get(i).getFilename()))
                                 nspElements.get(i).setStatus(receivedNSPe.getStatus());
                         }

@@ -25,10 +25,11 @@ abstract class UsbTransfer extends TransferTask {
 
     protected UsbTransfer(Context context,
                           ArrayList<NSPElement> nspElements,
+                          Consumer<Integer> progressCallback,
                           Consumer<ServiceResultingDataSet> serviceCallback,
                           UsbDevice usbDevice,
                           UsbManager usbManager) throws Exception{
-        super(context, nspElements, serviceCallback);
+        super(context, nspElements, progressCallback, serviceCallback);
 
         if (usbManager == null) {
             close();

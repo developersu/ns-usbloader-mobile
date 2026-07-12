@@ -8,11 +8,13 @@ import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PHONE_PORT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_PROTOCOL;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.NS_PROGRESS;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_GL_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_NET;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_UNKNOWN;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT;
+import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_PROGRESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.service.TransferTask.FOREGROUND_NOTIFICATION_ID;
 import static java.util.Objects.requireNonNull;
 
@@ -27,6 +29,8 @@ import android.hardware.usb.UsbManager;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.blogspot.developersu.ns_usbloader.R;
 import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
@@ -36,7 +40,7 @@ import java.util.ArrayList;
 
 public class TransferService extends Service {
 
-    //private static final String TAG = CommunicationsService.class.getSimpleName();
+    private static final String TAG = TransferService.class.getSimpleName();
     public static final String ACTION_START_TRANSFER = "com.blogspot.developersu.ns_usbloader.START_TRANSFER";
     public static final String CHANNEL_ID = "com.blogspot.developersu.ns_usbloader.CHAN_ID_FOREGROUND_SERVICE";
 
@@ -61,7 +65,7 @@ public class TransferService extends Service {
             taskThread = new Thread(task);
             createNotificationChannel();
             // Start foreground with notification
-            Notification notification = task.buildInitialNotification();
+            Notification notification = task.getNotification();
             startForeground(FOREGROUND_NOTIFICATION_ID, notification);
             taskThread.start();
         }
@@ -80,6 +84,7 @@ public class TransferService extends Service {
                 usbDevice = intent.getParcelableExtra(NSS_NS_DEVICE);
                 return new AwooUSB(getApplicationContext(),
                         nspElements,
+                        this::progressUpdate,
                         this::finish,
                         usbDevice,
                         (UsbManager) getSystemService(Context.USB_SERVICE));
@@ -87,12 +92,14 @@ public class TransferService extends Service {
                 usbDevice = intent.getParcelableExtra(NSS_NS_DEVICE);
                 return new GoldLeaf(getApplicationContext(),
                         nspElements,
+                        this::progressUpdate,
                         this::finish,
                         usbDevice,
                         (UsbManager) getSystemService(Context.USB_SERVICE));
             case PROTO_TF_NET:
                 return new AwooNET(getApplicationContext(),
                         nspElements,
+                        this::progressUpdate,
                         this::finish,
                         intent.getStringExtra(NSS_NS_IP),
                         intent.getStringExtra(NSS_PHONE_IP),
@@ -102,14 +109,29 @@ public class TransferService extends Service {
         }
     }
 
+    public void progressUpdate(int progress) {
+        Context context = getApplicationContext();
+        boolean isIndeterminate = progress < 0;
+        sendBroadcast(new Intent(SERVICE_TRANSFER_TASK_PROGRESS_INTENT)
+                .putExtra(NS_PROGRESS, progress));
+
+        NotificationManagerCompat.from(context)
+                .notify(FOREGROUND_NOTIFICATION_ID, (
+                        new NotificationCompat.Builder(context, CHANNEL_ID)
+                                .setContentText(isIndeterminate?"":progress+"%")
+                                .setContentTitle(context.getString(R.string.notification_transfer_in_progress))
+                                .setSmallIcon(R.drawable.ic_notification)
+                                .setOngoing(true)
+                                .setProgress(100, progress, isIndeterminate)
+                                .build()));
+    }
+
     // Updates main activity; stops foreground service
     public void finish(ServiceResultingDataSet set) {
-        Intent execFinishIntent = new Intent(SERVICE_TRANSFER_TASK_FINISHED_INTENT);
-        execFinishIntent.putExtra(NSS_CONTENT_LIST, set.getNspElements());
-        execFinishIntent.putExtra(NSS_FINAL_TOAST_TEXT, set.getFinalToastMessage());
-        execFinishIntent.putExtra(NSS_FINAL_TOAST_DURATION, set.getToastDuration());
-        sendBroadcast(execFinishIntent);
-
+        sendBroadcast(new Intent(SERVICE_TRANSFER_TASK_FINISHED_INTENT)
+                .putExtra(NSS_CONTENT_LIST, set.getNspElements())
+                .putExtra(NSS_FINAL_TOAST_TEXT, set.getFinalToastMessage())
+                .putExtra(NSS_FINAL_TOAST_DURATION, set.getToastDuration()));
         stopForeground(true);
         stopSelf();
     }
