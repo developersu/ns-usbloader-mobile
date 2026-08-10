@@ -19,10 +19,19 @@ import java.util.Arrays;
 
 class AwooUSB extends UsbTransfer {
 
-    private final byte[] magic = new byte[] { 0x54, 0x55, 0x43, 0x30 };         // eq. 'TUC0'
-    private final byte[] replyConstArray = new byte[] { 0x54, 0x55, 0x43, 0x30, // 'TUC0'
+    private static final int CHUNK_SIZE = 16384;
+
+    private static final byte[] TUL0  = "TUL0".getBytes();
+    private static final byte[] PADDING = new byte[8];
+    private static final String MAGIC = "TUC0";
+    private static final byte[] STANDARD_REPLY = new byte[] { 0x54, 0x55, 0x43, 0x30, // 'TUC0'
                                                         0x01, 0x00, 0x00, 0x00, // CMD_TYPE_RESPONSE = 1
                                                         0x01, 0x00, 0x00, 0x00  };
+    private static final byte[] TWELVE_ZERO_BYTES = new byte[12];
+
+    private static final byte CMD_EXIT = 0x00;
+    private static final byte CMD_FILE_RANGE_DEFAULT = 0x01;
+    private static final byte CMD_FILE_RANGE_ALTERNATIVE = 0x02;
 
     AwooUSB(Context context,
             ArrayList<NSPElement> nspElements,
@@ -35,7 +44,7 @@ class AwooUSB extends UsbTransfer {
 
     @Override
     protected void doTransfer() throws Exception {
-        sendListOfNSP();
+        sendListOfFiles();
         proceedCommands();
         status = context.getResources().getString(R.string.status_uploaded);
         for (NSPElement element: nspElements) {
@@ -43,88 +52,97 @@ class AwooUSB extends UsbTransfer {
         }
     }
 
-    private void sendListOfNSP() throws Exception {
-        writeUsb("TUL0".getBytes(), "AW Send list of files: handshake failure");
+    private void sendListOfFiles() throws Exception {
+        byte[] fileNames = buildFileNamesToSend();
+        byte[] fileNamesSize = intToArrLE(fileNames.length);
 
-        //Collect file names: add every title to stringBuilder
-        StringBuilder nspNamesStringBuilder = new StringBuilder();
+        writeUsb(TUL0, "AW Send list of files: handshake");
+        writeUsb(fileNamesSize, "AW Send list of files: list length");
+        writeUsb(PADDING, "AW Send list of files: padding");
+        writeUsb(fileNames, "AW Send list of files: list itself");
+    }
+    private byte[] buildFileNamesToSend() {
+        StringBuilder namesBuilder = new StringBuilder();
         for(NSPElement element: nspElements) {
-            nspNamesStringBuilder.append(element.getFilename());  // Note: default string encoding: UTF-16
-            nspNamesStringBuilder.append('\n');
+            namesBuilder
+                    .append(element.getFilename())   // Note: default string encoding: UTF-16
+                    .append('\n');
         }
-
-        byte[] nspNames = nspNamesStringBuilder.toString().getBytes(); // android .getBytes() is UTF8
-        byte[] nspListSize = intToArrLE(nspNames.length);
-
-        writeUsb(nspListSize, "AW Send list of files: [send list length]");
-        writeUsb(new byte[8], "AW Send list of files: [send padding]");
-        writeUsb(nspNames, "AW Send list of files: [send list itself]");
+        return namesBuilder.toString().getBytes(); // android .getBytes() is UTF8
     }
 
     private void proceedCommands() throws Exception {
         while (true) {
-            byte[] receivedArray = readUsb("Proceed commands read exception");
+            byte[] deviceReply = readUsb("Proceed commands read exception");
 
-            // Bytes from 0 to 3 should contain 'magic' TUC0, so must be verified like this
-            if (!Arrays.equals(Arrays.copyOfRange(receivedArray, 0,4), magic))
+            if (isInvalidReply(deviceReply))
                 continue;
 
             // 8th to 12th(excl) bytes in returned data stands for command ID as unsigned integer (Little-endian).
             // Actually, we have to compare arrays here, but in real world it can't be greater than 0/1/2
             // Protocol also specifies 4th byte to be 0x00 kinda indicating command is valid, but we ignore it
-            if (receivedArray[8] == 0x00) {   // 0x00 - exit
-                return;                  // All interaction with USB device should be ended (expected);
-            }                                 // 0x01 - file range; 0x02 — unknown bug
-            else if ((receivedArray[8] == 0x01) || (receivedArray[8] == 0x02)) {
-                fileRangeCmd();
+            switch (deviceReply[8]) {
+                case CMD_EXIT:
+                    return;
+                case CMD_FILE_RANGE_DEFAULT:
+                case CMD_FILE_RANGE_ALTERNATIVE:
+                    fileRangeCmd();
             }
         }
     }
+    private boolean isInvalidReply(byte[] reply) {
+        return ! MAGIC.equals(new String(reply, 0,4));
+    }
 
     private void fileRangeCmd() throws Exception {
-        byte[] receivedArray = readUsb("AW Unable to get meta information @fileRangeCmd()");
+        byte[] readData = readUsb("AW Failed getting meta");
 
-        // range_offset of the requested file. At first will be 0x10.
-        long receivedRangeSize = arrToLongLE(receivedArray, 0);
-        byte[] receivedRangeSizeRAW = Arrays.copyOfRange(receivedArray, 0,8);
-        long receivedRangeOffset = arrToLongLE(receivedArray, 8);
+        byte[] sizeAsBytes = Arrays.copyOfRange(readData, 0,8);
+        long size = arrToLongLE(readData, 0);
+        long offset = arrToLongLE(readData, 8);
+        String fileName = new String(readUsb("AW Failed getting file name"), "UTF-8");
+        /*
+        Log.i("fileRangeCmd", String.format("\nReply to: %s" +
+                        "%n         Offset: %-20d 0x%x" +
+                        "%n         Size:   %-20d 0x%x",
+                fileName,
+                offset, offset,
+                size, size));
+         */
+        // Send response header
+        sendFileMetadata(sizeAsBytes);
 
-        // Requesting UTF-8 file name required:
-        receivedArray = readUsb("AW Unable to get file name fileRangeCmd()");
-        String requestedNspName = new String(receivedArray, "UTF-8");
+        try (BufferedInputStream inStream = new BufferedInputStream(
+                context.getContentResolver().openInputStream(findUriByName(fileName)))) {
+            if (inStream.skip(offset) != offset)
+                throw new Exception("AW Requested skip is out of file size. Nothing to transmit");
 
-        // Send response header. receivedRangeSize in 'RAW' format as received
-        writeUsb(replyConstArray, "AW Response: [1/3]");
-        writeUsb(receivedRangeSizeRAW, "AW Response: [2/3]");
-        writeUsb(new byte[12], "AW Response: [3/3]");
+            long currentOffset = 0;     // 'End Offset' == receivedRangeSize
+            int chunk = CHUNK_SIZE;
+            int updateProgressPeriods = 0;
 
-        BufferedInputStream bufferedInStream = new BufferedInputStream(
-                context.getContentResolver().openInputStream(findUriByName(requestedNspName)));
+            while (currentOffset < size) {
+                if ((currentOffset + chunk) >= size)
+                    chunk = (int)(size - currentOffset); // TODO: consider revising
 
-        if (bufferedInStream.skip(receivedRangeOffset) != receivedRangeOffset)
-            throw new Exception("AW Requested skip is out of file size. Nothing to transmit");
+                byte[] readBuf = new byte[chunk];
 
-        long readFrom = 0;     // 'End Offset' == receivedRangeSize
-        int readPice = 16384;  // 8388608 = 8Mb
-        int updateProgressPeriods = 0;
+                if (inStream.read(readBuf) != chunk)
+                    throw new Exception("AW Reading of stream suddenly ended");
 
-        while (readFrom < receivedRangeSize) {
-            if ((readFrom + readPice) >= receivedRangeSize)
-                readPice = (int)(receivedRangeSize - readFrom); // TODO: consider revising
+                writeUsb(readBuf, "AW Failure during NSP transmission.");
+                currentOffset += chunk;
 
-            byte[] readBuf = new byte[readPice];
-            if (bufferedInStream.read(readBuf) != readPice)
-                throw new Exception("AW Reading of stream suddenly ended");
-
-            writeUsb(readBuf, "AW Failure during NSP transmission.");
-            readFrom += readPice;
-
-            if (updateProgressPeriods++ % 1024 == 0)       // Update progress per each 16mb
-                updateProgressBar((int) ((readFrom+1)/(receivedRangeSize/100+1)));
+                if (updateProgressPeriods++ % 1024 == 0)       // Update progress per each 16mb
+                    updateProgressBar((int) ((currentOffset+1)/(size/100+1)));
+            }
         }
-        bufferedInStream.close();
-
         resetProgressBar();
+    }
+    private void sendFileMetadata(byte[] sizeAsBytes) throws Exception{
+        writeUsb(STANDARD_REPLY, "AW Response: [1/3]");
+        writeUsb(sizeAsBytes, "AW Response: [2/3]");
+        writeUsb(TWELVE_ZERO_BYTES, "AW Response: [3/3]");
     }
 
     private Uri findUriByName(String name) throws Exception {

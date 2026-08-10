@@ -50,9 +50,11 @@ abstract class UsbTransfer extends TransferTask {
      * Send byte array to USB-device
      * */
     protected void writeUsb(byte[] message, String errorMessage) throws Exception {
-        while (! currentThread().isInterrupted()) {                        // timeout 0 → unlimited
-            int bytesSent = deviceConnection.bulkTransfer(epOut, message, message.length, 5050);
-            if (bytesSent != message.length)
+        if (currentThread().isInterrupted())
+            return;
+
+        int bytesSent = deviceConnection.bulkTransfer(epOut, message, message.length, 5050); // timeout 0 → unlimited
+        if (bytesSent != message.length) {
                 throw new Exception(errorMessage);
         }
     }
@@ -62,6 +64,7 @@ abstract class UsbTransfer extends TransferTask {
      * */
     protected byte[] readUsb(String errorMessage) throws Exception {
         byte[] readBuffer = new byte[512];
+
         while (! currentThread().isInterrupted()) {
             int readResult = deviceConnection.bulkTransfer(epIn, readBuffer, 512, 1000);
             if (readResult > 0)

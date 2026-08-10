@@ -32,7 +32,6 @@ import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -366,8 +365,9 @@ public class MainActivity extends AppCompatActivity implements
                 return;
             }
             // If NS connected ask permissions (if not already) TODO: add toast
-            if (usbHelper.isNotHavePermission(getApplicationContext()))
+            if (usbHelper.isNotHavePermission(getApplicationContext())) {
                 return;
+            }
             serviceStartIntent.putExtra(NSS_NS_DEVICE, usbDevice);
         }
         startService(serviceStartIntent);
@@ -425,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements
                     break;
                 case SERVICE_TRANSFER_TASK_PROGRESS_INTENT:
                     int value = intent.getIntExtra(NS_PROGRESS, -1);
-                    Log.i("DMI 111 ", ""+value);
                     if (value < 0)
                         progressBarMain.setIndeterminate(true);
                     else {
