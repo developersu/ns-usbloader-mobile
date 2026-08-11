@@ -36,7 +36,7 @@
     <string name="notification_transfer_in_progress">正在进行数据传输</string>
     <string name="notification_chan_name_progress">正在进行传输</string>
     <string name="notification_chan_desc_progress">在通知栏显示传输文件的进度</string>
-    <string name="about_line_4">首页： <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
+    <string name="about_line_4">首页： <a href="https://redrise.ru">https://redrise.ru</a>, <a href="https://github.com/developersu/ns-usbloader-mobile">https://github.com/developersu/ns-usbloader-mobile</a></string>
     <string name="about_line_6">如果本应用对你有帮助，请在程序的GitHub页面上按星号加分，也欢迎赞助</string>
     <string name="about_line_5">翻译者: </string>
     <string-array name="dayNightSelector">
