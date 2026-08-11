@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.blogspot.developersu.ns_usbloader"
-    compileSdk 36
+    compileSdk 37
     defaultConfig {
         applicationId "com.blogspot.developersu.ns_usbloader"
         minSdkVersion 15

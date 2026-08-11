@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">NS-USBloader</string>
     <string name="select_file_btn">ファイル選択</string>
     <string name="popup_non_supported_format">ファイル形式ぬサポートさりやびらん</string>
     <string name="popup_error">エラー</string>
@@ -16,9 +15,6 @@
     <string name="interrupt_btn">割り込み</string>
     <string name="navigation_drawer_open">ナビゲーションドロワーふぃらちゅん</string>
     <string name="navigation_drawer_close">ナビゲーションドロワーくーいん</string>
-    <string name="tf_usb" translatable="false">Tinfoil USB</string>
-    <string name="gl" translatable="false">GoldLeaf v0.5</string>
-    <string name="tf_net" translatable="false">Tinfoil NET</string>
     <string name="about_app">くぬアプリにちいてぃ</string>
     <string name="other">すぬ他</string>
     <string name="one_item_for_gl_notification">GoldLeaf v0.5 でぃ選択ないるファイルー 1 ちだきやいびーん</string>
@@ -37,7 +33,6 @@
     <string name="status_unkown" translatable="false">(?)</string>
     <string name="settings">設定</string>
     <string name="title_activity_settings">設定</string>
-    <string name="settings_nsIp" translatable="false">NS IP</string>
     <string name="settings_phone_ip">電話ぬIP</string>
     <string name="settings_phone_port">電話ぬポート</string>
     <string name="settings_autodtct_phn_ip">電話ぬIPぬ自動検出</string>

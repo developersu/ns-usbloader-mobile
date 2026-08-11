@@ -17,7 +17,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="tf_usb" translatable="false">Tinfoil USB</string>
-    <string name="gl" translatable="false">GoldLeaf v0.5</string>
+    <string name="gl" translatable="false">GoldLeaf</string>
     <string name="tf_net" translatable="false">Tinfoil NET</string>
     <string name="about_app">About this app</string>
     <string name="other">Other</string>
@@ -55,5 +55,5 @@
     <string name="settings_app_theme">Application theme:</string>
     <string name="about_line_contributors">With contributors:</string>
     <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
-    <string name="notification_need_permission">Application requires persmission to access USB device. Please enable it in applicaition settings</string>
+    <string name="notification_need_permission">Application requires permission to access USB device. Please enable it in application settings</string>
 </resources>
