@@ -40,7 +40,6 @@
     <string name="notification_transfer_in_progress">データ転送中</string>
     <string name="notification_chan_name_progress">転送中</string>
     <string name="notification_chan_desc_progress">通知ー転送ぬ進行状況示さびーん</string>
-    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
     <string-array name="dayNightSelector">
         <item>システムぬデフォルト</item>
         <item>日ぬテーマ</item>
@@ -49,5 +48,6 @@
     <string name="settings_application_settings">アプリケーションぬ設定</string>
     <string name="settings_app_theme">アプリケーションぬテーマ：</string>
     <string name="about_line_contributors">寄稿者とぅまじゅん:</string>
-    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
+    <string name="application_needs_usb">Application requires permission to access USB device</string>
+    <string name="application_needs_notifications">Application requires permission to show notifications</string>
 </resources>

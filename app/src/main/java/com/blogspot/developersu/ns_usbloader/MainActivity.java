@@ -1,7 +1,6 @@
 package com.blogspot.developersu.ns_usbloader;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
-import static androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_PORT;
@@ -251,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null)
             readFile(getIntent());
 
-
         requestNotificationsPermission();
     }
 
@@ -263,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements
             return false;
 
         if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS)) {
-            Snackbar.make(getWindow().getDecorView(), "FIXME_FIXME_FIXME", BaseTransientBottomBar.LENGTH_INDEFINITE) // TODO: FIX
+            Snackbar.make(getWindow().getDecorView(), R.string.application_needs_notifications, BaseTransientBottomBar.LENGTH_INDEFINITE)
                     .setAction(R.string.settings, view -> {
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -440,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements
                     if (!intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                         NsUtils.getAlertWindow(getApplicationContext(),
                                 getResources().getString(R.string.popup_error),
-                                getResources().getString(R.string.notification_need_permission));
+                                getResources().getString(R.string.application_needs_usb));
                     }
                     break;
                 case UsbManager.ACTION_USB_DEVICE_DETACHED:

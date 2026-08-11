@@ -47,4 +47,6 @@
     <string name="settings_application_settings">응용 프로그램 설정</string>
     <string name="settings_app_theme">응용 프로그램 테마:</string>
     <string name="about_line_contributors">참여자:</string>
+    <string name="application_needs_usb">Application requires permission to access USB device</string>
+    <string name="application_needs_notifications">Application requires permission to show notifications</string>
 </resources>

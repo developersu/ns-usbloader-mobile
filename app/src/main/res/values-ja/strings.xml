@@ -30,7 +30,6 @@
     <string name="status_failed_to_upload">(アップロード失敗)</string>
     <string name="status_wrong_file">(悪い NSP)</string>
     <string name="status_uploaded">(アップロード済み)</string>
-    <string name="status_unkown" translatable="false">(?)</string>
     <string name="settings">設定</string>
     <string name="title_activity_settings">設定</string>
     <string name="settings_phone_ip">電話のIP</string>
@@ -40,7 +39,6 @@
     <string name="notification_transfer_in_progress">データ転送中</string>
     <string name="notification_chan_name_progress">転送中</string>
     <string name="notification_chan_desc_progress">通知は転送の進行状況を示します</string>
-    <string name="translators" translatable="false"> ● 中文(繁體) - <a href="https://github.com/qazrfv1234">qazrfv1234</a>\n ● 中文(简体) - FFT9 <a href="http://www.xxgame.net">(XXGAME GROUP)</a>\n ● Italiano - <a href="https://github.com/IvanMazzoli">IvanMazzoli</a>\n ● 한국어 - <a href="https://github.com/DDinghoya">DDinghoya</a></string>
     <string-array name="dayNightSelector">
         <item>システムのデフォルト</item>
         <item>日のテーマ</item>
@@ -49,5 +47,6 @@
     <string name="settings_application_settings">アプリケーションの設定</string>
     <string name="settings_app_theme">アプリケーションのテーマ：</string>
     <string name="about_line_contributors">寄稿者とともに:</string>
-    <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
+    <string name="application_needs_usb">Application requires permission to access USB device</string>
+    <string name="application_needs_notifications">Application requires permission to show notifications</string>
 </resources>

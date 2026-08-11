@@ -48,4 +48,6 @@
     </string-array>
     <string name="about_line_contributors">Contributori:</string>
     <string name="about_line_1">NS-USBloader mobile</string>
+    <string name="application_needs_usb">Application requires permission to access USB device</string>
+    <string name="application_needs_notifications">Application requires permission to show notifications</string>
 </resources>

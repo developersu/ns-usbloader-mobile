@@ -48,5 +48,6 @@
     <string name="settings_app_theme">Тема:</string>
     <string name="about_line_contributors">При участии:</string>
     <string name="about_line_1">NS-USBloader мобильный</string>
-    <string name="notification_need_permission">Приложению требуется разрешение на доступ к USB. Пожалуйста, добавьте разрешение через настройки</string>
+    <string name="application_needs_usb">Приложению требуется разрешение на доступ к USB</string>
+    <string name="application_needs_notifications">Приложению требуется разрешение на показ уведомлений</string>
 </resources>
