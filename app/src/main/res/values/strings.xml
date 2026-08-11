@@ -16,9 +16,9 @@
     <string name="interrupt_btn">Interrupt</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="tf_usb" translatable="false">Tinfoil USB</string>
+    <string name="tf_usb" translatable="false">Awoo USB</string>
     <string name="gl" translatable="false">GoldLeaf</string>
-    <string name="tf_net" translatable="false">Tinfoil NET</string>
+    <string name="tf_net" translatable="false">Awoo NET</string>
     <string name="about_app">About this app</string>
     <string name="other">Other</string>
     <string name="one_item_for_gl_notification">Only one file could be selected for GoldLeaf v0.5</string>
