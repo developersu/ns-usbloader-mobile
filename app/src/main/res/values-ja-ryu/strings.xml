@@ -30,7 +30,6 @@
     <string name="status_failed_to_upload">(アップロード失敗)</string>
     <string name="status_wrong_file">(わっさん NSP)</string>
     <string name="status_uploaded">(アップロード済み)</string>
-    <string name="status_unkown" translatable="false">(?)</string>
     <string name="settings">設定</string>
     <string name="title_activity_settings">設定</string>
     <string name="settings_phone_ip">電話ぬIP</string>
