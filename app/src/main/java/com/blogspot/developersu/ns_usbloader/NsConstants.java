@@ -1,7 +1,6 @@
 package com.blogspot.developersu.ns_usbloader;
 
 public class NsConstants {
-    public static final String NS_RESULT_RECEIVER = "RECEIVER";
     // Request permissions to access NS USB device
     public static final String REQUEST_NS_ACCESS_INTENT = "com.blogspot.developersu.ns_usbloader.ACTION_USB_PERMISSION";
     // Get in BroadcastReceiver and MainActivity's broadcastReceiver information regarding finished process
@@ -26,10 +25,8 @@ public class NsConstants {
     public static final int PROTO_TF_NET = 20;
     public static final int PROTO_GL_USB = 30;
 
-    public static final int NS_NOTIFICATION_TRANSFER_ID = 1;
-    public static final Class<?> MAIN_ACTIVITY_CLASS = MainActivity.class;
     // Default settings
-    public static String DEFAULT_NS_IP = "192.168.1.42";
-    public static String DEFAULT_PHONE_IP = "192.168.1.142";
-    public static int DEFAULT_PHONE_PORT = 6042;
+    public static final String DEFAULT_NS_IP = "192.168.1.42";
+    public static final String DEFAULT_PHONE_IP = "192.168.1.142";
+    public static final int DEFAULT_PHONE_PORT = 6042;
 }

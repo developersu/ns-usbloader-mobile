@@ -12,7 +12,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.blogspot.developersu.ns_usbloader.MainActivity;
 import com.blogspot.developersu.ns_usbloader.R;

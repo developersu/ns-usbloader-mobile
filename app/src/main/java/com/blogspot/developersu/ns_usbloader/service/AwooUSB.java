@@ -6,7 +6,6 @@ import static com.blogspot.developersu.ns_usbloader.DataConvertUtils.intToArrLE;
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.net.Uri;
 
 import com.blogspot.developersu.ns_usbloader.R;
 import com.blogspot.developersu.ns_usbloader.service.utility.Consumer;
@@ -113,9 +112,9 @@ class AwooUSB extends UsbTransfer {
         sendFileMetadata(sizeAsBytes);
 
         try (BufferedInputStream inStream = new BufferedInputStream(
-                context.getContentResolver().openInputStream(findUriByName(fileName)))) {
+                context.getContentResolver().openInputStream(find(fileName).getUri()))) {
             if (inStream.skip(offset) != offset)
-                throw new Exception("AW Requested skip is out of file size. Nothing to transmit");
+                throw new Exception("Requested skip is out of file size. Nothing to transmit");
 
             long currentOffset = 0;     // 'End Offset' == receivedRangeSize
             int chunk = CHUNK_SIZE;
@@ -143,14 +142,5 @@ class AwooUSB extends UsbTransfer {
         writeUsb(STANDARD_REPLY, "AW Response: [1/3]");
         writeUsb(sizeAsBytes, "AW Response: [2/3]");
         writeUsb(TWELVE_ZERO_BYTES, "AW Response: [3/3]");
-    }
-
-    private Uri findUriByName(String name) throws Exception {
-        for (NSPElement nsp: nspElements) {
-            if (nsp.getFilename().equals(name)) {
-                return nsp.getUri();
-            }
-        }
-        throw new Exception("NSP file not found by name "+name);
     }
 }

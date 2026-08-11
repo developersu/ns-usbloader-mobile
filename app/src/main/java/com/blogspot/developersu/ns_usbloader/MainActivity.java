@@ -131,12 +131,6 @@ public class MainActivity extends AppCompatActivity implements
             if (nspElements.isEmpty())
                 return true;
 
-            if (menuItem.getItemId() == R.id.nav_gl) {
-                nsSnack(findViewById(android.R.id.content),
-                        getString(R.string.one_item_for_gl_notification));
-                return true;
-            }
-
             for (NSPElement element: nspElements)
                 element.setSelected(true);
             nspItemsAdapter.notifyDataSetChanged();
@@ -150,8 +144,11 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         if (R.id.nav_gl == item.getItemId()) {
             if (! nspElements.isEmpty()) {
-                for (NSPElement element : nspElements)
-                    element.setSelected(false);
+                for (NSPElement element : nspElements) {
+                    String filename = element.getFilename();
+                    if (filename.endsWith(".nsz") || filename.endsWith(".xcz"))
+                        element.setSelected(false);
+                }
                 nspItemsAdapter.notifyDataSetChanged();
             }
         }

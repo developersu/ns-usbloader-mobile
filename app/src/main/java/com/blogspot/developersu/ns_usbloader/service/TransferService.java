@@ -33,6 +33,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.blogspot.developersu.ns_usbloader.R;
+import com.blogspot.developersu.ns_usbloader.service.gl.GoldLeaf_010;
 import com.blogspot.developersu.ns_usbloader.service.utility.ServiceResultingDataSet;
 import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 
@@ -40,7 +41,6 @@ import java.util.ArrayList;
 
 public class TransferService extends Service {
 
-    private static final String TAG = TransferService.class.getSimpleName();
     public static final String ACTION_START_TRANSFER = "com.blogspot.developersu.ns_usbloader.START_TRANSFER";
     public static final String CHANNEL_ID = "com.blogspot.developersu.ns_usbloader.CHAN_ID_FOREGROUND_SERVICE";
 
@@ -90,7 +90,7 @@ public class TransferService extends Service {
                         (UsbManager) getSystemService(Context.USB_SERVICE));
             case PROTO_GL_USB:
                 usbDevice = intent.getParcelableExtra(NSS_NS_DEVICE);
-                return new GoldLeaf(getApplicationContext(),
+                return new GoldLeaf_010(getApplicationContext(),
                         nspElements,
                         this::progressUpdate,
                         this::finish,

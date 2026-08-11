@@ -16,7 +16,7 @@ import com.blogspot.developersu.ns_usbloader.view.NSPElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-abstract class UsbTransfer extends TransferTask {
+public abstract class UsbTransfer extends TransferTask {
 
     private UsbDeviceConnection deviceConnection;
     private UsbInterface usbInterface;
@@ -46,6 +46,16 @@ abstract class UsbTransfer extends TransferTask {
         }
     }
 
+    // Find NSPElement in nspElements
+    protected NSPElement find(String name) throws Exception {
+        for (NSPElement nsp: nspElements) {
+            if (nsp.getFilename().equals(name)) {
+                return nsp;
+            }
+        }
+        throw new Exception("NSP file not found "+name);
+    }
+
     /**
      * Send byte array to USB-device
      * */
@@ -55,18 +65,23 @@ abstract class UsbTransfer extends TransferTask {
 
         int bytesSent = deviceConnection.bulkTransfer(epOut, message, message.length, 5050); // timeout 0 → unlimited
         if (bytesSent != message.length) {
-                throw new Exception(errorMessage);
+                throw new Exception(errorMessage+" ("+bytesSent+"/"+message.length+")");
         }
     }
 
     /**
-     * Read USB-device response
+     * Read USB-device response (for chunk of 512)
      * */
     protected byte[] readUsb(String errorMessage) throws Exception {
-        byte[] readBuffer = new byte[512];
+        return readUsb(errorMessage, 512);
+    }
+
+    // This would fail on reading something huge. Fits 4096, but must be 512. See `epIn.getMaxPacketSize()`
+    protected byte[] readUsb(String errorMessage, int chunkSize) throws Exception {
+        byte[] readBuffer = new byte[chunkSize];
 
         while (! currentThread().isInterrupted()) {
-            int readResult = deviceConnection.bulkTransfer(epIn, readBuffer, 512, 1000);
+            int readResult = deviceConnection.bulkTransfer(epIn, readBuffer, chunkSize, 1000);
             if (readResult > 0)
                 return Arrays.copyOf(readBuffer, readResult);
         }

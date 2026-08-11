@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 public class NSPElement implements Parcelable {
 
-    public static final Parcelable.Creator<NSPElement> CREATOR = new Parcelable.Creator<NSPElement>() {
+    public static final Parcelable.Creator<NSPElement> CREATOR = new Parcelable.Creator<>() {
         @Override
         public NSPElement createFromParcel(Parcel in) {
             return new NSPElement(in);

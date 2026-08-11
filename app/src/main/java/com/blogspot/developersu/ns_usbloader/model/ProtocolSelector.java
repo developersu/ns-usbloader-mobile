@@ -20,10 +20,6 @@ public class ProtocolSelector {
         return requireNonNull(navView.getCheckedItem()).getItemId() == R.id.nav_tf_net;
     }
 
-    public boolean isAwoo() {
-        return requireNonNull(navView.getCheckedItem()).getItemId() == R.id.nav_tf_usb;
-    }
-
     public boolean isGl() {
         return requireNonNull(navView.getCheckedItem()).getItemId() == R.id.nav_gl;
     }
