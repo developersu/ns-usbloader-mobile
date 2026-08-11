@@ -1,1 +1,1 @@
-NS-USBloader is USB/WiFi data transfer helper for N Switch homebrew apps
+NS-USBloader is USB/Wi-Fi data transfer helper for N Switch homebrew apps

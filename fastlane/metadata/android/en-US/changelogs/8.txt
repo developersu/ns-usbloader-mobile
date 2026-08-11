@@ -1,0 +1,4 @@
+* kuragehimekurara1 translated application to Japanese and Ryukyuan. Thank you!
+* exiori updated Chinese (Simplified) translation. Thank you!
+* Everything rewritten to support latest android versions
+* Goldleaf v0.5 support replaced to handle v1.2.0 'protocol' (limited implementation just to handle installations)
