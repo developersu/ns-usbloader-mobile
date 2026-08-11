@@ -1,6 +1,7 @@
 package com.blogspot.developersu.ns_usbloader;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
+import static androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_PORT;
@@ -32,6 +33,7 @@ import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -62,6 +64,8 @@ import com.blogspot.developersu.ns_usbloader.view.NsMainIntentFilter;
 import com.blogspot.developersu.ns_usbloader.view.NspItemsAdapter;
 import com.blogspot.developersu.ns_usbloader.view.NspViewHolder;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -69,8 +73,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener  {
 
-    private static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    private static final boolean IS_AFTER_TIRAMISU = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    public static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+    public static final boolean IS_AFTER_TIRAMISU = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
 
     private RecyclerView recyclerView;
     private NspItemsAdapter nspItemsAdapter;
@@ -247,13 +251,33 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null)
             readFile(getIntent());
 
-        if (IS_AFTER_TIRAMISU) {
-            if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
-                finish();
-                //return;
-            }
+
+        requestNotificationsPermission();
+    }
+
+    private boolean requestNotificationsPermission() {
+        if (! IS_AFTER_TIRAMISU)
+            return false;
+
+        if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
+            return false;
+
+        if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS)) {
+            Snackbar.make(getWindow().getDecorView(), "FIXME_FIXME_FIXME", BaseTransientBottomBar.LENGTH_INDEFINITE) // TODO: FIX
+                    .setAction(R.string.settings, view -> {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(
+                                Uri.fromParts("package", getPackageName(), null));
+                        startActivity(intent);
+                    })
+                    .show();
         }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
+        }
+
+        return true;
     }
 
     private void updateUploadBtnState(){    // TODO: this function is bad. It multiplies entropy and sorrow.
@@ -328,6 +352,9 @@ public class MainActivity extends AppCompatActivity implements
         updateUploadBtnState();  // Enable upload button
     }
     private void uploadFiles() {
+        if (requestNotificationsPermission())
+            return;
+
         ArrayList<NSPElement> nspToSend = new ArrayList<>();
         for (NSPElement element: nspElements) {
             if (element.isSelected())

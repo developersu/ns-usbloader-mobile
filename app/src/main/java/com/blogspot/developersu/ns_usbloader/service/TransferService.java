@@ -1,5 +1,8 @@
 package com.blogspot.developersu.ns_usbloader.service;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.blogspot.developersu.ns_usbloader.MainActivity.IS_AFTER_TIRAMISU;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_CONTENT_LIST;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_DURATION;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.NSS_FINAL_TOAST_TEXT;
@@ -29,6 +32,7 @@ import android.hardware.usb.UsbManager;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -114,6 +118,11 @@ public class TransferService extends Service {
         boolean isIndeterminate = progress < 0;
         sendBroadcast(new Intent(SERVICE_TRANSFER_TASK_PROGRESS_INTENT)
                 .putExtra(NS_PROGRESS, progress));
+
+        if (IS_AFTER_TIRAMISU &&
+                ActivityCompat.checkSelfPermission(context, POST_NOTIFICATIONS) != PERMISSION_GRANTED) {
+            return;
+        }
 
         NotificationManagerCompat.from(context)
                 .notify(FOREGROUND_NOTIFICATION_ID, (
