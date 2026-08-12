@@ -17,6 +17,8 @@ import static com.blogspot.developersu.ns_usbloader.NsConstants.PROTO_TF_USB;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.REQUEST_NS_ACCESS_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_FINISHED_INTENT;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.SERVICE_TRANSFER_TASK_PROGRESS_INTENT;
+import static com.blogspot.developersu.ns_usbloader.NsUtils.getFileNameFromUri;
+import static com.blogspot.developersu.ns_usbloader.NsUtils.getFileSizeFromUri;
 import static com.blogspot.developersu.ns_usbloader.NsUtils.nsSnack;
 import static com.blogspot.developersu.ns_usbloader.service.TransferService.ACTION_START_TRANSFER;
 
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     public static final boolean IS_AFTER_TIRAMISU = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    public static final boolean IS_AFTER_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
     private RecyclerView recyclerView;
     private NspItemsAdapter nspItemsAdapter;
@@ -237,10 +240,13 @@ public class MainActivity extends AppCompatActivity implements
 
         selectBtn.setOnClickListener(e -> {
             Intent fileChooser;
-            if (IS_AFTER_KIT_KAT)
+            if (IS_AFTER_KIT_KAT) {
                 fileChooser = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            else // older versions doesn't support ACTION_OPEN_DOCUMENT
+                fileChooser.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            }
+            else { // older versions doesn't support ACTION_OPEN_DOCUMENT
                 fileChooser = new Intent(Intent.ACTION_GET_CONTENT);
+            }
             fileChooser.setType("application/octet-stream"); //fileChooser.setType("*/*"); ???
             resultLauncher.launch(Intent.createChooser(fileChooser, getString(R.string.select_file_btn)));
         });
@@ -316,24 +322,30 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void readFile(Intent data) {
-        Uri uri = data.getData();
-        if (uri == null || uri.getScheme() == null || ! uri.getScheme().equals("content"))
-            return;
+        if (data.getData() != null) { // only one uri was selected by user
+            showFileOnUi(data.getData());
+        }
+        else if (IS_AFTER_JELLY_BEAN && data.getClipData() != null) { // multiple file selected
+            int uriCount = data.getClipData().getItemCount();
+            for (int i = 0; i < uriCount; i++) {
+                showFileOnUi(data.getClipData().getItemAt(i).getUri());
+            }
+        }
+    }
 
-        String fileName = NsUtils.getFileNameFromUri(uri, this);
-        long fileSize = NsUtils.getFileSizeFromUri(uri, this);
+    private void showFileOnUi(Uri uri) {
+        String fileName = getFileNameFromUri(uri, this);
+        long fileSize = getFileSizeFromUri(uri, this);
 
-        if (fileName == null || fileSize < 0) { //TODO: if (fileName == null || fileSize <= 0) {
-            NsUtils.getAlertWindow(this,
-                    getResources().getString(R.string.popup_error),
-                    getResources().getString(R.string.popup_incorrect_file));
+        if (fileName == null || fileSize <= 0) {
+            Snackbar.make(getWindow().getDecorView(), R.string.popup_incorrect_file, BaseTransientBottomBar.LENGTH_SHORT)
+                    .show();
             return;
         }
 
         if (NsUtils.isNotSupportedFileExtension(fileName)) {
-            NsUtils.getAlertWindow(this,
-                    getResources().getString(R.string.popup_error),
-                    getResources().getString(R.string.popup_non_supported_format));
+            Snackbar.make(getWindow().getDecorView(), R.string.popup_non_supported_format, BaseTransientBottomBar.LENGTH_SHORT)
+                    .show();
             return;
         }
 
@@ -349,6 +361,7 @@ public class MainActivity extends AppCompatActivity implements
         nspItemsAdapter.notifyDataSetChanged();
         updateUploadBtnState();  // Enable upload button
     }
+
     private void uploadFiles() {
         if (requestNotificationsPermission())
             return;
