@@ -12,8 +12,6 @@ Please note: You will need USB-OTG cable. Otherwise, you'll be charging phone.
 
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_1.png" alt="screenshot-1" width="250"/>  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_2.png" alt="screenshot-2" width="250"/>
 
-Sometimes I add new posts about this project [on my home page](https://developersu.blogspot.com/search/label/NS-USBloader).
-
 #### License
 
 Source code license [GNU General Public License v3](https://github.com/developersu/ns-usbloader-mobile/blob/master/LICENSE) or any later version.
@@ -23,8 +21,8 @@ Logo font: [Play](https://fonts.google.com/specimen/Play) by Jonas Hecksher. Ope
 
 ### System requirements
 
-* Minimum: Android 4.0 (Ice Cream Sandwich)
-* Maximum: Android 11
+* Mix: Android 4.0.3
+* Max (tested): Android 16
 * USB-OTG support / WiFi
 
 ### Usage
@@ -43,7 +41,7 @@ Note: use short usb cable.
 #### WiFi
 
 For installation over the Net (Awoo and similar):
-1. Connect to WiFi
+1. Connect to Wi-Fi
 2. Setup 90DNS or whatever you use
 3. Open Awoo Installer, select installation over the net
 4. Open settings (click 'hamburger' menu-button), enter NS IP you see on the screen
@@ -65,11 +63,11 @@ Handling successful/failed installation is a purpose of the other side applicati
 * Simplified Chinese by FFT9 (XXGAME GROUP)(http://www.xxgame.net)
 * Italian by [IvanMazzoli](https://github.com/IvanMazzoli)
 * Korean by [DDinghoya](https://github.com/DDinghoya")
+* Japanese and Ryukyuan by [kuragehimekurara1](https://github.com/kuragehimekurara1)
 
 #### TODO:
 
 - [ ] Add tools to simplify translation process
-- [ ] Multi-select files (if possible)
 
 #### Support this app
 
