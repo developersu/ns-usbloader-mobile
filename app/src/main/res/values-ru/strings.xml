@@ -50,4 +50,5 @@
     <string name="about_line_1">NS-USBloader мобильный</string>
     <string name="application_needs_usb">Приложению требуется разрешение на доступ к USB</string>
     <string name="application_needs_notifications">Приложению требуется разрешение на показ уведомлений</string>
+    <string name="application_needs_local_net">Приложению требуется разрешение на использование локальной сети</string>
 </resources>

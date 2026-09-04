@@ -1,5 +1,6 @@
 package com.blogspot.developersu.ns_usbloader;
 
+import static android.Manifest.permission.ACCESS_LOCAL_NETWORK;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_NS_IP;
 import static com.blogspot.developersu.ns_usbloader.NsConstants.DEFAULT_PHONE_IP;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final boolean IS_AFTER_KIT_KAT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     public static final boolean IS_AFTER_TIRAMISU = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
     public static final boolean IS_AFTER_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    public static final boolean IS_AFTER_CINNAMON_BUN  = Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN;
 
     private RecyclerView recyclerView;
     private NspItemsAdapter nspItemsAdapter;
@@ -257,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements
             readFile(getIntent());
 
         requestNotificationsPermission();
+        requestIntranetPermission();
     }
 
     private boolean requestNotificationsPermission() {
@@ -279,6 +282,31 @@ public class MainActivity extends AppCompatActivity implements
         }
         else {
             ActivityCompat.requestPermissions(this, new String[]{POST_NOTIFICATIONS}, 1);
+        }
+
+        return true;
+    }
+
+    private boolean requestIntranetPermission() {
+        if (!IS_AFTER_CINNAMON_BUN)
+            return false;
+
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_LOCAL_NETWORK) == PackageManager.PERMISSION_GRANTED)
+            return false;
+
+        if (shouldShowRequestPermissionRationale(ACCESS_LOCAL_NETWORK)) {
+            Snackbar.make(getWindow().getDecorView(), R.string.application_needs_local_net, BaseTransientBottomBar.LENGTH_LONG)
+                    .setAction(R.string.settings, view -> {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(
+                                Uri.fromParts("package", getPackageName(), null));
+                        startActivity(intent);
+                    })
+                    .show();
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{ACCESS_LOCAL_NETWORK}, 1);
         }
 
         return true;
@@ -382,6 +410,9 @@ public class MainActivity extends AppCompatActivity implements
         serviceStartIntent.putExtra(NSS_PROTOCOL, selector.getSelected());
 
         if (selector.isNet()) {
+            if (requestIntranetPermission())
+                return;
+
             SharedPreferences sp = getSharedPreferences("NSUSBloader", MODE_PRIVATE);
 
             serviceStartIntent.putExtra(NSS_NS_IP, sp.getString("SNsIP", DEFAULT_NS_IP));

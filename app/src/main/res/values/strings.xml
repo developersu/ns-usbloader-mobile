@@ -57,4 +57,5 @@
     <string name="contributors" translatable="false"><a href="https://github.com/htynkn">Huang YunKun</a></string>
     <string name="application_needs_usb">Application requires permission to access USB device</string>
     <string name="application_needs_notifications">Application requires permission to show notifications</string>
+    <string name="application_needs_local_net">Application requires permission to access devices within local network</string>
 </resources>

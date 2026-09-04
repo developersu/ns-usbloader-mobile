@@ -1,0 +1,1 @@
+Added permission request for using local network on Android 17+. This is mandatory for transfers via "Awoo NET"
